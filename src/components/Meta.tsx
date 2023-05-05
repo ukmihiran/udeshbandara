@@ -11,10 +11,10 @@ type IMeta = {
 };
 
 const Meta: React.FC<IMeta> = ({
-  title,
+  title = "Udesh | Cybersecurity Professional",
   description = "Explore my portfolio showcasing my expertise in penetration testing, vulnerability management, Red Team projects, cloud security, and IT general controls. See how I can help your organization identify and mitigate security risks.",
   keywords = "Cybersecurity, Vulnerability, ReadTeam, Cloud, AWS, Azure, ITGC, IT, Security, Penetration",
-  image = "https://res.cloudinary.com/teo1996/image/upload/v1681184234/lkauudqm9kgkrkmt6mvv.png",
+  image = "https://res.cloudinary.com/dyefizjxd/image/upload/v1683254440/Udesh/IMG_0375_jhb60e.png",
 }) => {
   const router = useRouter();
 

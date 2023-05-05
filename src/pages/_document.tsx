@@ -11,7 +11,7 @@ const NextDocument = () => {
         {/* <!-- Primary Meta Tags --> */}
         <meta name="title" content="Udesh"></meta>
         <meta name="description" content="Udesh | Cybersecurity Proferssional"></meta>
-        <meta name="keywords" content="Cyebr, Penetration, Vulnerability, Azure, AWS, Python, Linux, Windows, SQLi, RedTeam"></meta>
+        <meta name="keywords" content="Cybersecurity, Penetration, Vulnerability, Azure, AWS, Python, Linux, Windows, SQLi, RedTeam"></meta>
 
         {/* PWA */}
         <meta name="application-name" content="Udesh" />
@@ -64,22 +64,22 @@ const NextDocument = () => {
         <link rel="shortcut icon" href="/favicon.ico" /> */}
 
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:url" content="https://www.cybernetgen.com/" />
+        <meta name="twitter:url" content="https://www.udeshbandara.com/" />
         <meta name="twitter:title" content="Udesh" />
-        <meta name="twitter:description" content="Udesh | Cyebrsecurity Professional" />
+        <meta name="twitter:description" content="Udesh | Cybersecurity Professional" />
         <meta
           name="twitter:image"
-          content="https://res.cloudinary.com/Udesh1996/image/upload/v1681184234/lkauudqm9kgkrkmt6mvv.png"
+          content="https://res.cloudinary.com/dyefizjxd/image/upload/v1683254440/Udesh/IMG_0375_jhb60e.png"
         />
         <meta name="twitter:creator" content="@Udesh" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Udesh" />
-        <meta property="og:description" content="Udesh | Cyebrsecurity Professional" />
+        <meta property="og:description" content="Udesh | Cybersecurity Professional" />
         <meta property="og:site_name" content="Udesh" />
-        <meta property="og:url" content="https://www.cybernetgen.com/" />
+        <meta property="og:url" content="https://www.udeshbandara.com/" />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/teo1996/image/upload/v1681184234/lkauudqm9kgkrkmt6mvv.png"
+          content="https://res.cloudinary.com/dyefizjxd/image/upload/v1683254440/Udesh/IMG_0375_jhb60e.png"
         />
 
         {/* apple splash screen images  */}

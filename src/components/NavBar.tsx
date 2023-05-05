@@ -1,9 +1,13 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import {
+  Text,
+  Container,
   Flex,
   IconButton,
   HStack,
   Box,
+  Button,
   Stack,
   Link as CharkaLink,
   useColorModeValue,
@@ -12,9 +16,10 @@ import {
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@chakra-ui/hooks";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { useColorMode } from "@chakra-ui/color-mode";
+import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { menuLinks } from "../constant";
-import { ColorModeSwitcher } from "./ThemeMode";
+import { ColorModeSwitcher } from "./ColorModeSwitcher";
 
 const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

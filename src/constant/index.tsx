@@ -71,7 +71,7 @@ import burp from "public/burp.png";
   };
   
   const resume = {
-    url: "https://drive.google.com/file/d/1w8QltCuHptkU6HPo8VgZ7-dGhBxHFtCc/view?usp=sharing",
+    url: "https://drive.google.com/file/d/1aToYMGGG_-yFYY-B_6HVvC1FXXyZiNng/view?usp=sharing",
     icon: <CgAlbum />,
     name: "Resume",
   };

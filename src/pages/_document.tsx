@@ -64,7 +64,7 @@ const NextDocument = () => {
         <link rel="shortcut icon" href="/favicon.ico" /> */}
 
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:url" content="https://www.udeshbandara.com/" />
+        <meta name="twitter:url" content="https://udeshbandara.com/" />
         <meta name="twitter:title" content="Udesh" />
         <meta name="twitter:description" content="Udesh | Cybersecurity Professional" />
         <meta
@@ -76,7 +76,7 @@ const NextDocument = () => {
         <meta property="og:title" content="Udesh" />
         <meta property="og:description" content="Udesh | Cybersecurity Professional" />
         <meta property="og:site_name" content="Udesh" />
-        <meta property="og:url" content="https://www.udeshbandara.com/" />
+        <meta property="og:url" content="https://udeshbandara.com/" />
         <meta
           property="og:image"
           content="https://res.cloudinary.com/dyefizjxd/image/upload/v1683254440/Udesh/IMG_0375_jhb60e.png"

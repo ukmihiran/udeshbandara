@@ -40,6 +40,14 @@ const Meta: React.FC<IMeta> = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:card" content="summary_large_image" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D2BNKKLPJV"></script>
+      <script dangerouslySetInnerHTML={{
+        __html: `window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date());
+        gtag('config', 'G-D2BNKKLPJV');`
+      }} />
+      
       <title>{pageTitle}</title>
     </Head>
   );

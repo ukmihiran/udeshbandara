@@ -1,11 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "./sheet";
 import { Menu, BookOpen, Mail } from "lucide-react";
-import { motion } from "framer-motion";
 import { NAV_TABS, EXTERNAL_LINKS, type TabId } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -20,8 +20,16 @@ const externalIcons: Record<string, React.ElementType> = {
 };
 
 export function Header({ activeTab, onTabChange }: HeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const handleHomeClick = () => {
     onTabChange("home");
+    setMobileMenuOpen(false);
+  };
+
+  const handleTabClick = (tabId: TabId) => {
+    onTabChange(tabId);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -60,11 +68,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
               )}
             >
               {activeTab === tab.id && (
-                <motion.span
-                  layoutId="tab-pill"
-                  className="absolute inset-0 rounded-full bg-accent"
-                  transition={{ type: "spring", stiffness: 380, damping: 28 }}
-                />
+                <span className="absolute inset-0 rounded-full bg-accent transition-all duration-200" />
               )}
               <span className="relative z-10">{tab.label}</span>
             </button>
@@ -117,7 +121,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
           </button>
           <div className="flex items-center gap-2">
             <ModeToggle />
-            <Sheet>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-10 w-10 cursor-pointer">
                   <Menu className="h-5 w-5" />
@@ -133,7 +137,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
                   {NAV_TABS.map((tab) => (
                     <button
                       key={tab.id}
-                      onClick={() => onTabChange(tab.id)}
+                      onClick={() => handleTabClick(tab.id)}
                       className={cn(
                         "text-left text-base font-medium transition-colors cursor-pointer px-3 py-2 rounded-lg",
                         activeTab === tab.id
@@ -152,6 +156,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
                       target={link.href.startsWith("mailto:") ? undefined : "_blank"}
                       rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
                       className="text-base text-muted-foreground hover:text-accent transition-colors cursor-pointer px-3 py-2"
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
                     </a>

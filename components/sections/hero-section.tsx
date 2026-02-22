@@ -104,6 +104,7 @@ function HexAvatar() {
                   width={800}
                   height={800}
                   priority
+                  fetchPriority="high"
                   sizes="(max-width: 768px) 240px, (max-width: 1024px) 300px, 360px"
                   className="hex-clip w-60 h-60 md:w-[300px] md:h-[300px] lg:w-[360px] lg:h-[360px] object-cover"
                 />

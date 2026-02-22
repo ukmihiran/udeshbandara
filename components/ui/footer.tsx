@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="w-full py-2.5">
       <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-2.5" />
       <div className="container mx-auto flex flex-col items-center gap-2 px-4">
-        <p className="font-mono text-[11px] text-muted-foreground/70 tracking-tight">
+        <p className="font-mono text-[11px] text-muted-foreground tracking-tight">
           <span className="text-accent">$</span> whoami{" "}
           <span className="text-muted-foreground/50">&rarr;</span>{" "}
           offensive-security-consultant<span className="text-accent">@</span>kroll
@@ -33,7 +33,7 @@ export function Footer() {
             ))}
           </div>
           <span className="h-3 w-px bg-border/60" />
-          <p className="text-[11px] text-muted-foreground/60">
+          <p className="text-[11px] text-muted-foreground">
             &copy; {new Date().getFullYear()} Udesh Bandara
           </p>
         </div>

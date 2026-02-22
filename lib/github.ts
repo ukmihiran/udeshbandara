@@ -1,7 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { Repository } from "./types";
 
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
+const octokit = new Octokit(token ? { auth: token } : {});
 
 export async function getFeaturedRepos(): Promise<Repository[]> {
   try {

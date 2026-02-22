@@ -55,7 +55,7 @@ const jsonLd = {
   ],
 };
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-XXXXXXXXXX";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-D2BNKKLPJV";
 
 export default function RootLayout({
   children,

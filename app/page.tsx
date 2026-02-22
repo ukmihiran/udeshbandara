@@ -1,15 +1,32 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import dynamic from "next/dynamic";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
 import { TabTransition } from "@/components/tab-transition";
 import { HeroSection } from "@/components/sections/hero-section";
-import { AboutPanel } from "@/components/sections/about-panel";
-import { ExperiencePanel } from "@/components/sections/experience-section";
-import { CertificationsPanel } from "@/components/sections/certifications-section";
-import { ProjectsPanel } from "@/components/sections/projects-panel";
 import { NAV_TABS, type TabId } from "@/lib/data";
+
+const AboutPanel = dynamic(
+  () => import("@/components/sections/about-panel").then((m) => m.AboutPanel),
+  { ssr: false },
+);
+
+const ExperiencePanel = dynamic(
+  () => import("@/components/sections/experience-section").then((m) => m.ExperiencePanel),
+  { ssr: false },
+);
+
+const CertificationsPanel = dynamic(
+  () => import("@/components/sections/certifications-section").then((m) => m.CertificationsPanel),
+  { ssr: false },
+);
+
+const ProjectsPanel = dynamic(
+  () => import("@/components/sections/projects-panel").then((m) => m.ProjectsPanel),
+  { ssr: false },
+);
 
 const panels: Record<TabId, React.ComponentType> = {
   home: HeroSection,

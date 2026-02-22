@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mail, Linkedin, Shield, Clock, Award, Crosshair, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import { useEffect, useRef, useState, useCallback } from "react";
 
 const container = {
@@ -77,7 +77,7 @@ function TypewriterRole() {
 
 function HexAvatar() {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, scale: 0.88 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
@@ -116,7 +116,7 @@ function HexAvatar() {
       </div>
 
       {/* HUD status label */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.4 }}
@@ -129,50 +129,51 @@ function HexAvatar() {
         <span className="font-mono text-[11px] text-accent tracking-wider uppercase">
           verified
         </span>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
 export function HeroSection() {
   return (
+    <LazyMotion features={domAnimation}>
     <section className="flex-1 flex items-center justify-center px-4 py-6 md:py-10 md:px-6">
       <div className="w-full max-w-5xl mx-auto">
-        <motion.div
+        <m.div
           variants={container}
           initial="hidden"
           animate="show"
           className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-8 items-center"
         >
           <div className="flex flex-col items-center md:items-start text-center md:text-left order-2 md:order-1">
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Badge className="mb-4 gap-1.5 px-3 py-1 text-xs font-medium bg-accent/15 text-accent border border-accent/30">
                 <Shield className="h-3.5 w-3.5" />
                 Offensive Security Consultant
               </Badge>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.1]"
             >
               Udesh Bandara
-            </motion.h1>
+            </m.h1>
 
-            <motion.p variants={fadeUp} className="mt-3 text-base md:text-lg text-muted-foreground font-normal">
+            <m.p variants={fadeUp} className="mt-3 text-base md:text-lg text-muted-foreground font-normal">
               <TypewriterRole />
-            </motion.p>
+            </m.p>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="mt-4 max-w-lg text-[15px] text-muted-foreground leading-relaxed"
             >
               Security consultant at{" "}
               <span className="text-accent font-medium">Kroll UK</span>,
               specializing in Penetration Testing, Red Teaming &amp; Cloud Security.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
+            <m.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold cursor-pointer rounded-xl px-6">
                 <a href="mailto:contact@udeshbandara.com">
                   <Mail className="mr-2 h-4 w-4" /> Get in Touch
@@ -183,9 +184,9 @@ export function HeroSection() {
                   <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
                 </a>
               </Button>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5 w-full max-w-lg">
+            <m.div variants={fadeUp} className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5 w-full max-w-lg">
               {stats.map((s) => (
                 <Card
                   key={s.label}
@@ -196,14 +197,15 @@ export function HeroSection() {
                   <span className="text-[10px] text-muted-foreground leading-none tracking-wider uppercase font-medium">{s.label}</span>
                 </Card>
               ))}
-            </motion.div>
+            </m.div>
           </div>
 
           <div className="relative flex justify-center order-1 md:order-2 py-8">
             <HexAvatar />
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
+    </LazyMotion>
   );
 }

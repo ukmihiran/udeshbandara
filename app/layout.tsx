@@ -89,7 +89,7 @@ export default function RootLayout({
             <h1>Udesh Bandara — Offensive Security Consultant</h1>
             <p>
               Cyber Security Professional at Kroll UK specializing in Penetration
-              Testing, Red Teaming &amp; Cloud Security. Co-founder of HackedON.
+              Testing, Red Teaming &amp; Cloud Security.
             </p>
             <p>
               Certifications: AWS Solutions Architect, CRTP, CREST CRT, CREST

@@ -28,13 +28,13 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
     <>
       {/* Desktop floating nav */}
       <header className="hidden md:block fixed top-4 left-1/2 -translate-x-1/2 z-50">
-        <nav className="relative flex items-center gap-2 rounded-full border border-border/30 bg-background/50 backdrop-blur-2xl shadow-2xl shadow-black/10 px-2.5 py-2.5">
+        <nav className="relative flex items-center gap-2 rounded-full border border-border/40 bg-background/70 backdrop-blur-2xl shadow-xl shadow-black/5 dark:shadow-black/20 px-2.5 py-2.5">
           <button
             onClick={handleHomeClick}
-            className="px-4 py-2 flex items-center gap-2.5 text-base font-bold tracking-tight select-none text-accent hover:text-accent/80 transition-colors cursor-pointer rounded-full"
+            className="px-4 py-2 flex items-center gap-2.5 text-[15px] font-bold tracking-tight select-none text-accent hover:text-accent/80 transition-colors cursor-pointer rounded-full"
             aria-label="Go to home"
           >
-            <div className="relative w-7 h-7 rounded-full overflow-hidden border border-accent/30 bg-background/50">
+            <div className="relative w-7 h-7 hex-clip overflow-hidden border border-accent/30 bg-background/50">
               <Image
                 src="/avatar-3d.png"
                 alt="UB"
@@ -53,7 +53,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={cn(
-                "relative px-4 py-2 text-base font-medium transition-colors cursor-pointer rounded-full",
+                "relative px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer rounded-full",
                 activeTab === tab.id
                   ? "text-accent-foreground"
                   : "text-muted-foreground hover:text-accent"

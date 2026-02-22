@@ -1,41 +1,12 @@
-export type TabId = "home" | "about" | "experience" | "certifications" | "projects";
+import type {
+  NavTab,
+  Experience,
+  Certification,
+  Education,
+  TechItem,
+} from "./types";
 
-export interface NavTab {
-  id: TabId;
-  label: string;
-}
-
-export interface Experience {
-  role: string;
-  company: string;
-  location: string;
-  period: string;
-  current: boolean;
-}
-
-export interface Certification {
-  name: string;
-  issuer: string;
-  year: string;
-}
-
-export interface Education {
-  degree: string;
-  school: string;
-  location: string;
-  year: string;
-}
-
-export interface TechItem {
-  name: string;
-  category: "security" | "languages" | "cloud";
-}
-
-export interface Social {
-  href: string;
-  label: string;
-  icon: string;
-}
+export type { TabId } from "./types";
 
 export const NAV_TABS: NavTab[] = [
   { id: "home", label: "Home" },
@@ -57,13 +28,10 @@ export const EXPERIENCES: Experience[] = [
     location: "London, UK",
     period: "Jul 2024 — Present",
     current: true,
-  },
-  {
-    role: "Co-Founder & Security Researcher",
-    company: "HackedON",
-    location: "Sri Lanka",
-    period: "Jul 2019 — Present",
-    current: true,
+    type: "Full-time",
+    description:
+      "Leading penetration testing, red team operations, and cloud security assessments for global enterprise clients across critical infrastructure and financial services.",
+    image: "/kroll.png",
   },
   {
     role: "Cyber Security Specialist",
@@ -71,6 +39,10 @@ export const EXPERIENCES: Experience[] = [
     location: "Colombo, Sri Lanka",
     period: "Apr 2021 — Dec 2021",
     current: false,
+    type: "Full-time",
+    description:
+      "Conducted security assessments and vulnerability management for digital services across Axiata Group's South-East Asian operations.",
+    image: "/axiata.png",
   },
   {
     role: "Assistant Engineer — InfoSec",
@@ -78,6 +50,10 @@ export const EXPERIENCES: Experience[] = [
     location: "Colombo, Sri Lanka",
     period: "Apr 2020 — Apr 2021",
     current: false,
+    type: "Full-time",
+    description:
+      "Performed network and application security testing, vulnerability assessments, and security monitoring for enterprise clients.",
+    image: "/cryptogen.jpeg",
   },
   {
     role: "Cyber Security Analyst",
@@ -85,18 +61,22 @@ export const EXPERIENCES: Experience[] = [
     location: "Sri Lanka",
     period: "Jul 2019 — Apr 2020",
     current: false,
+    type: "Full-time",
+    description:
+      "Delivered cybersecurity consulting services including penetration testing, vulnerability assessments, and compliance audits.",
+    image: "/pwc.png",
   },
 ];
 
 export const CERTIFICATIONS: Certification[] = [
-  { name: "AWS Solutions Architect", issuer: "Amazon Web Services", year: "2025" },
-  { name: "CRTP", issuer: "Altered Security", year: "2025" },
-  { name: "CREST CRT", issuer: "CREST", year: "2024" },
-  { name: "CREST CPSA", issuer: "CREST", year: "2024" },
-  { name: "CEH", issuer: "EC-Council", year: "2020" },
-  { name: "Azure Fundamentals", issuer: "Microsoft", year: "2020" },
-  { name: "eJPT", issuer: "eLearnSecurity", year: "2020" },
-  { name: "CCNA Cyber Ops", issuer: "Cisco", year: "2019" },
+  { name: "AWS Solutions Architect", issuer: "Amazon Web Services", year: "2025", image: "/certs/AWS.png" },
+  { name: "CRTP", issuer: "Altered Security", year: "2025", image: "/certs/CRTP.png" },
+  { name: "CREST CRT", issuer: "CREST", year: "2024", image: "/certs/crest.png" },
+  { name: "CREST CPSA", issuer: "CREST", year: "2024", image: "/certs/crest.png" },
+  { name: "CEH", issuer: "EC-Council", year: "2020", image: "/certs/CEH.png" },
+  { name: "Azure Fundamentals", issuer: "Microsoft", year: "2020", image: "/certs/azure.png" },
+  { name: "eJPT", issuer: "eLearnSecurity", year: "2020", image: "/certs/ejpt.svg" },
+  { name: "CCNA Cyber Ops", issuer: "Cisco", year: "2019", image: "/certs/cisco.svg" },
 ];
 
 export const EDUCATION: Education[] = [
@@ -105,12 +85,14 @@ export const EDUCATION: Education[] = [
     school: "University of the West of England",
     location: "Bristol, UK",
     year: "2022 — 2023",
+    image: "/uwe.png",
   },
   {
     degree: "BSc (Hons) IT — Cyber Security",
     school: "SLIIT",
     location: "Sri Lanka",
     year: "2016 — 2020",
+    image: "/sliit.png",
   },
 ];
 

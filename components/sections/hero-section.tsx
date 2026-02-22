@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mail, Linkedin, Shield, Clock, Award, Crosshair, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const container = {
   hidden: {},
@@ -33,42 +33,110 @@ const roles = [
 ];
 
 function TypewriterRole() {
-  const [index, setIndex] = useState(0);
-  const [text, setText] = useState("");
-  const [deleting, setDeleting] = useState(false);
+  const [display, setDisplay] = useState("");
+  const state = useRef({ index: 0, deleting: false });
+
+  const tick = useCallback(() => {
+    const { index, deleting } = state.current;
+    const current = roles[index];
+
+    if (!deleting && display === current) {
+      return setTimeout(() => {
+        state.current.deleting = true;
+        setDisplay((d) => d.slice(0, -1));
+      }, 2000);
+    }
+
+    if (deleting && display === "") {
+      state.current.deleting = false;
+      state.current.index = (index + 1) % roles.length;
+      setDisplay(roles[(index + 1) % roles.length].slice(0, 1));
+      return undefined;
+    }
+
+    const speed = deleting ? 30 : 60;
+    return setTimeout(() => {
+      setDisplay(
+        deleting ? current.slice(0, display.length - 1) : current.slice(0, display.length + 1)
+      );
+    }, speed);
+  }, [display]);
 
   useEffect(() => {
-    const current = roles[index];
-    const speed = deleting ? 30 : 60;
-
-    if (!deleting && text === current) {
-      const pause = setTimeout(() => setDeleting(true), 2000);
-      return () => clearTimeout(pause);
-    }
-
-    if (deleting && text === "") {
-      setDeleting(false);
-      setIndex((i) => (i + 1) % roles.length);
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setText(deleting ? current.slice(0, text.length - 1) : current.slice(0, text.length + 1));
-    }, speed);
-    return () => clearTimeout(timer);
-  }, [text, deleting, index]);
+    const id = tick();
+    return () => { if (id) clearTimeout(id); };
+  }, [tick]);
 
   return (
-    <span className="text-accent">
-      {text}
+    <span className="text-accent font-medium">
+      {display}
       <span className="animate-pulse">|</span>
     </span>
   );
 }
 
+function HexAvatar() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.88 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="relative flex items-center justify-center"
+    >
+      {/* Diffuse glow behind the hex */}
+      <div className="absolute inset-[-40px] hex-clip bg-accent/10 blur-3xl animate-pulse-glow" />
+
+      {/* Radar ping rings */}
+      <div className="hex-ring hex-ring-1" />
+      <div className="hex-ring hex-ring-2" />
+
+      {/* Hex frame with neon border */}
+      <div className="hex-frame animate-float">
+        <div className="hex-glitch-idle">
+          {/* Gradient border layer */}
+          <div className="hex-clip hex-border-pulse bg-gradient-to-br from-accent via-accent/60 to-accent p-[3px]">
+            {/* Background punch-out */}
+            <div className="hex-clip bg-background">
+              <div className="relative">
+                <Image
+                  src="/avatar-3d.png"
+                  alt="Udesh Bandara — 3D avatar"
+                  width={800}
+                  height={800}
+                  priority
+                  sizes="(max-width: 768px) 240px, (max-width: 1024px) 300px, 360px"
+                  className="hex-clip w-60 h-60 md:w-[300px] md:h-[300px] lg:w-[360px] lg:h-[360px] object-cover"
+                />
+                {/* Scanline overlay on avatar */}
+                <div className="absolute inset-0 hex-clip hex-scanlines pointer-events-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* HUD status label */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.4 }}
+        className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1 rounded-full border border-accent/25 bg-background/80 backdrop-blur-sm"
+      >
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+        </span>
+        <span className="font-mono text-[11px] text-accent tracking-wider uppercase">
+          verified
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function HeroSection() {
   return (
-    <section className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 md:px-6">
+    <section className="flex-1 flex items-center justify-center px-4 py-6 md:py-10 md:px-6">
       <div className="w-full max-w-5xl mx-auto">
         <motion.div
           variants={container}
@@ -76,10 +144,9 @@ export function HeroSection() {
           animate="show"
           className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-8 items-center"
         >
-          {/* Text column */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left order-2 md:order-1">
             <motion.div variants={fadeUp}>
-              <Badge className="mb-3 gap-1.5 px-3 py-1 text-xs font-medium bg-accent/15 text-accent border border-accent/30">
+              <Badge className="mb-4 gap-1.5 px-3 py-1 text-xs font-medium bg-accent/15 text-accent border border-accent/30">
                 <Shield className="h-3.5 w-3.5" />
                 Offensive Security Consultant
               </Badge>
@@ -87,86 +154,54 @@ export function HeroSection() {
 
             <motion.h1
               variants={fadeUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.1]"
             >
               Udesh Bandara
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="mt-2 text-sm md:text-base text-muted-foreground">
+            <motion.p variants={fadeUp} className="mt-3 text-base md:text-lg text-muted-foreground font-normal">
               <TypewriterRole />
             </motion.p>
 
             <motion.p
               variants={fadeUp}
-              className="mt-3 max-w-xl text-sm text-muted-foreground leading-relaxed"
+              className="mt-4 max-w-lg text-[15px] text-muted-foreground leading-relaxed"
             >
               Security consultant at{" "}
               <span className="text-accent font-medium">Kroll UK</span>,
               specializing in Penetration Testing, Red Teaming &amp; Cloud Security.
-              Co-founder of{" "}
-              <a
-                href="https://hackedon.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent font-medium hover:underline underline-offset-4 cursor-pointer transition-colors"
-              >
-                HackedON
-              </a>.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="mt-5 flex flex-wrap gap-2.5">
-              <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold cursor-pointer">
+            <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold cursor-pointer rounded-xl px-6">
                 <a href="mailto:contact@udeshbandara.com">
                   <Mail className="mr-2 h-4 w-4" /> Get in Touch
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="cursor-pointer border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50">
+              <Button variant="outline" size="lg" asChild className="cursor-pointer border-border/60 hover:bg-accent/10 hover:border-accent/40 hover:text-accent rounded-xl px-6">
                 <a href="https://www.linkedin.com/in/udesh-wiyasinghe/" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
                 </a>
               </Button>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-2 w-full max-w-xl">
+            <motion.div variants={fadeUp} className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5 w-full max-w-lg">
               {stats.map((s) => (
                 <Card
                   key={s.label}
-                  className="card-glow flex flex-col items-center gap-1.5 p-3 border-accent/15 bg-card/50 backdrop-blur-sm cursor-default"
+                  className="card-glow scanline-overlay relative overflow-hidden flex flex-col items-center gap-1.5 p-3.5 border-border/40 bg-card/60 backdrop-blur-sm cursor-default"
                 >
                   <s.icon className="h-4 w-4 text-accent" />
-                  <span className="text-base font-bold leading-none">{s.value}</span>
-                  <span className="text-[10px] text-muted-foreground leading-none tracking-wide uppercase">{s.label}</span>
+                  <span className="text-lg font-bold leading-none tracking-tight">{s.value}</span>
+                  <span className="text-[10px] text-muted-foreground leading-none tracking-wider uppercase font-medium">{s.label}</span>
                 </Card>
               ))}
             </motion.div>
           </div>
 
-          {/* Avatar column */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative flex justify-center order-1 md:order-2"
-          >
-            <div className="relative">
-              <div className="absolute -inset-8 rounded-full bg-accent/8 blur-3xl animate-pulse-glow" />
-              <motion.div
-                className="relative animate-float"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <Image
-                  src="/avatar-3d.png"
-                  alt="Udesh Bandara — 3D avatar"
-                  width={800}
-                  height={800}
-                  priority
-                  sizes="(max-width: 768px) 240px, (max-width: 1024px) 320px, 400px"
-                  className="relative z-10 w-60 h-60 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px] object-contain drop-shadow-2xl dark:drop-shadow-[0_0_20px_rgba(159,239,0,0.1)]"
-                />
-              </motion.div>
-            </div>
-          </motion.div>
+          <div className="relative flex justify-center order-1 md:order-2 py-8">
+            <HexAvatar />
+          </div>
         </motion.div>
       </div>
     </section>

@@ -105,7 +105,7 @@ export default function RootLayout({
           </div>
         </noscript>
 
-        {GA_ID !== "G-D2BNKKLPJV" && (
+        {GA_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}

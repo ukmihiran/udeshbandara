@@ -42,7 +42,8 @@ export function TypewriterRole({ roles }: { roles: readonly string[] }) {
       <span className="sr-only">{roles.join(", ")}</span>
       <span aria-hidden className="font-medium text-accent">
         <span data-role-text>{text}</span>
-        {!reduced && <span className="animate-pulse">|</span>}
+        {/* Always rendered (server and client agree); hidden by CSS under reduced motion. */}
+        <span className="animate-pulse motion-reduce:hidden">|</span>
       </span>
     </>
   );

@@ -203,6 +203,16 @@
   animation-duration: 180ms;
 }
 
+/* Header stays put and on top while page content cross-fades. */
+::view-transition-group(site-header) {
+  z-index: 100;
+  animation: none;
+}
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
   .timeline-dot-active,

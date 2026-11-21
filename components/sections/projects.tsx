@@ -33,7 +33,10 @@ export function ProjectGrid({
   return (
     <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {shown.map((repo) => (
-        <li key={repo.id} className="motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
+        <li
+          key={repo.id}
+          className="motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500 sm:[&:nth-child(odd):last-child]:col-span-2 lg:[&:nth-child(odd):last-child]:col-span-1"
+        >
           <a
             data-repo
             href={repo.url}
@@ -49,7 +52,7 @@ export function ProjectGrid({
                 aria-hidden
                 className="mt-0.5 size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
               />
-              <span className="sr-only">(opens in a new tab)</span>
+              <span className="sr-only"> (opens in a new tab)</span>
             </div>
             <p className="mt-2.5 line-clamp-3 flex-grow text-sm leading-relaxed text-muted-foreground">
               {repo.description || "No description."}
@@ -61,11 +64,13 @@ export function ProjectGrid({
                   {repo.language}
                 </span>
               )}
-              <span className="inline-flex items-center gap-1" aria-label={`${repo.stars} stars`}>
+              <span className="inline-flex items-center gap-1">
                 <Star aria-hidden className="size-3" /> {repo.stars}
+                <span className="sr-only"> stars</span>
               </span>
-              <span className="inline-flex items-center gap-1" aria-label={`${repo.forks} forks`}>
+              <span className="inline-flex items-center gap-1">
                 <GitFork aria-hidden className="size-3" /> {repo.forks}
+                <span className="sr-only"> forks</span>
               </span>
             </div>
           </a>

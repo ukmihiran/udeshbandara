@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import type { NextConfig } from "next";
 import { buildCsp } from "./lib/csp";
 
@@ -8,6 +10,10 @@ const csp = buildCsp({
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  env: {
+    // Resolved at build time: public/ is not traced into serverless functions.
+    CV_AVAILABLE: existsSync(path.join(process.cwd(), "public", "cv", "udesh-bandara-cv.pdf")) ? "1" : "",
+  },
   experimental: {
     inlineCss: true,
   },

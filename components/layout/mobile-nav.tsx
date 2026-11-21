@@ -17,7 +17,7 @@ import { isActivePath } from "@/lib/nav";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function MobileNav({ pathname }: { pathname: string }) {
+export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: string | null }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -66,6 +66,15 @@ export function MobileNav({ pathname }: { pathname: string }) {
           >
             Contact
           </a>
+          {cvHref && (
+            <a
+              href={cvHref}
+              download
+              className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors hover:text-accent"
+            >
+              Download CV (PDF)
+            </a>
+          )}
         </nav>
       </SheetContent>
     </Sheet>

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { buildTimeline, formatPeriod, getHeroStats, totalExperienceMonths } from "@/lib/format";
+import { buildTimeline, formatPeriod, getHeroStats, totalExperienceMonths, yearsOfExperience } from "@/lib/format";
 import { CERTIFICATIONS, EDUCATION, EXPERIENCES } from "@/lib/data";
 
 const NOW = new Date("2026-11-21T00:00:00Z");
@@ -49,5 +49,12 @@ describe("buildTimeline", () => {
     const t = buildTimeline(EXPERIENCES, EDUCATION);
     expect(t[0]).toMatchObject({ kind: "work", current: true, badge: "Full-time" });
     expect(t[1]).toMatchObject({ kind: "education", badge: "Education", current: false });
+  });
+});
+
+describe("yearsOfExperience (shared by hero and About)", () => {
+  test("rolls over to 5+ once 60 months are reached", () => {
+    expect(yearsOfExperience(EXPERIENCES, NOW)).toBe("4+");
+    expect(yearsOfExperience(EXPERIENCES, new Date("2027-02-01T00:00:00Z"))).toBe("5+");
   });
 });

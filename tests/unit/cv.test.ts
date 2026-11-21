@@ -1,14 +1,14 @@
-import fs from "node:fs";
 import { expect, test, vi } from "vitest";
 import { getCvHref } from "@/lib/cv";
 
-test("getCvHref returns null when the PDF is absent", () => {
-  vi.spyOn(fs, "existsSync").mockReturnValue(false);
+// The flag is resolved at build time in next.config.ts (public/ is not traced into
+// Vercel functions, so a runtime fs check would hide the button after revalidation).
+test("getCvHref returns null when the build found no PDF", () => {
+  vi.stubEnv("CV_AVAILABLE", "");
   expect(getCvHref()).toBeNull();
 });
 
-test("getCvHref returns the public path when the PDF exists", () => {
-  const spy = vi.spyOn(fs, "existsSync").mockReturnValue(true);
+test("getCvHref returns the public path when the build found the PDF", () => {
+  vi.stubEnv("CV_AVAILABLE", "1");
   expect(getCvHref()).toBe("/cv/udesh-bandara-cv.pdf");
-  expect(String(spy.mock.calls[0][0]).replace(/\\/g, "/")).toMatch(/public\/cv\/udesh-bandara-cv\.pdf$/);
 });

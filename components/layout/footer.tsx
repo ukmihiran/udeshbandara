@@ -1,4 +1,6 @@
 import { BookOpen, Github, Linkedin, Mail, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { NAV_ITEMS } from "@/lib/data";
 import { SOCIALS } from "@/lib/site";
 import type { Social } from "@/lib/types";
 
@@ -14,6 +16,20 @@ export function Footer() {
     <footer className="w-full pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3">
       <div aria-hidden className="mb-3 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-1 px-4">
+        <nav aria-label="Footer">
+          <ul className="flex flex-wrap justify-center gap-x-1">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="flex min-h-11 items-center px-2.5 text-xs text-muted-foreground transition-colors hover:text-accent"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <p className="font-mono text-[11px] tracking-tight text-muted-foreground">
           <span className="text-accent">$</span> whoami <span aria-hidden>&rarr;</span>{" "}
           offensive-security-consultant<span className="text-accent">@</span>kroll

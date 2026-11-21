@@ -26,7 +26,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               <div className="min-w-0 flex-1 space-y-2">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                   <div className="min-w-0 space-y-0.5">
-                    <h2 className="text-[15px] font-semibold leading-snug break-words text-foreground">{entry.title}</h2>
+                    <h2 className="text-[15px] font-semibold leading-snug text-foreground [overflow-wrap:anywhere]">{entry.title}</h2>
                     <p data-timeline-org className="text-sm font-medium text-muted-foreground">
                       {entry.org}
                     </p>

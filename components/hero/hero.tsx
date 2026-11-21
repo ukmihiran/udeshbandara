@@ -50,12 +50,12 @@ export function Hero() {
           </a>
           <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" className={secondaryCta}>
             <Linkedin aria-hidden className="size-4" /> LinkedIn
-            <span className="sr-only">(opens in a new tab)</span>
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
           {cvHref && (
             <a href={cvHref} download className={secondaryCta}>
               <Download aria-hidden className="size-4" /> Download CV
-              <span className="sr-only">(PDF)</span>
+              <span className="sr-only"> (PDF)</span>
             </a>
           )}
         </div>

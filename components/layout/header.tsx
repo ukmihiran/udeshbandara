@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Mail } from "lucide-react";
+import { BookOpen, Download, Mail } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { MobileNav } from "./mobile-nav";
 import { NAV_ITEMS } from "@/lib/data";
+import { getCvHref } from "@/lib/cv";
 import { isActivePath } from "@/lib/nav";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -34,16 +35,21 @@ const iconLink =
 
 export function Header() {
   const pathname = usePathname();
+  const cvHref = getCvHref();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] lg:top-4 lg:pt-0">
+    <header
+      className="fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] lg:top-4 lg:pt-0"
+      // Captured as its own layer so page transitions never paint over it (see globals.css).
+      style={{ viewTransitionName: "site-header" }}
+    >
       {/* Below lg: compact bar + menu sheet */}
       <div className="border-b border-border/40 bg-background/80 backdrop-blur-md lg:hidden">
         <div className="flex h-14 items-center justify-between pl-[max(0.75rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))]">
           <Logo />
           <div className="flex items-center gap-1">
             <ModeToggle />
-            <MobileNav pathname={pathname} />
+            <MobileNav pathname={pathname} cvHref={cvHref} />
           </div>
         </div>
       </div>
@@ -81,6 +87,11 @@ export function Header() {
         <a href={`mailto:${SITE.email}`} className={iconLink} aria-label="Email">
           <Mail className="size-5" />
         </a>
+        {cvHref && (
+          <a href={cvHref} download className={iconLink} aria-label="Download CV (PDF)">
+            <Download className="size-5" />
+          </a>
+        )}
         <ModeToggle />
       </nav>
     </header>

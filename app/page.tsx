@@ -32,7 +32,9 @@ export default async function HomePage() {
             <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               <Briefcase aria-hidden className="size-4 text-accent" /> Now
             </span>
-            <span className="mt-3 font-semibold text-foreground">{current.role}</span>
+            <span data-now-role className="mt-3 font-semibold text-foreground [overflow-wrap:anywhere]">
+              {current.role}
+            </span>
             <span className="text-sm text-muted-foreground">
               {current.company} · {formatPeriod(current.start, current.end)}
             </span>

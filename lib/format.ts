@@ -26,10 +26,14 @@ export function totalExperienceMonths(experiences: Experience[], now: Date): num
   }, 0);
 }
 
+/** e.g. "4+" — the single source for every "years of experience" figure on the site. */
+export function yearsOfExperience(experiences: Experience[], now: Date): string {
+  return `${Math.floor(totalExperienceMonths(experiences, now) / 12)}+`;
+}
+
 export function getHeroStats(experiences: Experience[], certifications: Certification[], now: Date): HeroStat[] {
-  const years = Math.floor(totalExperienceMonths(experiences, now) / 12);
   return [
-    { value: `${years}+`, label: "Years experience" },
+    { value: yearsOfExperience(experiences, now), label: "Years experience" },
     { value: String(certifications.length), label: "Certifications" },
     { value: PROFILE.engagements, label: "Engagements" },
     { value: PROFILE.based, label: "Based" },

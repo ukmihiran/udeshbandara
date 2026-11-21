@@ -85,3 +85,43 @@ describe("getLatestPosts", () => {
     await expect(getLatestPosts()).resolves.toEqual([]);
   });
 });
+
+describe("getLatestPosts hardening (final review)", () => {
+  test("aborts a hung feed: fetch gets an AbortSignal", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(fixture, { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    await getLatestPosts(1);
+    expect(fetchMock.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal);
+  });
+
+  test("rejects a feed body over the size cap", async () => {
+    const huge = fixture + " ".repeat(300_000);
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(huge, { status: 200 })));
+    await expect(getLatestPosts()).resolves.toEqual([]);
+  });
+
+  test("on the production server a failure throws so ISR keeps the last good page", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "");
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new DOMException("timed out", "TimeoutError")));
+    await expect(getLatestPosts()).rejects.toThrow();
+  });
+
+  test("during the production build a failure degrades to an empty list", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "phase-production-build");
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new DOMException("timed out", "TimeoutError")));
+    await expect(getLatestPosts()).resolves.toEqual([]);
+  });
+});
+
+describe("parseRss performance on hostile input", () => {
+  test("a megabyte of unclosed tags parses in linear time", () => {
+    const bomb = `<item>${"<link ".repeat(170_000)}</item>`;
+    const unclosed = "<item>".repeat(170_000);
+    const t0 = performance.now();
+    parseRss(bomb, 3);
+    parseRss(unclosed, 3);
+    expect(performance.now() - t0).toBeLessThan(1000);
+  });
+});

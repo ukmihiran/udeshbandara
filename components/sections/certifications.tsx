@@ -51,8 +51,8 @@ export function Certifications({ items }: { items: Certification[] }) {
               className="flex flex-col items-center gap-4 border-accent/20 bg-accent/[0.03] p-6 text-center"
             >
               <OrgLogo src={cert.image} alt={cert.issuer} scale={cert.logoScale} className="h-16 w-16 rounded-2xl p-2" />
-              <div className="space-y-1">
-                <h2 className="text-base font-semibold leading-tight text-foreground">{cert.name}</h2>
+              <div className="w-full min-w-0 space-y-1">
+                <h2 className="text-base font-semibold leading-tight text-foreground [overflow-wrap:anywhere]">{cert.name}</h2>
                 <p className="text-sm text-muted-foreground">{cert.issuer}</p>
               </div>
               <Badge className="border-accent/30 bg-accent/15 px-2.5 py-0.5 text-[11px] font-semibold text-accent">
@@ -69,7 +69,7 @@ export function Certifications({ items }: { items: Certification[] }) {
             <CertShell cert={cert} className="flex items-center gap-4 border-border/40 p-4">
               <OrgLogo src={cert.image} alt={cert.issuer} scale={cert.logoScale} className="h-12 w-12" />
               <div className="min-w-0 flex-1">
-                <h2 className="text-sm font-semibold leading-tight break-words text-foreground">{cert.name}</h2>
+                <h2 className="text-sm font-semibold leading-tight text-foreground [overflow-wrap:anywhere]">{cert.name}</h2>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {cert.issuer} <span aria-hidden>·</span> {cert.year}
                 </p>

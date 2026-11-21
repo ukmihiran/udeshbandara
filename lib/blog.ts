@@ -1,7 +1,10 @@
+import { FETCH_TIMEOUT_MS, shouldThrowOnFetchFailure } from "./runtime";
 import { SITE } from "./site";
 import type { BlogPost } from "./types";
 
 const EXCERPT_MAX = 160;
+/** The real feed is ~6 KB; anything this large is broken or hostile. */
+const MAX_FEED_CHARS = 200_000;
 const ALLOWED_HOSTS = new Set(["cybernetgen.com", "www.cybernetgen.com"]);
 
 const NAMED_ENTITIES: Record<string, string> = {
@@ -25,13 +28,49 @@ function decodeEntities(text: string): string {
 
 /** Plain text from an RSS field: unwrap CDATA, decode entities, drop tags, collapse whitespace. */
 function toPlainText(raw: string): string {
-  const unwrapped = raw.replace(/^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/, "$1");
-  return decodeEntities(unwrapped).replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  const trimmed = raw.trim();
+  const unwrapped =
+    trimmed.startsWith("<![CDATA[") && trimmed.endsWith("]]>") ? trimmed.slice(9, -3) : trimmed;
+  // [^<>] keeps the tag stripper linear even on long runs of "<".
+  return decodeEntities(unwrapped).replace(/<[^<>]*>/g, "").replace(/\s+/g, " ").trim();
 }
 
-function field(itemXml: string, tag: string): string | undefined {
-  const match = itemXml.match(new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`, "i"));
-  return match ? toPlainText(match[1]) : undefined;
+/** Index of the next `<tag` followed by ">" or whitespace (so `<link` never matches `<linkx`), or -1. */
+function findOpenTag(lower: string, tag: string, from: number): number {
+  let i = lower.indexOf(`<${tag}`, from);
+  while (i !== -1) {
+    const next = lower.charAt(i + tag.length + 1);
+    if (next === ">" || next === " " || next === "\t" || next === "\n" || next === "\r") return i;
+    i = lower.indexOf(`<${tag}`, i + 1);
+  }
+  return -1;
+}
+
+/** Text content of the first <tag>…</tag>, using linear indexOf scans (no backtracking regex). */
+function field(itemXml: string, tagName: string): string | undefined {
+  const lower = itemXml.toLowerCase();
+  const tag = tagName.toLowerCase();
+  const open = findOpenTag(lower, tag, 0);
+  if (open === -1) return undefined;
+  const contentStart = lower.indexOf(">", open);
+  if (contentStart === -1) return undefined;
+  const close = lower.indexOf(`</${tag}>`, contentStart);
+  return close === -1 ? undefined : toPlainText(itemXml.slice(contentStart + 1, close));
+}
+
+function splitItems(xml: string): string[] {
+  const lower = xml.toLowerCase();
+  const items: string[] = [];
+  let pos = 0;
+  for (;;) {
+    const open = findOpenTag(lower, "item", pos);
+    if (open === -1) break;
+    const close = lower.indexOf("</item>", open);
+    if (close === -1) break;
+    items.push(xml.slice(open, close));
+    pos = close + "</item>".length;
+  }
+  return items;
 }
 
 function safeBlogUrl(link: string | undefined): string | undefined {
@@ -49,9 +88,8 @@ function truncate(text: string): string {
 }
 
 export function parseRss(xml: string, limit: number): BlogPost[] {
-  const items = xml.match(/<item(?:\s[^>]*)?>[\s\S]*?<\/item>/gi) ?? [];
   const posts: BlogPost[] = [];
-  for (const itemXml of items) {
+  for (const itemXml of splitItems(xml)) {
     const url = safeBlogUrl(field(itemXml, "link"));
     const date = new Date(field(itemXml, "pubDate") ?? "");
     const title = field(itemXml, "title");
@@ -70,12 +108,17 @@ export async function getLatestPosts(limit = 3): Promise<BlogPost[]> {
   try {
     const res = await fetch(SITE.blogFeedUrl, {
       headers: { Accept: "application/rss+xml, application/xml;q=0.9" },
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       next: { revalidate: 86400 },
     });
     if (!res.ok) throw new Error(`feed responded ${res.status}`);
-    return parseRss(await res.text(), limit);
+    if (Number(res.headers.get("content-length") ?? 0) > MAX_FEED_CHARS) throw new Error("feed too large");
+    const xml = await res.text();
+    if (xml.length > MAX_FEED_CHARS) throw new Error("feed too large");
+    return parseRss(xml, limit);
   } catch (err) {
     console.error("[blog] could not load feed:", err instanceof Error ? err.message : err);
+    if (shouldThrowOnFetchFailure()) throw err;
     return [];
   }
 }

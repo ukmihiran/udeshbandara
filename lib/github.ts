@@ -1,4 +1,5 @@
 import { FEATURED_REPOS } from "./data";
+import { FETCH_TIMEOUT_MS, shouldThrowOnFetchFailure } from "./runtime";
 import { SITE } from "./site";
 import type { Repository } from "./types";
 
@@ -58,6 +59,7 @@ export async function getFeaturedRepos(limit = 6): Promise<{ repos: Repository[]
           Accept: "application/vnd.github+json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
         next: { revalidate: 3600 },
       },
     );
@@ -74,6 +76,7 @@ export async function getFeaturedRepos(limit = 6): Promise<{ repos: Repository[]
     };
   } catch (err) {
     console.error("[github] could not load repositories:", err instanceof Error ? err.message : err);
+    if (shouldThrowOnFetchFailure()) throw err;
     return { repos: [], error: true };
   }
 }

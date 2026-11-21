@@ -12,8 +12,8 @@ import {
   SiPhp,
   SiPython,
 } from "react-icons/si";
-import { EDUCATION, TECH_STACK } from "@/lib/data";
-import { formatPeriod } from "@/lib/format";
+import { EDUCATION, EXPERIENCES, TECH_STACK } from "@/lib/data";
+import { formatPeriod, yearsOfExperience } from "@/lib/format";
 import { SITE } from "@/lib/site";
 import type { TechItem } from "@/lib/types";
 import { OrgLogo } from "./org-logo";
@@ -57,8 +57,8 @@ export function About() {
         </h2>
         <div className="space-y-3 text-[15px] leading-relaxed text-muted-foreground">
           <p>
-            Dedicated <span className="font-medium text-foreground">Cyber Security Professional</span> with 4+ years of
-            experience in Penetration Testing, Red Teaming, Vulnerability Management, and Cloud Security.
+            Dedicated <span className="font-medium text-foreground">Cyber Security Professional</span> with{" "}
+            {yearsOfExperience(EXPERIENCES, new Date())} years of experience in Penetration Testing, Red Teaming, Vulnerability Management, and Cloud Security.
           </p>
           <p>
             Currently an <span className="font-medium text-foreground">Offensive Security Consultant</span> at{" "}

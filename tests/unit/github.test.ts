@@ -65,3 +65,26 @@ describe("getFeaturedRepos", () => {
     await expect(getFeaturedRepos()).resolves.toEqual({ repos: [], error: true });
   });
 });
+
+describe("getFeaturedRepos hardening (final review)", () => {
+  test("passes an AbortSignal so a hung API cannot stall the build", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(Response.json(raw));
+    vi.stubGlobal("fetch", fetchMock);
+    await getFeaturedRepos(1);
+    expect(fetchMock.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal);
+  });
+
+  test("on the production server a failure throws so ISR keeps the last good page", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("rate limited", { status: 403 })));
+    await expect(getFeaturedRepos()).rejects.toThrow();
+  });
+
+  test("during the production build a failure returns the error flag", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "phase-production-build");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("rate limited", { status: 403 })));
+    await expect(getFeaturedRepos()).resolves.toEqual({ repos: [], error: true });
+  });
+});

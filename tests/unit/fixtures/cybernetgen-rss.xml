@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Cybernetgen</title>
+    <link>https://cybernetgen.com</link>
+    <item>
+      <title>Bypassing SSL Pinning in Android Applications Using Frida</title>
+      <link>https://cybernetgen.com/blog/SSL-Pinning-Bypass-with-Frida-for-Beginners</link>
+      <guid>https://cybernetgen.com/blog/SSL-Pinning-Bypass-with-Frida-for-Beginners</guid>
+      <pubDate>Sat, 02 Jan 2021 00:00:00 GMT</pubDate>
+      <description>In today’s mobile security landscape, SSL pinning is a common technique used to protect the integrity of HTTPS connections in Android applications. However, for penetration testers and security researchers, it’s often necessary to bypass SSL pinning to analyze</description>
+    </item>
+    <item>
+      <title><![CDATA[Windows Privilege Escalation & Token Abuse]]></title>
+      <link>https://cybernetgen.com/blog/windows-token-abuse</link>
+      <pubDate>Tue, 28 Oct 2025 09:30:00 GMT</pubDate>
+      <description>Abusing SeImpersonate &amp; friends on modern Windows.</description>
+    </item>
+    <item>
+      <title>Apache Tomcat Server - Deserialization of Untrusted Data</title>
+      <link>https://cybernetgen.com/blog/tomcat-deserialization</link>
+      <pubDate>Fri, 01 Mar 2024 12:00:00 GMT</pubDate>
+      <description>A walkthrough of CVE analysis for Tomcat session persistence.</description>
+    </item>
+  </channel>
+</rss>

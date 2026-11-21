@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
+import { NAV_ITEMS } from "@/lib/data";
+import { absoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://udeshbandara.com",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  return NAV_ITEMS.map((item) => ({
+    url: absoluteUrl(item.href),
+    changeFrequency: "monthly",
+    priority: item.href === "/" ? 1 : 0.8,
+  }));
 }

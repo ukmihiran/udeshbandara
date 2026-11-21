@@ -1,3 +1,5 @@
+import { BreadcrumbJsonLd } from "@/components/layout/breadcrumb-jsonld";
+import { pageMetadata } from "@/lib/seo";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/sections/page-header";
@@ -5,12 +7,14 @@ import { ProjectGrid } from "@/components/sections/projects";
 import { getFeaturedRepos } from "@/lib/github";
 import { SITE } from "@/lib/site";
 
+export const metadata = pageMetadata("/projects");
 export const revalidate = 3600;
 
 export default async function ProjectsPage() {
   const { repos, error } = await getFeaturedRepos(6);
   return (
     <Container>
+      <BreadcrumbJsonLd path="/projects" />
       <PageHeader title="Projects" description="Open-source tools and research from GitHub." />
       <ProjectGrid repos={repos} error={error} />
       {!error && repos.length > 0 && (

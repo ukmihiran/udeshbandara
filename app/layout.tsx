@@ -8,6 +8,7 @@ import { Providers } from "@/components/providers";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { PageTransition } from "@/components/layout/page-transition";
+import { PAGE_META, jsonLdScript, pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -15,25 +16,11 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Udesh Bandara | Offensive Security Consultant",
-  description:
-    "Udesh Bandara — Offensive Security Consultant at Kroll UK. Specializing in Penetration Testing, Red Teaming, and Cloud Security.",
+  ...pageMetadata("/"),
+  title: { default: PAGE_META["/"].title, template: `%s | ${SITE.name}` },
   keywords: ["cybersecurity", "penetration testing", "red teaming", "offensive security", "Udesh Bandara", "Kroll"],
   robots: { index: true, follow: true },
   metadataBase: new URL(SITE.url),
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Udesh Bandara | Offensive Security Consultant",
-    description: "Offensive Security Consultant at Kroll UK. Penetration Testing, Red Teaming & Cloud Security.",
-    url: SITE.url,
-    siteName: SITE.name,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Udesh Bandara | Offensive Security Consultant",
-    description: "Offensive Security Consultant at Kroll UK.",
-  },
 };
 
 export const viewport: Viewport = {
@@ -70,7 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       >
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(personJsonLd) }}
         />
         <a
           href="#main"

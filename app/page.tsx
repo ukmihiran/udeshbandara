@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, Award, Briefcase } from "lucide-react";
 import { Hero } from "@/components/hero/hero";
@@ -7,6 +8,8 @@ import { getLatestPosts } from "@/lib/blog";
 import { CERTIFICATIONS, EXPERIENCES } from "@/lib/data";
 import { formatPeriod } from "@/lib/format";
 import { getFeaturedRepos } from "@/lib/github";
+
+export const metadata = pageMetadata("/");
 
 export const revalidate = 3600;
 

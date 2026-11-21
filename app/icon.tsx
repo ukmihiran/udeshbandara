@@ -30,6 +30,7 @@ export default async function Icon() {
             position: "relative",
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse requires <img> */}
           <img
             src={imageDataUrl}
             alt="UB"

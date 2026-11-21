@@ -109,14 +109,66 @@ export function parseRss(xml: string, limit: number): BlogPost[] {
 
 const FEED_ROOTS = ["rss", "rdf:RDF", "feed"] as const;
 
+const isSpace = (ch: string | undefined) => ch === " " || ch === "\t" || ch === "\r" || ch === "\n";
+const NAME_START = /^[A-Za-z_:]$/;
+const NAME_CHAR = /^[-A-Za-z0-9_:.]$/;
+
+/**
+ * Parses the inside of an element tag ("item", "/item", `link href="x" /`) by hand, one character
+ * at a time (no backtracking). Returns null when the tag is malformed: a bad name, an attribute
+ * without whitespace before it, without "=", with an unquoted value or "<" in its value, or a
+ * duplicated attribute.
+ */
+function parseTag(raw: string): { name: string; closing: boolean; selfClosing: boolean } | null {
+  const closing = raw.startsWith("/");
+  let k = closing ? 1 : 0;
+  const readName = () => {
+    const start = k;
+    if (!NAME_START.test(raw[k] ?? "")) return "";
+    while (k < raw.length && NAME_CHAR.test(raw[k])) k++;
+    return raw.slice(start, k);
+  };
+  const skipSpace = () => {
+    const start = k;
+    while (k < raw.length && isSpace(raw[k])) k++;
+    return k > start;
+  };
+
+  const name = readName();
+  if (!name) return null;
+  if (closing) {
+    skipSpace();
+    return k === raw.length ? { name, closing, selfClosing: false } : null;
+  }
+  const seen = new Set<string>();
+  for (;;) {
+    const spaced = skipSpace();
+    if (k === raw.length) return { name, closing, selfClosing: false };
+    if (raw[k] === "/" && k === raw.length - 1) return { name, closing, selfClosing: true };
+    if (!spaced) return null; // attributes must be separated by whitespace
+    const attr = readName();
+    if (!attr || seen.has(attr)) return null;
+    seen.add(attr);
+    skipSpace();
+    if (raw[k] !== "=") return null;
+    k++;
+    skipSpace();
+    const quote = raw[k];
+    if (quote !== '"' && quote !== "'") return null;
+    const close = raw.indexOf(quote, k + 1);
+    if (close === -1 || raw.slice(k + 1, close).includes("<")) return null;
+    k = close + 1;
+  }
+}
+
 /**
  * True when the document is a well-formed RSS, RDF or Atom feed: exactly one feed root, every
- * element closed in order, nothing but whitespace, comments and PIs outside it. Comments, CDATA,
- * PIs, a doctype and quoted attribute values are skipped, so "<rss" inside an HTML comment, a
- * truncated body or "<rss><item></rss>" all fail. Linear time: one forward scan.
+ * element closed in order, valid attribute syntax, and nothing but whitespace, comments and PIs
+ * outside the root. Comments, CDATA, PIs and a doctype are skipped, so "<rss" inside an HTML
+ * comment, a truncated body, "<rss><item></rss>" and `<channel foo=bar>` all fail.
+ * Linear time: one forward scan.
  */
 export function isFeedDocument(xml: string): boolean {
-  const isSpace = (ch: string | undefined) => ch === " " || ch === "\t" || ch === "\r" || ch === "\n";
   let i = xml.charCodeAt(0) === 0xfeff ? 1 : 0;
   const stack: string[] = [];
   let rootClosed = false;
@@ -150,11 +202,9 @@ export function isFeedDocument(xml: string): boolean {
         else if (ch === ">") break;
       }
       if (j >= xml.length) return false; // unterminated tag
-      const raw = xml.slice(i + 1, j);
-      const closing = raw.startsWith("/");
-      const selfClosing = !closing && raw.endsWith("/");
-      const name = raw.replace(/^\//, "").split(/[\s/]/, 1)[0];
-      if (!name) return false;
+      const tag = parseTag(xml.slice(i + 1, j));
+      if (!tag) return false; // malformed name or attributes
+      const { name, closing, selfClosing } = tag;
       if (closing) {
         if (stack.pop() !== name) return false;
         if (stack.length === 0) rootClosed = true;

@@ -216,3 +216,19 @@ describe("isFeedDocument requires balanced nesting (PR review)", () => {
     expect(performance.now() - t0).toBeLessThan(500);
   });
 });
+
+describe("isFeedDocument requires well-formed XML (PR review)", () => {
+  test("rejects an unquoted attribute value", () => {
+    expect(isFeedDocument("<rss><channel foo=bar></channel></rss>")).toBe(false);
+  });
+
+  test("rejects a duplicated attribute", () => {
+    expect(isFeedDocument('<rss version="2.0" version="2.0"><channel></channel></rss>')).toBe(false);
+  });
+
+  test("still accepts namespaced attributes and entities", () => {
+    expect(
+      isFeedDocument('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>A &amp; B</title></channel></rss>'),
+    ).toBe(true);
+  });
+});

@@ -110,6 +110,24 @@ export function parseRss(xml: string, limit: number): BlogPost[] {
 const FEED_ROOTS = ["rss", "rdf:RDF", "feed"] as const;
 
 const isSpace = (ch: string | undefined) => ch === " " || ch === "\t" || ch === "\r" || ch === "\n";
+
+const PREDEFINED_ENTITIES = new Set(["amp", "lt", "gt", "quot", "apos"]);
+const NUMERIC_REF = /^#(?:[0-9]{1,7}|x[0-9A-Fa-f]{1,6})$/;
+
+/**
+ * True when every "&" in text or an attribute value starts a valid reference: one of XML's five
+ * predefined entities or a numeric character reference. Feeds declare no DTD, so any other named
+ * entity (e.g. &nbsp;) is undefined and the document is malformed. No entity is ever expanded.
+ */
+function hasValidReferences(text: string): boolean {
+  for (let amp = text.indexOf("&"); amp !== -1; amp = text.indexOf("&", amp + 1)) {
+    const semi = text.indexOf(";", amp + 1);
+    if (semi === -1 || semi - amp > 10) return false; // the longest valid reference is &#x10FFFF;
+    const ref = text.slice(amp + 1, semi);
+    if (!PREDEFINED_ENTITIES.has(ref) && !NUMERIC_REF.test(ref)) return false;
+  }
+  return true;
+}
 const NAME_START = /^[A-Za-z_:]$/;
 const NAME_CHAR = /^[-A-Za-z0-9_:.]$/;
 
@@ -156,7 +174,8 @@ function parseTag(raw: string): { name: string; closing: boolean; selfClosing: b
     const quote = raw[k];
     if (quote !== '"' && quote !== "'") return null;
     const close = raw.indexOf(quote, k + 1);
-    if (close === -1 || raw.slice(k + 1, close).includes("<")) return null;
+    const value = close === -1 ? "" : raw.slice(k + 1, close);
+    if (close === -1 || value.includes("<") || !hasValidReferences(value)) return null;
     k = close + 1;
   }
 }
@@ -165,7 +184,8 @@ function parseTag(raw: string): { name: string; closing: boolean; selfClosing: b
  * True when the document is a well-formed RSS, RDF or Atom feed: exactly one feed root, every
  * element closed in order, valid attribute syntax, and nothing but whitespace, comments and PIs
  * outside the root. Comments, CDATA, PIs and a doctype are skipped, so "<rss" inside an HTML
- * comment, a truncated body, "<rss><item></rss>" and `<channel foo=bar>` all fail.
+ * comment, a truncated body, "<rss><item></rss>", `<channel foo=bar>` and a bare "&" all fail.
+ * Entities are only checked, never expanded, so there is no external-entity (XXE) surface.
  * Linear time: one forward scan.
  */
 export function isFeedDocument(xml: string): boolean {
@@ -178,6 +198,7 @@ export function isFeedDocument(xml: string): boolean {
     // Outside the root only whitespace may appear; inside, text is free.
     const text = lt === -1 ? xml.slice(i) : xml.slice(i, lt);
     if (stack.length === 0 && text.trim() !== "") return false;
+    if (!hasValidReferences(text)) return false;
     if (lt === -1) break;
     i = lt;
 

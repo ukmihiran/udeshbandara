@@ -232,3 +232,24 @@ describe("isFeedDocument requires well-formed XML (PR review)", () => {
     ).toBe(true);
   });
 });
+
+describe("isFeedDocument rejects invalid entity references (PR review)", () => {
+  test("rejects a bare ampersand in text", () => {
+    expect(isFeedDocument("<rss><channel><title>A & B</title></channel></rss>")).toBe(false);
+  });
+
+  test("rejects a bare ampersand in an attribute value", () => {
+    expect(isFeedDocument('<rss><channel><link href="a?x=1&y=2"/></channel></rss>')).toBe(false);
+  });
+
+  test("rejects an undeclared named entity", () => {
+    expect(isFeedDocument("<rss><channel><title>A&nbsp;B</title></channel></rss>")).toBe(false);
+  });
+
+  test("accepts the predefined and numeric references, and raw & inside CDATA", () => {
+    const xml =
+      '<rss><channel><title>&lt;A&gt; &amp; &quot;B&quot; &apos;C&apos; &#169; &#xA9;</title>' +
+      '<link href="a?x=1&amp;y=2"/><description><![CDATA[A & B]]></description></channel></rss>';
+    expect(isFeedDocument(xml)).toBe(true);
+  });
+});

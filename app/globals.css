@@ -169,53 +169,16 @@
   animation: hex-ping 3s ease-out infinite;
 }
 
-.hex-ring-2 {
-  animation: hex-ping 3s ease-out 1.5s infinite;
-}
-
 @keyframes hex-ping {
   0%   { transform: scale(1); opacity: 0.35; }
-  100% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
 }
 
-.hex-border-pulse {
-  animation: hex-border-glow 3s ease-in-out infinite;
-}
-
-@keyframes hex-border-glow {
-  0%, 100% { opacity: 0.7; }
-  50%      { opacity: 1; }
-}
-
-.hex-scanlines {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    var(--accent-glow) 3px,
-    var(--accent-glow) 4px
-  );
-  background-size: 100% 200px;
-  opacity: 0.04;
-  will-change: transform;
-  animation: scanline-scroll 8s linear infinite;
-}
-
-@keyframes scanline-scroll {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-100px); }
-}
-
-@keyframes hex-glitch {
-  0%, 92%, 100% { transform: translate(0); filter: none; }
-  93% { transform: translate(-3px, 1px); filter: hue-rotate(20deg); }
-  94% { transform: translate(3px, -2px); filter: hue-rotate(-20deg); }
-  95% { transform: translate(-2px, -1px); filter: brightness(1.2); }
-  96% { transform: translate(2px, 2px); filter: none; }
-}
-
-.hex-glitch-idle {
-  animation: hex-glitch 6s ease-in-out infinite;
+/* Phones get a single light shadow; the double glow is desktop-only. */
+@media (max-width: 767px) {
+  .hex-frame {
+    filter: drop-shadow(0 0 14px var(--accent-glow-strong));
+  }
 }
 
 /* ── General animations ───────────────────────────── */
@@ -229,16 +192,6 @@
   will-change: transform;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.55; transform: scale(1.03); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 5s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
 @keyframes timeline-pulse {
   0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
   50% { box-shadow: 0 0 0 6px transparent; }
@@ -250,32 +203,10 @@
   animation-duration: 180ms;
 }
 
-/* Subtle scanline overlay for cards */
-.scanline-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    var(--accent-glow) 2px,
-    var(--accent-glow) 4px
-  );
-  opacity: 0.02;
-  pointer-events: none;
-  border-radius: inherit;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
-  .animate-pulse-glow,
   .timeline-dot-active,
-  .hex-ring-1,
-  .hex-ring-2,
-  .hex-glitch-idle,
-  .hex-border-pulse,
-  .hex-scanlines {
+  .hex-ring-1 {
     animation: none;
   }
   ::view-transition-group(*),

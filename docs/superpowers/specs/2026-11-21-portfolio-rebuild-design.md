@@ -50,7 +50,7 @@ Full issue list (38 items) is in the review findings section at the end of this 
 - Socials/links single-sourced in `lib/data.ts`; per-logo `logoScale` in data instead of string checks in components.
 
 ## Security, privacy, performance
-- Strict CSP with per-request nonce via `proxy.ts` (Next 16) — `script-src 'nonce-…' 'strict-dynamic'`; analytics origins only as needed. `public/.well-known/security.txt`.
+- CSP header on every response; analytics origins only as needed. `public/.well-known/security.txt`. *Open: a per-request nonce CSP (`proxy.ts`, `'strict-dynamic'`) forces dynamic rendering, which conflicts with static pages; the plan ships a static header CSP (`script-src 'self' 'unsafe-inline'`, everything else strict) unless Udesh prefers nonce + dynamic rendering.*
 - Analytics: GA only when `NEXT_PUBLIC_GA_ID` is set (no hard-coded fallback); add Vercel Web Analytics + Speed Insights (cookieless). *Open: Udesh to decide whether to drop GA (recommended) or keep it with a consent banner.*
 - Hero animation budget: keep float + one ring; drop hue-rotate glitch and scanline scroll on phones and under reduced motion.
 - `/public` image cache: `max-age=86400, stale-while-revalidate=604800` instead of `immutable`. Recompress `axiata.png` (546 KB) and the avatar.
@@ -60,7 +60,7 @@ Full issue list (38 items) is in the review findings section at the end of this 
 Remove `@radix-ui/react-avatar`, `autoprefixer`, `@octokit/rest`, `.eslintrc.json`, `public/favicon.ico` duplicate, dead `SOCIALS`/`Social`/`mainRef`; load Geist Mono (used by `font-mono`); dedupe `.timeline-dot-active`; stable list keys; README updated.
 
 ## Left to the builder
-Animation timings, highlight blurb copy, OG layout details, default featured repos (most-starred non-forks until curated).
+Animation timings, highlight blurb copy, OG layout details. Default featured repos are a curated list (BloodHound-Standalone, EnumLiveHost, WifiPasswordViewer, PDFUnlocker, dga_detection_deep_learning, SecurityTrails-Subdomain-Scanner) because ranking by stars would lead with a PHP garage-management app; Udesh can edit `FEATURED_REPOS`. Blog feed confirmed at `https://cybernetgen.com/api/rss` (not date-sorted).
 
 ## Verification
 - `npm run lint`, `npx tsc --noEmit`, `npm run build`.

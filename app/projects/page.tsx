@@ -22,7 +22,7 @@ export default async function ProjectsPage() {
           href={SITE.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground transition-colors duration-100 hover:text-foreground"
+          className="mt-6 inline-flex min-h-11 items-center gap-1 text-caption text-muted-foreground transition-colors duration-100 hover:text-foreground"
         >
           More on GitHub <ArrowUpRight aria-hidden className="size-3.5" />
         </a>

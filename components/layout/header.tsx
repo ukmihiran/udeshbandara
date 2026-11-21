@@ -25,7 +25,7 @@ export function Header() {
       style={{ viewTransitionName: "site-header" }}
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between pl-[max(1rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] sm:pl-6">
-        <Link href="/" className="flex min-h-11 items-center text-[15px] font-semibold tracking-tight">
+        <Link href="/" className="flex min-h-11 items-center font-display text-title font-medium">
           {SITE.name}
         </Link>
 
@@ -39,7 +39,7 @@ export function Header() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative flex min-h-11 items-center px-3 text-sm transition-colors duration-100",
+                      "relative flex min-h-11 items-center px-3 text-caption transition-colors duration-100",
                       active
                         ? "font-semibold text-foreground after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:bg-accent"
                         : "text-muted-foreground hover:text-foreground",

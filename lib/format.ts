@@ -8,7 +8,7 @@ function formatPoint(point: YearMonth): string {
 }
 
 export function formatPeriod(start: YearMonth, end?: YearMonth): string {
-  return `${formatPoint(start)} — ${end ? formatPoint(end) : "Present"}`;
+  return `${formatPoint(start)} – ${end ? formatPoint(end) : "Present"}`;
 }
 
 /** Months since year 0; a year-only value counts from January. */

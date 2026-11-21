@@ -11,14 +11,14 @@ export function LatestPosts({ posts, headingLevel = 2 }: { posts: BlogPost[]; he
   return (
     <section aria-labelledby="latest-writing" className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <Heading id="latest-writing" className="text-lg font-semibold tracking-tight">
+        <Heading id="latest-writing" className="font-display text-section font-medium">
           From the blog
         </Heading>
         <a
           href={SITE.blogUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground transition-colors duration-100 hover:text-foreground"
+          className="inline-flex min-h-11 items-center gap-1 text-caption text-muted-foreground transition-colors duration-100 hover:text-foreground"
         >
           All posts on Cybernetgen <ArrowUpRight aria-hidden className="size-3.5" />
         </a>
@@ -32,14 +32,14 @@ export function LatestPosts({ posts, headingLevel = 2 }: { posts: BlogPost[]; he
               rel="noopener noreferrer"
               className="card-link group flex h-full flex-col rounded-xl border border-border bg-card p-5"
             >
-              <time dateTime={post.publishedAt} className="text-xs text-muted-foreground">
+              <time dateTime={post.publishedAt} className="text-caption text-muted-foreground">
                 {dateFormat.format(new Date(post.publishedAt))}
               </time>
-              <span className="mt-1.5 font-semibold leading-snug break-words transition-colors duration-100 group-hover:text-accent">
+              <span className="mt-2 font-semibold break-words transition-colors duration-100 group-hover:text-accent">
                 {post.title}
               </span>
               {post.excerpt && (
-                <span className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{post.excerpt}</span>
+                <span className="mt-2 line-clamp-3 text-caption text-foreground-secondary">{post.excerpt}</span>
               )}
             </a>
           </li>

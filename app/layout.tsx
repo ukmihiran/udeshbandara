@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Newsreader, Source_Sans_3 } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -12,8 +12,10 @@ import { PAGE_META, jsonLdScript, pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// Type system (docs/design/2026-11-21-ui-ux-audit.md, step 2): serif display, humanist sans body, mono for dates.
+const display = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], weight: ["500"] });
+const sans = Source_Sans_3({ variable: "--font-source-sans", subsets: ["latin"], weight: ["400", "600"] });
+const mono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   ...pageMetadata("/"),
@@ -51,8 +53,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body
         className={cn(
           "flex min-h-dvh flex-col overflow-x-clip bg-background font-sans antialiased",
-          geistSans.variable,
-          geistMono.variable,
+          display.variable,
+          sans.variable,
+          mono.variable,
         )}
       >
         <script
@@ -61,7 +64,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <a
           href="#main"
-          className="sr-only z-[60] rounded-md bg-accent px-4 py-2 font-medium text-accent-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-[60] rounded-md bg-accent px-4 py-2 text-accent-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>

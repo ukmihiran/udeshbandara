@@ -22,7 +22,7 @@ export function ProjectGrid({
         href={SITE.github}
         target="_blank"
         rel="noopener noreferrer"
-        className="card-link flex min-h-24 items-center justify-center gap-3 rounded-xl border border-dashed border-border/60 bg-card/50 p-6 text-[15px] text-muted-foreground transition-colors duration-100 hover:text-foreground"
+        className="card-link flex min-h-24 items-center justify-center gap-3 rounded-xl border border-dashed border-border/60 bg-card/50 p-6 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
       >
         <Github aria-hidden className="size-5" />
         Browse my repositories on GitHub
@@ -45,21 +45,21 @@ export function ProjectGrid({
             className="card-link group flex h-full flex-col rounded-xl border border-border bg-card p-5"
           >
             <div className="flex items-start gap-2">
-              <Heading className="min-w-0 text-sm font-semibold [overflow-wrap:anywhere] transition-colors group-hover:text-accent">
+              <Heading className="min-w-0 text-body font-semibold [overflow-wrap:anywhere] transition-colors group-hover:text-accent">
                 {repo.name}
               </Heading>
               <ExternalLink
                 aria-hidden
-                className="mt-0.5 size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                className="mt-1 size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
               />
               <span className="sr-only"> (opens in a new tab)</span>
             </div>
-            <p className="mt-2.5 line-clamp-3 flex-grow text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 line-clamp-3 flex-grow text-caption text-foreground-secondary">
               {repo.description || "No description."}
             </p>
-            <div className="mt-3.5 flex items-center gap-3 border-t border-border/40 pt-3.5 text-xs text-muted-foreground">
+            <div className="mt-4 flex items-center gap-3 border-t border-border/40 pt-4 text-caption text-muted-foreground">
               {repo.language && (
-                <span className="inline-flex items-center gap-1.5">
+                <span className="inline-flex items-center gap-2">
                   <span aria-hidden className="size-2 rounded-full bg-accent" />
                   {repo.language}
                 </span>

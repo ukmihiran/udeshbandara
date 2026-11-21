@@ -42,7 +42,7 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex min-h-11 items-center rounded-lg px-3 text-base font-medium transition-colors",
+                    "flex min-h-11 items-center rounded-lg px-3 text-body transition-colors",
                     active ? "bg-muted font-semibold text-foreground" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
@@ -56,13 +56,13 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
             href={SITE.blogUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors duration-100 hover:text-foreground"
+            className="flex min-h-11 items-center px-3 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
           >
             Blog
           </a>
           <a
             href={`mailto:${SITE.email}`}
-            className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors duration-100 hover:text-foreground"
+            className="flex min-h-11 items-center px-3 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
           >
             Contact
           </a>
@@ -70,7 +70,7 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
             <a
               href={cvHref}
               download
-              className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors duration-100 hover:text-foreground"
+              className="flex min-h-11 items-center px-3 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
             >
               Download CV (PDF)
             </a>

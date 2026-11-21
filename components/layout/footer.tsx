@@ -16,12 +16,12 @@ export function Footer() {
     <footer className="mt-auto border-t border-border pb-[max(0.75rem,env(safe-area-inset-bottom))]">
       <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <nav aria-label="Footer">
-          <ul className="-ml-2.5 flex flex-wrap">
+          <ul className="-ml-3 flex flex-wrap">
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="flex min-h-11 items-center px-2.5 text-sm text-muted-foreground transition-colors duration-100 hover:text-foreground"
+                  className="flex min-h-11 items-center px-3 text-caption text-muted-foreground transition-colors duration-100 hover:text-foreground"
                 >
                   {item.label}
                 </Link>
@@ -30,7 +30,7 @@ export function Footer() {
           </ul>
         </nav>
         <div className="flex items-center justify-between gap-3 sm:justify-end">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-caption text-muted-foreground">
             &copy; {new Date().getFullYear()} {SITE.name}
           </p>
           <ul className="flex items-center">

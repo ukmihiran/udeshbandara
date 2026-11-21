@@ -10,7 +10,7 @@ test("timeline shows the MSc between Kroll and Axiata", async ({ page }) => {
   await page.goto("/experience");
   const orgs = await page.locator("[data-timeline-org]").allTextContents();
   expect(orgs.slice(0, 3)).toEqual(["Kroll", "University of the West of England", "Axiata Digital Labs"]);
-  await expect(page.getByText("Jul 2024 — Present")).toBeVisible();
+  await expect(page.getByText("Jul 2024 – Present")).toBeVisible();
 });
 
 test("only the current role is marked Current", async ({ page }) => {

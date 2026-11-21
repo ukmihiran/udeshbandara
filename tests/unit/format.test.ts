@@ -6,13 +6,13 @@ const NOW = new Date("2026-11-21T00:00:00Z");
 
 describe("formatPeriod", () => {
   test("open-ended month range reads Present", () => {
-    expect(formatPeriod("2024-07")).toBe("Jul 2024 — Present");
+    expect(formatPeriod("2024-07")).toBe("Jul 2024 – Present");
   });
   test("closed month range", () => {
-    expect(formatPeriod("2021-04", "2021-12")).toBe("Apr 2021 — Dec 2021");
+    expect(formatPeriod("2021-04", "2021-12")).toBe("Apr 2021 – Dec 2021");
   });
   test("year-only range", () => {
-    expect(formatPeriod("2022", "2023")).toBe("2022 — 2023");
+    expect(formatPeriod("2022", "2023")).toBe("2022 – 2023");
   });
 });
 

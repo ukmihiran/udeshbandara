@@ -17,7 +17,7 @@ export function OrgLogo({
   return (
     <div
       className={cn(
-        "relative flex h-12 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-white p-1.5",
+        "relative flex h-12 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-white p-2",
         className,
       )}
     >

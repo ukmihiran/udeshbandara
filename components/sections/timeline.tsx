@@ -25,26 +25,26 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               <OrgLogo src={entry.image} alt={entry.org} scale={entry.logoScale} />
               <div className="min-w-0 flex-1 space-y-2">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="min-w-0 space-y-0.5">
-                    <h2 className="text-[15px] font-semibold leading-snug text-foreground [overflow-wrap:anywhere]">{entry.title}</h2>
-                    <p data-timeline-org className="text-sm font-medium text-muted-foreground">
+                  <div className="min-w-0 space-y-1">
+                    <h2 className="text-title font-semibold text-foreground [overflow-wrap:anywhere]">{entry.title}</h2>
+                    <p data-timeline-org className="text-caption text-muted-foreground">
                       {entry.org}
                     </p>
                   </div>
-                  <div className="flex shrink-0 flex-wrap gap-1.5">
+                  <div className="flex shrink-0 flex-wrap gap-2">
                     {entry.current && (
-                      <Badge data-badge className="border-accent/30 bg-accent/15 px-2 py-0.5 text-[11px] font-semibold text-accent">
+                      <Badge data-badge className="border-accent/30 bg-accent/15 px-2 py-0.5 text-caption font-semibold text-accent">
                         Current
                       </Badge>
                     )}
                     {entry.badge && (
-                      <Badge data-badge variant="outline" className="border-border/50 px-2 py-0.5 text-[11px] text-muted-foreground">
+                      <Badge data-badge variant="outline" className="border-border/50 px-2 py-0.5 text-caption text-muted-foreground">
                         {entry.badge}
                       </Badge>
                     )}
                   </div>
                 </div>
-                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-muted-foreground tabular-nums">
                   <span className="inline-flex items-center gap-1">
                     <Calendar aria-hidden className="size-3 shrink-0" />
                     {formatPeriod(entry.start, entry.end)}
@@ -55,7 +55,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
                   </span>
                 </p>
                 {entry.description && (
-                  <p className="text-sm leading-relaxed text-muted-foreground">{entry.description}</p>
+                  <p className="max-w-[65ch] text-body text-foreground-secondary">{entry.description}</p>
                 )}
               </div>
             </div>

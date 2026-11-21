@@ -4,8 +4,32 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Families */
+  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* Type scale: five roles (≈1.25 ratio from a 16px body) + one fluid display */
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.45;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.35;
+  --text-section: 1.5625rem;
+  --text-section--line-height: 1.2;
+  --text-section--letter-spacing: -0.01em;
+  --text-page: 1.9375rem;
+  --text-page--line-height: 1.12;
+  --text-page--letter-spacing: -0.015em;
+  --text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.25rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.02em;
+
+  /* Text roles: foreground (primary) · foreground-secondary · muted-foreground */
+  --color-foreground-secondary: var(--foreground-secondary);
+  /* Surfaces: background (0) · card (1) · surface-2 (raised / hover) */
+  --color-surface-2: var(--surface-2);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -27,10 +51,11 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* Radii: 8px controls, 12px cards */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
 }
 
 /* ── Light mode ─────────────────────────────────────── */
@@ -38,6 +63,8 @@
   --radius: 0.625rem;
   --background: oklch(0.98 0.002 240);
   --foreground: oklch(0.13 0.02 260);
+  --foreground-secondary: oklch(0.32 0.015 260);
+  --surface-2: oklch(0.955 0.004 240);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.13 0.02 260);
   --popover: oklch(1 0 0);
@@ -66,6 +93,8 @@
 .dark {
   --background: oklch(0.155 0.015 260);
   --foreground: oklch(0.92 0.005 240);
+  --foreground-secondary: oklch(0.82 0.008 250);
+  --surface-2: oklch(0.235 0.018 260);
   --card: oklch(0.195 0.018 260);
   --card-foreground: oklch(0.92 0.005 240);
   --popover: oklch(0.195 0.018 260);
@@ -95,7 +124,13 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-body text-foreground;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p, li, dd {
+    text-wrap: pretty;
   }
 }
 

@@ -115,3 +115,78 @@ test("footer has no terminal costume", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("footer")).not.toContainText("whoami");
 });
+
+/* ── Step 2: the type system (tokens in app/globals.css) ─────────────────── */
+
+/** Computed font size, weight and family of every element that directly holds visible text. */
+const textStyles = () =>
+  [...document.querySelectorAll("header *, main *, footer *")]
+    .filter((el) => {
+      const r = el.getBoundingClientRect();
+      const own = [...el.childNodes].some((n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim());
+      return own && r.width > 0 && r.height > 0 && !el.closest(".sr-only");
+    })
+    .map((el) => {
+      const s = getComputedStyle(el);
+      return { size: parseFloat(s.fontSize), weight: s.fontWeight, family: s.fontFamily, tag: el.tagName };
+    });
+
+const ALLOWED_SIZES = [14, 16, 20, 25, 31]; // caption, body, title, section, page
+const isDisplay = (s: { tag: string; size: number }) => s.tag === "H1" && s.size >= 31; // fluid hero name
+
+test("text uses only the five type-scale sizes (plus the fluid hero name)", async ({ page }) => {
+  for (const path of PAGES) {
+    await page.goto(path);
+    const sizes = (await page.evaluate(textStyles)).filter((s) => !isDisplay(s)).map((s) => s.size);
+    const offScale = [...new Set(sizes)].filter((px) => !ALLOWED_SIZES.includes(Math.round(px)));
+    expect(offScale, path).toEqual([]);
+  }
+});
+
+test("no text smaller than the 14px caption floor", async ({ page }) => {
+  for (const path of PAGES) {
+    await page.goto(path);
+    const tiny = (await page.evaluate(textStyles)).filter((s) => s.size < 14);
+    expect(tiny.length, path).toBe(0);
+  }
+});
+
+test("only 400/600 sans weights and the 500 display weight", async ({ page }) => {
+  for (const path of PAGES) {
+    await page.goto(path);
+    const bad = (await page.evaluate(textStyles))
+      .filter((s) => {
+        const display = /newsreader/i.test(s.family);
+        return display ? s.weight !== "500" : !["400", "600"].includes(s.weight);
+      })
+      .map((s) => `${s.tag} ${s.weight} ${s.family.split(",")[0]}`);
+    expect([...new Set(bad)], path).toEqual([]);
+  }
+});
+
+test("chosen families only: Newsreader, Source Sans 3, IBM Plex Mono (no Geist)", async ({ page }) => {
+  await page.goto("/experience");
+  const families = [...new Set((await page.evaluate(textStyles)).map((s) => s.family.split(",")[0].replace(/['"]/g, "").trim()))];
+  expect(families.some((f) => /geist/i.test(f))).toBe(false);
+  for (const f of families) expect(f, families.join(" | ")).toMatch(/Newsreader|Source Sans 3|IBM Plex Mono/);
+});
+
+test("headings balance their wrap and paragraphs avoid stragglers", async ({ page }) => {
+  await page.goto("/experience");
+  const wraps = await page.evaluate(() => ({
+    h: getComputedStyle(document.querySelector("main h1")!).textWrapStyle,
+    p: getComputedStyle(document.querySelector("main p")!).textWrapStyle,
+  }));
+  expect(wraps).toEqual({ h: "balance", p: "pretty" });
+});
+
+test("headings step up the scale: page 31px and section 25px in the display face", async ({ page }) => {
+  await page.goto("/about");
+  const read = (sel: string) =>
+    page.locator(sel).first().evaluate((el) => {
+      const s = getComputedStyle(el);
+      return `${Math.round(parseFloat(s.fontSize))} ${s.fontFamily.split(",")[0].replace(/['"]/g, "")}`;
+    });
+  expect(await read("main h1")).toBe("31 Newsreader");
+  expect(await read("main h2")).toBe("25 Newsreader");
+});

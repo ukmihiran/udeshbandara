@@ -133,6 +133,16 @@ Third-party skills run with your permissions; read each SKILL.md before installi
 
 ---
 
+## Progress
+
+| Step | Status | Commit | Detector (5 pages × 2 widths) |
+|---|---|---|---|
+| Baseline | — | — | 12 findings (overused-font ×10, em-dash ×1, straggler ×4 phone…) |
+| 1 · Strip the slop | done | `40173a2` | unchanged (font/copy items belong to later steps) |
+| 2 · Tokens + typeface | done | (this commit) | **0 findings** |
+
+Step 2 decisions: typeface **Newsreader 500** (headings) + **Source Sans 3 400/600** (body) + **IBM Plex Mono 400** (dates), chosen by Udesh from a live specimen. Scale 14 / 16 / 20 / 25 / 31 + fluid display 36–52px (16px body floor per Impeccable `typeset`). Text roles `foreground` / `foreground-secondary` / `muted-foreground`; surfaces `background` / `card` / `surface-2`; radii 8px controls, 12px cards; spacing on the 4px grid; `text-wrap: balance` on headings, `pretty` on prose; en dashes in date ranges.
+
 ## Fix plan (in order)
 
 1. **Strip the slop** — A1–A9, B2, E1 (mostly deletions; fast, high impact).

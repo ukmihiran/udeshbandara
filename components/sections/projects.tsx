@@ -22,7 +22,7 @@ export function ProjectGrid({
         href={SITE.github}
         target="_blank"
         rel="noopener noreferrer"
-        className="card-glow flex min-h-24 items-center justify-center gap-3 rounded-xl border border-dashed border-border/60 bg-card/50 p-6 text-[15px] text-muted-foreground transition-colors hover:text-accent"
+        className="card-link flex min-h-24 items-center justify-center gap-3 rounded-xl border border-dashed border-border/60 bg-card/50 p-6 text-[15px] text-muted-foreground transition-colors duration-100 hover:text-foreground"
       >
         <Github aria-hidden className="size-5" />
         Browse my repositories on GitHub
@@ -35,14 +35,14 @@ export function ProjectGrid({
       {shown.map((repo) => (
         <li
           key={repo.id}
-          className="motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500 sm:[&:nth-child(odd):last-child]:col-span-2 lg:[&:nth-child(odd):last-child]:col-span-1"
+          className="sm:[&:nth-child(odd):last-child]:col-span-2 lg:[&:nth-child(odd):last-child]:col-span-1"
         >
           <a
             data-repo
             href={repo.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="card-glow group flex h-full flex-col rounded-xl border border-border/40 bg-card p-5"
+            className="card-link group flex h-full flex-col rounded-xl border border-border bg-card p-5"
           >
             <div className="flex items-start gap-2">
               <Heading className="min-w-0 text-sm font-semibold [overflow-wrap:anywhere] transition-colors group-hover:text-accent">

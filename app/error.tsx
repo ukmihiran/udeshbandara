@@ -19,7 +19,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
         </button>
         <Link
           href="/"
-          className="inline-flex min-h-11 items-center rounded-xl border border-border px-6 transition-colors hover:border-accent/40 hover:text-accent"
+          className="inline-flex min-h-11 items-center rounded-xl border border-border px-6 transition-colors hover:border-foreground/30"
         >
           Back to home
         </Link>

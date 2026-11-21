@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { buildTimeline, formatPeriod, getHeroStats, totalExperienceMonths, yearsOfExperience } from "@/lib/format";
-import { CERTIFICATIONS, EDUCATION, EXPERIENCES } from "@/lib/data";
+import { buildTimeline, formatPeriod, totalExperienceMonths, yearsOfExperience } from "@/lib/format";
+import { EDUCATION, EXPERIENCES } from "@/lib/data";
 
 const NOW = new Date("2026-11-21T00:00:00Z");
 
@@ -19,17 +19,6 @@ describe("formatPeriod", () => {
 describe("totalExperienceMonths", () => {
   test("sums work periods only (9 + 12 + 8 + 28)", () => {
     expect(totalExperienceMonths(EXPERIENCES, NOW)).toBe(57);
-  });
-});
-
-describe("getHeroStats", () => {
-  test("derives years and certification count from data", () => {
-    expect(getHeroStats(EXPERIENCES, CERTIFICATIONS, NOW)).toEqual([
-      { value: "4+", label: "Years experience" },
-      { value: "8", label: "Certifications" },
-      { value: "50+", label: "Engagements" },
-      { value: "UK", label: "Based" },
-    ]);
   });
 });
 

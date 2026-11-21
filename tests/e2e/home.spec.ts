@@ -6,7 +6,7 @@ test.describe("small phone (iPhone SE)", () => {
   test("name and primary CTA are above the fold", async ({ page }) => {
     await page.goto("/");
     const h1 = await page.getByRole("heading", { level: 1 }).boundingBox();
-    const cta = await page.getByRole("link", { name: "Get in Touch" }).boundingBox();
+    const cta = await page.getByRole("link", { name: "Get in touch" }).boundingBox();
     expect(h1!.y).toBeGreaterThan(0);
     expect(cta!.y + cta!.height).toBeLessThanOrEqual(667);
   });
@@ -23,10 +23,11 @@ test("avatar glow does not cause horizontal scroll at tablet width", async ({ pa
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(768);
 });
 
-test("hero stats come from the data", async ({ page }) => {
+test("hero meta line is derived from the data", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("[data-stat='Certifications']")).toContainText("8");
-  await expect(page.locator("[data-stat='Years experience']")).toContainText("4+");
+  const meta = page.locator("[data-hero-meta]");
+  await expect(meta).toContainText("4+ years experience");
+  await expect(meta).toContainText("CREST CRT");
 });
 
 test("no Download CV button until the PDF exists", async ({ page }) => {
@@ -34,10 +35,10 @@ test("no Download CV button until the PDF exists", async ({ page }) => {
   await expect(page.getByRole("link", { name: /Download CV/ })).toHaveCount(0);
 });
 
-test("the meaningless VERIFIED badge is gone and the status line shows", async ({ page }) => {
+test("status reads as plain text, not a badge above the name", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("verified", { exact: true })).toHaveCount(0);
-  await expect(page.getByText("Open to opportunities")).toBeVisible();
+  await expect(page.locator("[data-hero-meta]")).toContainText("Open to opportunities");
 });
 
 test("highlights link to each section", async ({ page }) => {
@@ -57,16 +58,3 @@ test("the raw avatar PNG is not downloaded", async ({ page }) => {
   expect(raw).toEqual([]);
 });
 
-test.describe("reduced motion", () => {
-  test.use({ reducedMotion: "reduce" });
-
-  test("typewriter shows a complete static role", async ({ page }) => {
-    await page.goto("/");
-    await expect(page.locator("[data-role-text]")).toHaveText("Penetration Tester");
-  });
-});
-
-test("screen readers get every role as static text", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator(".sr-only", { hasText: "Penetration Tester, Red Teamer" })).toHaveCount(1);
-});

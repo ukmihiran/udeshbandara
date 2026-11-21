@@ -11,9 +11,6 @@ export const NAV_ITEMS: NavItem[] = [
 /** Hand-maintained profile facts. Edit freely. */
 export const PROFILE = {
   status: "Open to opportunities",
-  engagements: "50+",
-  based: "UK",
-  roles: ["Penetration Tester", "Red Teamer", "Cloud Security Engineer", "Security Researcher"],
 } as const;
 
 export const EXPERIENCES: Experience[] = [

@@ -14,7 +14,7 @@ function CertShell({
   className: string;
   children: React.ReactNode;
 }) {
-  const base = cn("card-glow group h-full rounded-xl border bg-card", className);
+  const base = cn("group h-full rounded-xl border bg-card", cert.verifyUrl && "card-link", className);
   if (cert.verifyUrl) {
     return (
       <a
@@ -45,7 +45,7 @@ export function Certifications({ items }: { items: Certification[] }) {
     <div className="space-y-6">
       <ul className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
         {featured.map((cert) => (
-          <li key={cert.name} className="motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
+          <li key={cert.name}>
             <CertShell
               cert={cert}
               className="flex flex-col items-center gap-4 border-accent/20 bg-accent/[0.03] p-6 text-center"
@@ -65,7 +65,7 @@ export function Certifications({ items }: { items: Certification[] }) {
 
       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {others.map((cert) => (
-          <li key={cert.name} className="motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
+          <li key={cert.name}>
             <CertShell cert={cert} className="flex items-center gap-4 border-border/40 p-4">
               <OrgLogo src={cert.image} alt={cert.issuer} scale={cert.logoScale} className="h-12 w-12" />
               <div className="min-w-0 flex-1">

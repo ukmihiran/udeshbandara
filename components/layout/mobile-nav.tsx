@@ -23,12 +23,12 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
-        className="flex size-11 items-center justify-center rounded-full text-foreground transition-colors hover:text-accent"
+        className="flex size-11 items-center justify-center rounded-full text-foreground transition-colors duration-100 hover:bg-muted"
         aria-label="Open menu"
       >
         <Menu className="size-5" />
       </SheetTrigger>
-      <SheetContent side="right" className="w-[min(20rem,85vw)] bg-background/95 backdrop-blur-md">
+      <SheetContent side="right" className="w-[min(20rem,85vw)] bg-background">
         <SheetHeader>
           <SheetTitle className="sr-only">Navigation</SheetTitle>
           <SheetDescription className="sr-only">Site sections and contact links.</SheetDescription>
@@ -43,7 +43,7 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex min-h-11 items-center rounded-lg px-3 text-base font-medium transition-colors",
-                    active ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-accent",
+                    active ? "bg-muted font-semibold text-foreground" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   {item.label}
@@ -56,13 +56,13 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
             href={SITE.blogUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors hover:text-accent"
+            className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors duration-100 hover:text-foreground"
           >
             Blog
           </a>
           <a
             href={`mailto:${SITE.email}`}
-            className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors hover:text-accent"
+            className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors duration-100 hover:text-foreground"
           >
             Contact
           </a>
@@ -70,7 +70,7 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
             <a
               href={cvHref}
               download
-              className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors hover:text-accent"
+              className="flex min-h-11 items-center px-3 text-base text-muted-foreground transition-colors duration-100 hover:text-foreground"
             >
               Download CV (PDF)
             </a>

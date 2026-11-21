@@ -12,12 +12,12 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
       <div aria-hidden className="timeline-line" />
       <ol className="space-y-5">
       {entries.map((entry) => (
-        <li key={`${entry.org}-${entry.start}`} className="relative motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
+        <li key={`${entry.org}-${entry.start}`} className="relative">
           <span aria-hidden className={cn("timeline-dot -left-6 sm:-left-7", entry.current && "timeline-dot-active")} />
           <article
             data-timeline-card
             className={cn(
-              "card-glow rounded-xl border bg-card p-4 sm:p-5",
+              "rounded-xl border bg-card p-4 sm:p-5",
               entry.current ? "border-accent/25 bg-accent/[0.03]" : "border-border/40",
             )}
           >

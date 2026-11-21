@@ -69,11 +69,6 @@ export interface BlogPost {
   excerpt: string;
 }
 
-export interface HeroStat {
-  value: string;
-  label: string;
-}
-
 export interface TimelineEntry {
   kind: "work" | "education";
   title: string;

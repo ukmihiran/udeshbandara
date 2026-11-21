@@ -29,7 +29,7 @@ export function ModeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative size-11 rounded-full flex items-center justify-center cursor-pointer text-muted-foreground hover:text-accent transition-colors"
+      className="relative size-11 rounded-full flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition-colors duration-100"
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
       {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}

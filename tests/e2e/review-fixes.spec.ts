@@ -48,7 +48,7 @@ test.describe("phone without JavaScript", () => {
   test("the avatar is visible", async ({ page }) => {
     await page.goto("/");
     const opacity = await page
-      .getByAltText("Udesh Bandara — 3D avatar")
+      .getByAltText("Udesh Bandara", { exact: true })
       .evaluate((img) => {
         let el: Element | null = img;
         let min = 1;

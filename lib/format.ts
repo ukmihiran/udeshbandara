@@ -1,5 +1,4 @@
-import { PROFILE } from "./data";
-import type { Certification, Education, Experience, HeroStat, TimelineEntry, YearMonth } from "./types";
+import type { Education, Experience, TimelineEntry, YearMonth } from "./types";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -29,15 +28,6 @@ export function totalExperienceMonths(experiences: Experience[], now: Date): num
 /** e.g. "4+" — the single source for every "years of experience" figure on the site. */
 export function yearsOfExperience(experiences: Experience[], now: Date): string {
   return `${Math.floor(totalExperienceMonths(experiences, now) / 12)}+`;
-}
-
-export function getHeroStats(experiences: Experience[], certifications: Certification[], now: Date): HeroStat[] {
-  return [
-    { value: yearsOfExperience(experiences, now), label: "Years experience" },
-    { value: String(certifications.length), label: "Certifications" },
-    { value: PROFILE.engagements, label: "Engagements" },
-    { value: PROFILE.based, label: "Based" },
-  ];
 }
 
 const OPEN_END = "9999";

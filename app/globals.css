@@ -60,8 +60,6 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
 
-  --accent-glow: oklch(0.45 0.18 145 / 15%);
-  --accent-glow-strong: oklch(0.45 0.18 145 / 30%);
 }
 
 /* ── Dark mode — modern deep navy-slate ─────────────── */
@@ -90,8 +88,6 @@
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
 
-  --accent-glow: oklch(0.78 0.2 145 / 12%);
-  --accent-glow-strong: oklch(0.78 0.2 145 / 25%);
 }
 
 @layer base {
@@ -103,18 +99,13 @@
   }
 }
 
-/* ── Card hover glow ──────────────────────────────── */
-.card-glow {
-  transition: border-color 200ms ease-out, box-shadow 200ms ease-out, background-color 200ms ease-out;
+/* ── Clickable cards ──────────────────────────────── */
+/* Only whole-card links get a hover state: a quick border change, no lift, no glow. */
+.card-link {
+  transition: border-color 100ms ease-out;
 }
-.card-glow:hover {
-  border-color: var(--ring);
-  box-shadow: 0 0 24px -6px var(--accent-glow-strong);
-}
-
-.dot-grid {
-  background-image: radial-gradient(circle, currentColor 0.5px, transparent 0.5px);
-  background-size: 20px 20px;
+.card-link:hover {
+  border-color: color-mix(in oklch, var(--foreground) 30%, transparent);
 }
 
 /* ── Timeline ─────────────────────────────────────── */
@@ -124,7 +115,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, var(--accent-glow-strong), var(--border), transparent);
+  background: var(--border);
 }
 
 .timeline-dot {
@@ -136,65 +127,11 @@
   border: 2px solid var(--border);
   background: var(--background);
   z-index: 2;
-  transition: border-color 200ms, box-shadow 200ms;
 }
 
 .timeline-dot-active {
   border-color: var(--accent);
   background: var(--accent);
-  box-shadow: 0 0 12px var(--accent-glow-strong);
-  animation: timeline-pulse 2.5s ease-in-out infinite;
-}
-
-/* ── Hex avatar system ────────────────────────────── */
-.hex-clip {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.hex-frame {
-  filter: drop-shadow(0 0 18px var(--accent-glow-strong))
-          drop-shadow(0 0 40px var(--accent-glow));
-  will-change: transform;
-}
-
-.hex-ring {
-  position: absolute;
-  inset: -8px;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  border: 1.5px solid var(--accent);
-  opacity: 0;
-}
-
-.hex-ring-1 {
-  animation: hex-ping 3s ease-out infinite;
-}
-
-@keyframes hex-ping {
-  0%   { transform: scale(1); opacity: 0.35; }
-  100% { transform: scale(1.25); opacity: 0; }
-}
-
-/* Phones get a single light shadow; the double glow is desktop-only. */
-@media (max-width: 767px) {
-  .hex-frame {
-    filter: drop-shadow(0 0 14px var(--accent-glow-strong));
-  }
-}
-
-/* ── General animations ───────────────────────────── */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes timeline-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
-  50% { box-shadow: 0 0 0 6px transparent; }
 }
 
 /* ── Page transitions (React <ViewTransition>) ───── */
@@ -214,11 +151,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .timeline-dot-active,
-  .hex-ring-1 {
-    animation: none;
-  }
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {

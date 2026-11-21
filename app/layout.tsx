@@ -66,12 +66,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <Providers>
-          <div aria-hidden className="dot-grid pointer-events-none fixed inset-0 z-0 opacity-[0.03]" />
           <Header />
           <main
             id="main"
             tabIndex={-1}
-            className="relative z-10 flex flex-1 flex-col pt-[calc(3.5rem+env(safe-area-inset-top))] outline-none lg:pt-24"
+            className="flex flex-1 flex-col pt-[calc(3.5rem+1px+env(safe-area-inset-top))] outline-none"
           >
             <PageTransition>{children}</PageTransition>
           </main>

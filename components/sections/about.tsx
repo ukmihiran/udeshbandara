@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Cloud, Code, GraduationCap, Monitor, MonitorCog, Network, Search, Shield, Terminal, Wrench } from "lucide-react";
+import { Cloud, Monitor, MonitorCog, Network, Search, Shield, Terminal } from "lucide-react";
 import {
   SiAmazon,
   SiBurpsuite,
@@ -40,13 +40,13 @@ const TECH_ICONS: Record<string, ReactNode> = {
   "Windows AD": <MonitorCog className={icon} />,
 };
 
-const CATEGORIES: { id: TechItem["category"]; label: string; icon: ReactNode }[] = [
-  { id: "security", label: "Security tools", icon: <Shield className={icon} /> },
-  { id: "languages", label: "Languages", icon: <Code className={icon} /> },
-  { id: "cloud", label: "Cloud & infrastructure", icon: <Cloud className={icon} /> },
+const CATEGORIES: { id: TechItem["category"]; label: string }[] = [
+  { id: "security", label: "Security tools" },
+  { id: "languages", label: "Languages" },
+  { id: "cloud", label: "Cloud & infrastructure" },
 ];
 
-const card = "card-glow rounded-xl border border-border/40 bg-card p-5 sm:p-6";
+const card = "rounded-xl border border-border bg-card p-5 sm:p-6";
 
 export function About() {
   return (
@@ -81,8 +81,7 @@ export function About() {
       </section>
 
       <section aria-labelledby="education" className={`${card} md:col-span-2`}>
-        <h2 id="education" className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider">
-          <GraduationCap aria-hidden className="size-4 text-accent" />
+        <h2 id="education" className="mb-4 text-lg font-semibold tracking-tight">
           Education
         </h2>
         <ul className="space-y-4">
@@ -104,19 +103,13 @@ export function About() {
       </section>
 
       <section aria-labelledby="tools" className={`${card} md:col-span-6`}>
-        <h2 id="tools" className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider">
-          <Wrench aria-hidden className="size-4 text-accent" />
+        <h2 id="tools" className="mb-5 text-lg font-semibold tracking-tight">
           Tools &amp; technologies
         </h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {CATEGORIES.map((cat) => (
             <div key={cat.id} className="space-y-3">
-              <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                <span aria-hidden className="text-accent">
-                  {cat.icon}
-                </span>
-                {cat.label}
-              </h3>
+              <h3 className="text-sm font-semibold text-foreground">{cat.label}</h3>
               <ul className="grid grid-cols-2 gap-2">
                 {TECH_STACK.filter((t) => t.category === cat.id).map((t) => (
                   <li

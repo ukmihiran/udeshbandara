@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SITE } from "@/lib/site";
 import type { BlogPost } from "@/lib/types";
 
@@ -11,15 +11,14 @@ export function LatestPosts({ posts, headingLevel = 2 }: { posts: BlogPost[]; he
   return (
     <section aria-labelledby="latest-writing" className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <Heading id="latest-writing" className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider">
-          <BookOpen aria-hidden className="size-4 text-accent" />
+        <Heading id="latest-writing" className="text-lg font-semibold tracking-tight">
           From the blog
         </Heading>
         <a
           href={SITE.blogUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-accent"
+          className="inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground transition-colors duration-100 hover:text-foreground"
         >
           All posts on Cybernetgen <ArrowUpRight aria-hidden className="size-3.5" />
         </a>
@@ -31,12 +30,12 @@ export function LatestPosts({ posts, headingLevel = 2 }: { posts: BlogPost[]; he
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="card-glow group flex h-full flex-col rounded-xl border border-border/40 bg-card p-5"
+              className="card-link group flex h-full flex-col rounded-xl border border-border bg-card p-5"
             >
               <time dateTime={post.publishedAt} className="text-xs text-muted-foreground">
                 {dateFormat.format(new Date(post.publishedAt))}
               </time>
-              <span className="mt-1.5 font-semibold leading-snug break-words transition-colors group-hover:text-accent">
+              <span className="mt-1.5 font-semibold leading-snug break-words transition-colors duration-100 group-hover:text-accent">
                 {post.title}
               </span>
               {post.excerpt && (

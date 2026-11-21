@@ -115,6 +115,8 @@ export async function getLatestPosts(limit = 3): Promise<BlogPost[]> {
     if (Number(res.headers.get("content-length") ?? 0) > MAX_FEED_CHARS) throw new Error("feed too large");
     const xml = await res.text();
     if (xml.length > MAX_FEED_CHARS) throw new Error("feed too large");
+    // A 200 with an HTML error page would parse to [] and replace the cached posts; treat it as a failure.
+    if (!/<(rss|rdf:RDF|feed)[\s>]/i.test(xml)) throw new Error("response is not an RSS feed");
     return parseRss(xml, limit);
   } catch (err) {
     console.error("[blog] could not load feed:", err instanceof Error ? err.message : err);

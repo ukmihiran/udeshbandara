@@ -125,3 +125,21 @@ describe("parseRss performance on hostile input", () => {
     expect(performance.now() - t0).toBeLessThan(1000);
   });
 });
+
+describe("getLatestPosts rejects non-feed documents (PR review)", () => {
+  test("on the production server an HTML 200 page throws so ISR keeps the last good page", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "");
+    const html = "<!doctype html><html><body>Service unavailable</body></html>";
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(html, { status: 200 })));
+    await expect(getLatestPosts()).rejects.toThrow(/not an RSS feed/);
+  });
+
+  test("a valid but empty RSS feed still resolves to an empty list", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "");
+    const empty = '<?xml version="1.0"?><rss version="2.0"><channel><title>x</title></channel></rss>';
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(empty, { status: 200 })));
+    await expect(getLatestPosts()).resolves.toEqual([]);
+  });
+});

@@ -88,3 +88,24 @@ describe("getFeaturedRepos hardening (final review)", () => {
     await expect(getFeaturedRepos()).resolves.toEqual({ repos: [], error: true });
   });
 });
+
+describe("selectFeaturedRepos with undated repos (PR review)", () => {
+  const repo = (name: string, pushed_at: string | null): GitHubRepoApi => ({
+    id: name.length,
+    name,
+    html_url: `https://github.com/ukmihiran/${name}`,
+    description: null,
+    stargazers_count: 1,
+    forks_count: 0,
+    language: null,
+    pushed_at,
+    fork: false,
+    archived: false,
+  });
+
+  test("a null pushed_at with equal stars sorts last instead of throwing", () => {
+    const input = [repo("undated", null), repo("dated", "2026-01-01T00:00:00Z"), repo("undated2", null)];
+    expect(() => selectFeaturedRepos(input, { ...base, limit: 3 })).not.toThrow();
+    expect(selectFeaturedRepos(input, { ...base, limit: 3 })[0].name).toBe("dated");
+  });
+});

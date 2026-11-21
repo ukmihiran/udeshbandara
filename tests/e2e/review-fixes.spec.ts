@@ -1,10 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 
-/** console.error + uncaught errors, ignoring the Vercel analytics scripts that only exist on Vercel. */
+/** console.error + uncaught errors, ignoring only the /_vercel/ analytics scripts that 404 off Vercel. */
 function collectErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on("console", (msg) => {
-    if (msg.type() === "error" && !/_vercel|Failed to load resource/.test(msg.text())) errors.push(msg.text());
+    if (msg.type() !== "error") return;
+    const source = msg.location().url;
+    // Off Vercel, /_vercel/* 404s ("Failed to load resource", location = script URL) and is refused as
+    // text/plain ("Refused to execute script from '.../_vercel/...'"). Any other resource error still counts.
+    if (`${msg.text()} ${source}`.includes("/_vercel/")) return;
+    errors.push(`${msg.text()} (${source})`);
   });
   page.on("pageerror", (err) => errors.push(err.message));
   return errors;

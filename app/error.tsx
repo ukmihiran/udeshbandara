@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 
-export default function ErrorPage({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function ErrorPage({
+  retry,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+  /** Refetches the Server Component payload, then resets the boundary (reset alone re-renders the same failed payload). */
+  retry: () => void;
+}) {
   return (
     <Container className="flex flex-1 flex-col items-center justify-center text-center">
       <p className="font-mono text-caption text-accent">Something broke</p>
@@ -12,7 +19,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
       <div className="mt-6 flex flex-wrap justify-center gap-3">
         <button
           type="button"
-          onClick={reset}
+          onClick={retry}
           className="inline-flex min-h-11 items-center rounded-xl bg-accent px-6 font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
         >
           Try again

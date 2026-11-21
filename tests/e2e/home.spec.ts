@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import { EXPERIENCES } from "../../lib/data";
+import { yearsOfExperience } from "../../lib/format";
 
 test.describe("small phone (iPhone SE)", () => {
   test.use({ viewport: { width: 375, height: 667 } });
@@ -26,7 +28,7 @@ test("avatar glow does not cause horizontal scroll at tablet width", async ({ pa
 test("hero meta line is derived from the data", async ({ page }) => {
   await page.goto("/");
   const meta = page.locator("[data-hero-meta]");
-  await expect(meta).toContainText("4+ years experience");
+  await expect(meta).toContainText(`${yearsOfExperience(EXPERIENCES, new Date())} years experience`);
   await expect(meta).toContainText("CREST CRT");
 });
 

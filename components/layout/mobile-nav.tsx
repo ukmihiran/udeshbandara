@@ -28,7 +28,7 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
       >
         <Menu className="size-5" />
       </SheetTrigger>
-      <SheetContent side="right" className="w-[min(20rem,85vw)] bg-background">
+      <SheetContent side="right" className="w-[min(20rem,85vw)] overflow-y-auto bg-background">
         <SheetHeader>
           <SheetTitle className="sr-only">Navigation</SheetTitle>
           <SheetDescription className="sr-only">Site sections and contact links.</SheetDescription>

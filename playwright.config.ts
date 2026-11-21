@@ -18,5 +18,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
+    // Pin the canonical origin so a local .env.local (e.g. localhost:3000) cannot change the build under test.
+    env: { NEXT_PUBLIC_APP_URL: "https://udeshbandara.com" },
   },
 });

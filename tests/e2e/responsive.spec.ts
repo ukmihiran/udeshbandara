@@ -49,8 +49,9 @@ test("mobile menu close button is at least 44px", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Open menu" }).click();
   const box = await page.getByRole("button", { name: "Close" }).boundingBox();
-  expect(box!.width).toBeGreaterThanOrEqual(44);
-  expect(box!.height).toBeGreaterThanOrEqual(44);
+  // Round away subpixel layout noise (44px can measure as 43.99997); a real 43px control still fails.
+  expect(Math.round(box!.width)).toBeGreaterThanOrEqual(44);
+  expect(Math.round(box!.height)).toBeGreaterThanOrEqual(44);
 });
 
 test("theme toggle switches and persists across navigation", async ({ page }) => {

@@ -12,7 +12,7 @@ export interface GitHubRepoApi {
   stargazers_count: number;
   forks_count: number;
   language: string | null;
-  pushed_at: string;
+  pushed_at: string | null;
   fork: boolean;
   archived: boolean;
 }
@@ -33,6 +33,14 @@ function toRepository(r: GitHubRepoApi): Repository {
   };
 }
 
+/** Most recently pushed first; repos GitHub reports with no push date sort last. */
+function byPushedDesc(a: string | null, b: string | null): number {
+  if (a === b) return 0;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  return b.localeCompare(a);
+}
+
 export function selectFeaturedRepos(
   raw: GitHubRepoApi[],
   opts: { username: string; pinned: string[]; limit: number },
@@ -45,7 +53,7 @@ export function selectFeaturedRepos(
   const pinnedNames = new Set(pinned.map((r) => r.name));
   const rest = eligible
     .filter((r) => !pinnedNames.has(r.name))
-    .sort((a, b) => b.stargazers_count - a.stargazers_count || b.pushed_at.localeCompare(a.pushed_at));
+    .sort((a, b) => b.stargazers_count - a.stargazers_count || byPushedDesc(a.pushed_at, b.pushed_at));
   return [...pinned, ...rest].slice(0, opts.limit).map(toRepository);
 }
 

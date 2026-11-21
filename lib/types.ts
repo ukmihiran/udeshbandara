@@ -58,7 +58,7 @@ export interface Repository {
   stars: number;
   forks: number;
   language: string | null;
-  pushedAt: string;
+  pushedAt: string | null;
 }
 
 export interface BlogPost {

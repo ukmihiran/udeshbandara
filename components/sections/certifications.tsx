@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import type { Certification } from "@/lib/types";
+import { transitionStyle } from "@/lib/view-transition";
 import { OrgLogo } from "./org-logo";
 
 function CertRow({ cert }: { cert: Certification }) {
@@ -7,7 +8,11 @@ function CertRow({ cert }: { cert: Certification }) {
     <>
       <OrgLogo src={cert.image} alt={cert.issuer} scale={cert.logoScale} />
       <div className="min-w-0 flex-1">
-        <p data-cert-name className="text-body font-semibold text-foreground [overflow-wrap:anywhere]">
+        <p
+          data-cert-name
+          data-cert-vt={cert.name}
+          style={transitionStyle("cert", cert.name)}
+          className="text-body font-semibold text-foreground [overflow-wrap:anywhere]">
           {cert.name}
         </p>
         <p className="text-caption text-foreground-secondary">{cert.issuer}</p>

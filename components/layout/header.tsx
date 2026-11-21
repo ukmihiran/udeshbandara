@@ -68,7 +68,8 @@ export function Header() {
 
         <div className="flex items-center lg:hidden">
           <ModeToggle />
-          <MobileNav pathname={pathname} cvHref={cvHref} />
+          {/* Keyed by route so the menu closes on any navigation, including browser Back. */}
+          <MobileNav key={pathname} pathname={pathname} cvHref={cvHref} />
         </div>
       </div>
     </header>

@@ -1,6 +1,7 @@
 import { formatPeriod } from "@/lib/format";
 import type { TimelineEntry } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { transitionStyle } from "@/lib/view-transition";
 import { OrgLogo } from "./org-logo";
 
 /**
@@ -19,7 +20,12 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
             <article data-timeline-card className="flex items-start gap-4">
               <OrgLogo src={entry.image} alt={entry.org} scale={entry.logoScale} />
               <div className="min-w-0 flex-1">
-                <h2 className="text-title font-semibold text-foreground [overflow-wrap:anywhere]">{entry.title}</h2>
+                <h2
+                  {...(entry.current ? { "data-role-current": true, style: transitionStyle("role", "current") } : {})}
+                  className="text-title font-semibold text-foreground [overflow-wrap:anywhere]"
+                >
+                  {entry.title}
+                </h2>
                 <p className="text-body text-foreground-secondary">
                   <span data-timeline-org>{entry.org}</span>
                   <span className="text-muted-foreground"> · {entry.location}</span>

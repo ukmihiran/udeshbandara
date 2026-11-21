@@ -268,3 +268,83 @@ test("project language marker is neutral, not the accent colour", async ({ page 
   });
   expect(dotColor).not.toBe(accentRgb);
 });
+
+/* ── Step 5: polish ──────────────────────────────────────────────────────── */
+
+test("keyboard focus shows one consistent 2px accent ring", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/about");
+  await page.keyboard.press("Tab"); // skip link
+  await page.keyboard.press("Tab"); // header name link
+  const ring = await page.evaluate(() => {
+    const el = document.activeElement as HTMLElement;
+    const s = getComputedStyle(el);
+    const probe = document.createElement("i");
+    probe.style.color = "var(--ring)";
+    document.body.append(probe);
+    const ringColor = getComputedStyle(probe).color;
+    probe.remove();
+    return { style: s.outlineStyle, width: parseFloat(s.outlineWidth), match: s.outlineColor === ringColor };
+  });
+  expect(ring).toEqual({ style: "solid", width: 2, match: true });
+});
+
+test("text selection and scrollbars are themed, not browser defaults", async ({ page }) => {
+  await page.goto("/about");
+  const surfaces = await page.evaluate(() => ({
+    selection: getComputedStyle(document.querySelector("main p")!, "::selection").backgroundColor,
+    scrollbar: getComputedStyle(document.documentElement).scrollbarColor,
+  }));
+  expect(surfaces.selection).not.toBe("rgba(0, 0, 0, 0)");
+  expect(surfaces.scrollbar).not.toBe("auto");
+});
+
+test.describe("mobile menu", () => {
+  test.use({ viewport: { width: 375, height: 812 } });
+
+  test("opens quickly (≤ 200ms) and closes when the page changes via Back", async ({ page }) => {
+    await page.goto("/");
+    await page.goto("/experience");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    const longest = await dialog.evaluate((el) =>
+      Math.max(0, ...el.getAnimations().map((a) => Number(a.effect?.getComputedTiming().duration) || 0)),
+    );
+    expect(longest).toBeLessThanOrEqual(200);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(dialog).toBeHidden();
+  });
+});
+
+test("the same certification keeps one transition identity on home and /certifications", async ({ page }) => {
+  const names = async () =>
+    page.locator("[data-cert-vt]").evaluateAll((els) =>
+      Object.fromEntries(els.map((el) => [el.getAttribute("data-cert-vt"), getComputedStyle(el).viewTransitionName])),
+    );
+  await page.goto("/");
+  const home = await names();
+  await page.goto("/certifications");
+  const certs = await names();
+  expect(Object.keys(home).length).toBeGreaterThan(0);
+  for (const [cert, name] of Object.entries(home)) {
+    expect(name, cert).not.toBe("none");
+    expect(certs[cert], cert).toBe(name);
+  }
+  expect(new Set(Object.values(certs)).size).toBe(Object.values(certs).length); // unique on the page
+});
+
+test("the current role keeps one transition identity on home and /experience", async ({ page }) => {
+  await page.goto("/");
+  const home = await page.locator("[data-now-role]").evaluate((el) => getComputedStyle(el).viewTransitionName);
+  await page.goto("/experience");
+  const timeline = await page.locator("[data-role-current]").evaluate((el) => getComputedStyle(el).viewTransitionName);
+  expect(home).not.toBe("none");
+  expect(timeline).toBe(home);
+});
+
+test("the 404 page does not claim a canonical URL", async ({ page }) => {
+  await page.goto("/nope");
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+});

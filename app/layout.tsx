@@ -17,8 +17,11 @@ const display = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], 
 const sans = Source_Sans_3({ variable: "--font-source-sans", subsets: ["latin"], weight: ["400", "600"] });
 const mono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400"] });
 
+// Canonical URLs are set per page; the root must not give one to 404 / error pages.
+const { alternates: _homeCanonical, ...homeMeta } = pageMetadata("/");
+
 export const metadata: Metadata = {
-  ...pageMetadata("/"),
+  ...homeMeta,
   title: { default: PAGE_META["/"].title, template: `%s | ${SITE.name}` },
   keywords: ["cybersecurity", "penetration testing", "red teaming", "offensive security", "Udesh Bandara", "Kroll"],
   robots: { index: true, follow: true },

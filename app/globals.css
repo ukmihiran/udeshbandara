@@ -121,7 +121,21 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+  }
+  /* Browser surfaces carry the design too (Impeccable craft floor). */
+  :root {
+    accent-color: var(--accent);
+    caret-color: var(--accent);
+    scrollbar-color: color-mix(in oklch, var(--foreground) 22%, transparent) transparent;
+  }
+  ::selection {
+    background-color: color-mix(in oklch, var(--accent) 32%, transparent);
+    color: var(--foreground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
   body {
     @apply bg-background font-sans text-body text-foreground;
@@ -173,6 +187,12 @@
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 180ms;
+}
+
+/* Shared elements (same certification / current role on two pages) morph quickly into place. */
+::view-transition-group(*) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
 /* Header stays put and on top while page content cross-fades. */

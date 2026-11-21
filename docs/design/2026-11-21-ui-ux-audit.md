@@ -140,11 +140,15 @@ Third-party skills run with your permissions; read each SKILL.md before installi
 | Baseline | — | — | 12 findings (overused-font ×10, em-dash ×1, straggler ×4 phone…) |
 | 1 · Strip the slop | done | `40173a2` | unchanged (font/copy items belong to later steps) |
 | 2 · Tokens + typeface | done | `c90ba9a` | **0 findings** |
-| 3 · Layout + structure | done | (this commit) | **0 findings** |
+| 3 · Layout + structure | done | `86875f0` | **0 findings** |
+| 5 · Polish | done | (this commit) | **0 findings** |
+| 4 · Content | waiting on Udesh | — | — |
 
 Step 2 decisions: typeface **Newsreader 500** (headings) + **Source Sans 3 400/600** (body) + **IBM Plex Mono 400** (dates), chosen by Udesh from a live specimen. Scale 14 / 16 / 20 / 25 / 31 + fluid display 36–52px (16px body floor per Impeccable `typeset`). Text roles `foreground` / `foreground-secondary` / `muted-foreground`; surfaces `background` / `card` / `surface-2`; radii 8px controls, 12px cards; spacing on the 4px grid; `text-wrap: balance` on headings, `pretty` on prose; en dashes in date ranges.
 
 Step 3 decisions: one 1024px column for every page, left edge aligned with the header name; About as divided sections (no bento, no chips, no brand icons); timeline typographic with the filled dot as the only "current" marker; certifications as a divided list (rows link only when a `verifyUrl` exists); 40px borderless logo tiles; neutral project language dot; Badge component, `react-icons`, `class-variance-authority` and `@radix-ui/react-slot` removed.
+
+Step 5 results: themed selection, caret, accent-color and scrollbars; one 2px accent focus ring (`:focus-visible`); menu drawer opens in 200ms with a lighter scrim and closes on any navigation (incl. Back); shared-element morphs for certifications (home chips → /certifications rows) and the current role (home card → timeline), verified live via the View Transition API; 404/error pages no longer claim the home canonical. Lighthouse mobile (local prod build): Performance 95–100 on every page (home 100, LCP 1.5 s, was 93 / 3.2 s), Accessibility 100, SEO 100, Best Practices 96 (only the off-Vercel `/_vercel/*` 404s).
 
 ## Fix plan (in order)
 

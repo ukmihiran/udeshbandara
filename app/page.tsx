@@ -8,6 +8,7 @@ import { getLatestPosts } from "@/lib/blog";
 import { CERTIFICATIONS, EXPERIENCES } from "@/lib/data";
 import { formatPeriod } from "@/lib/format";
 import { getFeaturedRepos } from "@/lib/github";
+import { transitionStyle } from "@/lib/view-transition";
 
 export const metadata = pageMetadata("/");
 
@@ -29,7 +30,7 @@ export default async function HomePage() {
       <div className="mx-auto w-full max-w-5xl space-y-10 px-4 py-10 sm:px-6 md:py-14">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Link href="/experience" className={`${card} group`}>
-            <h2 data-now-role className="font-semibold text-foreground [overflow-wrap:anywhere]">
+            <h2 data-now-role style={transitionStyle("role", "current")} className="font-semibold text-foreground [overflow-wrap:anywhere]">
               {current.role}
             </h2>
             <span className="text-caption text-muted-foreground">
@@ -43,7 +44,12 @@ export default async function HomePage() {
             <h2 className="font-semibold text-foreground">Key certifications</h2>
             <span className="mt-3 flex flex-wrap gap-2">
               {featuredCerts.map((c) => (
-                <span key={c.name} className="rounded-md border border-border px-3 py-1 text-caption text-foreground">
+                <span
+                  key={c.name}
+                  data-cert-vt={c.name}
+                  style={transitionStyle("cert", c.name)}
+                  className="rounded-md border border-border px-3 py-1 text-caption text-foreground"
+                >
                   {c.name}
                 </span>
               ))}

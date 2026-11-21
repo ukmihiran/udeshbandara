@@ -1,67 +1,39 @@
-import { Calendar, MapPin } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { formatPeriod } from "@/lib/format";
 import type { TimelineEntry } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { OrgLogo } from "./org-logo";
 
+/**
+ * Work and study on one vertical line. Entries are typographic, not boxed; the filled dot marks
+ * the current role and the date range ends in "Present".
+ */
 export function Timeline({ entries }: { entries: TimelineEntry[] }) {
   return (
     <div className="relative pl-9 sm:pl-10">
       {/* Line centre sits at x=20px; dots (16px) are centred on it from each item's padded edge. */}
       <div aria-hidden className="timeline-line" />
-      <ol className="space-y-5">
-      {entries.map((entry) => (
-        <li key={`${entry.org}-${entry.start}`} className="relative">
-          <span aria-hidden className={cn("timeline-dot -left-6 sm:-left-7", entry.current && "timeline-dot-active")} />
-          <article
-            data-timeline-card
-            className={cn(
-              "rounded-xl border bg-card p-4 sm:p-5",
-              entry.current ? "border-accent/25 bg-accent/[0.03]" : "border-border/40",
-            )}
-          >
-            <div className="flex items-start gap-3 sm:gap-4">
+      <ol className="space-y-10">
+        {entries.map((entry) => (
+          <li key={`${entry.org}-${entry.start}`} className="relative">
+            <span aria-hidden className={cn("timeline-dot -left-6 sm:-left-7", entry.current && "timeline-dot-active")} />
+            <article data-timeline-card className="flex items-start gap-4">
               <OrgLogo src={entry.image} alt={entry.org} scale={entry.logoScale} />
-              <div className="min-w-0 flex-1 space-y-2">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="min-w-0 space-y-1">
-                    <h2 className="text-title font-semibold text-foreground [overflow-wrap:anywhere]">{entry.title}</h2>
-                    <p data-timeline-org className="text-caption text-muted-foreground">
-                      {entry.org}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 flex-wrap gap-2">
-                    {entry.current && (
-                      <Badge data-badge className="border-accent/30 bg-accent/15 px-2 py-0.5 text-caption font-semibold text-accent">
-                        Current
-                      </Badge>
-                    )}
-                    {entry.badge && (
-                      <Badge data-badge variant="outline" className="border-border/50 px-2 py-0.5 text-caption text-muted-foreground">
-                        {entry.badge}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-muted-foreground tabular-nums">
-                  <span className="inline-flex items-center gap-1">
-                    <Calendar aria-hidden className="size-3 shrink-0" />
-                    {formatPeriod(entry.start, entry.end)}
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <MapPin aria-hidden className="size-3 shrink-0" />
-                    {entry.location}
-                  </span>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-title font-semibold text-foreground [overflow-wrap:anywhere]">{entry.title}</h2>
+                <p className="text-body text-foreground-secondary">
+                  <span data-timeline-org>{entry.org}</span>
+                  <span className="text-muted-foreground"> · {entry.location}</span>
+                </p>
+                <p className="mt-1 font-mono text-caption text-muted-foreground tabular-nums">
+                  {formatPeriod(entry.start, entry.end)}
                 </p>
                 {entry.description && (
-                  <p className="max-w-[65ch] text-body text-foreground-secondary">{entry.description}</p>
+                  <p className="mt-3 max-w-[65ch] text-body text-foreground-secondary">{entry.description}</p>
                 )}
               </div>
-            </div>
-          </article>
-        </li>
-      ))}
+            </article>
+          </li>
+        ))}
       </ol>
     </div>
   );

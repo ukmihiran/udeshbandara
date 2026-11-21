@@ -10,7 +10,7 @@ export const metadata = pageMetadata("/experience");
 
 export default function ExperiencePage() {
   return (
-    <Container size="narrow">
+    <Container>
       <BreadcrumbJsonLd path="/experience" />
       <PageHeader
         title="Experience"

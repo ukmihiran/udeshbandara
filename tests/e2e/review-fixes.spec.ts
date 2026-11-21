@@ -76,7 +76,7 @@ test("a long unbroken role title wraps on the home card and certification cards 
   await page.locator("[data-now-role]").evaluate((el, t) => (el.textContent = t), long);
   expect(await page.evaluate(trueScrollWidth)).toBe(320);
   await page.goto("/certifications");
-  await page.locator("[data-cert] h2").first().evaluate((el, t) => (el.textContent = t), long);
+  await page.locator("[data-cert] [data-cert-name]").first().evaluate((el, t) => (el.textContent = t), long);
   expect(await page.evaluate(trueScrollWidth)).toBe(320);
 });
 

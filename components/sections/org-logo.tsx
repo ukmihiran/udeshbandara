@@ -2,7 +2,10 @@ import Image from "next/image";
 import { Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/** White tile holding an organisation/issuer logo; falls back to an icon. */
+/**
+ * Small logo mark (40px by default). Logos ship on white, so they keep a white tile, but with
+ * no border and a modest size so they don't become the brightest objects on a dark page.
+ */
 export function OrgLogo({
   src,
   alt,
@@ -16,17 +19,15 @@ export function OrgLogo({
 }) {
   return (
     <div
-      className={cn(
-        "relative flex h-12 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-white p-2",
-        className,
-      )}
+      data-org-logo
+      className={cn("relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-1", className)}
     >
       {src ? (
         <div className="relative size-full" style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}>
-          <Image src={src} alt={alt} fill sizes="64px" className="object-contain" />
+          <Image src={src} alt={alt} fill sizes="40px" className="object-contain" />
         </div>
       ) : (
-        <Building2 aria-hidden className="size-5 text-accent" />
+        <Building2 aria-hidden className="size-5 text-muted-foreground" />
       )}
     </div>
   );

@@ -13,9 +13,9 @@ test("timeline shows the MSc between Kroll and Axiata", async ({ page }) => {
   await expect(page.getByText("Jul 2024 – Present")).toBeVisible();
 });
 
-test("only the current role is marked Current", async ({ page }) => {
+test("exactly one role is current: one 'Present' date range", async ({ page }) => {
   await page.goto("/experience");
-  await expect(page.getByText("Current", { exact: true })).toHaveCount(1);
+  await expect(page.getByText(/– Present$/)).toHaveCount(1);
 });
 
 test("all eight certifications render, and cards without a verifyUrl are not links", async ({ page }) => {
@@ -42,16 +42,3 @@ test("projects page renders repo cards or the GitHub fallback, never an empty gr
   }
 });
 
-test.describe("phone layout", () => {
-  test.use({ viewport: { width: 375, height: 812 } });
-
-  test("timeline badges stay inside their card", async ({ page }) => {
-    await page.goto("/experience");
-    const card = await page.locator("[data-timeline-card]").first().boundingBox();
-    const badges = await page.locator("[data-timeline-card]").first().locator("[data-badge]").all();
-    for (const badge of badges) {
-      const b = await badge.boundingBox();
-      expect(b!.x + b!.width).toBeLessThanOrEqual(card!.x + card!.width);
-    }
-  });
-});

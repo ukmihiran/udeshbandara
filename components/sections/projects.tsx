@@ -60,7 +60,7 @@ export function ProjectGrid({
             <div className="mt-4 flex items-center gap-3 border-t border-border/40 pt-4 text-caption text-muted-foreground">
               {repo.language && (
                 <span className="inline-flex items-center gap-2">
-                  <span aria-hidden className="size-2 rounded-full bg-accent" />
+                  <span data-lang-dot aria-hidden className="size-2 rounded-full bg-muted-foreground/60" />
                   {repo.language}
                 </span>
               )}

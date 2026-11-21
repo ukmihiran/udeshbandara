@@ -1,44 +1,8 @@
-import type { ReactNode } from "react";
-import { Cloud, Monitor, MonitorCog, Network, Search, Shield, Terminal } from "lucide-react";
-import {
-  SiAmazon,
-  SiBurpsuite,
-  SiCplusplus,
-  SiDocker,
-  SiGit,
-  SiGnubash,
-  SiJavascript,
-  SiMetasploit,
-  SiPhp,
-  SiPython,
-} from "react-icons/si";
 import { EDUCATION, EXPERIENCES, TECH_STACK } from "@/lib/data";
 import { formatPeriod, yearsOfExperience } from "@/lib/format";
 import { SITE } from "@/lib/site";
 import type { TechItem } from "@/lib/types";
 import { OrgLogo } from "./org-logo";
-
-const icon = "size-4";
-const TECH_ICONS: Record<string, ReactNode> = {
-  "Burp Suite": <SiBurpsuite className={icon} />,
-  Metasploit: <SiMetasploit className={icon} />,
-  Nmap: <Network className={icon} />,
-  "Cobalt Strike": <Shield className={icon} />,
-  BloodHound: <Search className={icon} />,
-  Nessus: <Shield className={icon} />,
-  Python: <SiPython className={icon} />,
-  "C / C++": <SiCplusplus className={icon} />,
-  PowerShell: <Terminal className={icon} />,
-  Bash: <SiGnubash className={icon} />,
-  PHP: <SiPhp className={icon} />,
-  JavaScript: <SiJavascript className={icon} />,
-  AWS: <SiAmazon className={icon} />,
-  Azure: <Cloud className={icon} />,
-  Docker: <SiDocker className={icon} />,
-  Git: <SiGit className={icon} />,
-  Linux: <Monitor className={icon} />,
-  "Windows AD": <MonitorCog className={icon} />,
-};
 
 const CATEGORIES: { id: TechItem["category"]; label: string }[] = [
   { id: "security", label: "Security tools" },
@@ -46,24 +10,26 @@ const CATEGORIES: { id: TechItem["category"]; label: string }[] = [
   { id: "cloud", label: "Cloud & infrastructure" },
 ];
 
-const card = "rounded-xl border border-border bg-card p-5 sm:p-6";
+const sectionHeading = "font-display text-section font-medium";
 
+/** About as plain sections separated by space and a hairline, not a grid of boxes. */
 export function About() {
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
-      <section aria-labelledby="bio" className={`${card} md:col-span-4`}>
-        <h2 id="bio" className="mb-4 font-display text-section font-medium">
+    <div className="divide-y divide-border">
+      <section aria-labelledby="bio" className="pb-12">
+        <h2 id="bio" className={sectionHeading}>
           Who I am
         </h2>
-        <div className="max-w-[65ch] space-y-3 text-body text-foreground-secondary">
+        <div className="mt-4 max-w-[65ch] space-y-4 text-body text-foreground-secondary">
           <p>
             Dedicated <span className="text-foreground">Cyber Security Professional</span> with{" "}
-            {yearsOfExperience(EXPERIENCES, new Date())} years of experience in Penetration Testing, Red Teaming, Vulnerability Management, and Cloud Security.
+            {yearsOfExperience(EXPERIENCES, new Date())} years of experience in Penetration Testing, Red Teaming,
+            Vulnerability Management, and Cloud Security.
           </p>
           <p>
             Currently an <span className="text-foreground">Offensive Security Consultant</span> at{" "}
-            <span className="text-accent">Kroll UK</span>, specializing in advanced security assessments and
-            red team operations for global enterprises.
+            <span className="text-foreground">Kroll UK</span>, specializing in advanced security assessments and red
+            team operations for global enterprises.
           </p>
           <p>
             I write about cybersecurity research and best practices on{" "}
@@ -71,7 +37,7 @@ export function About() {
               href={SITE.blogUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-accent underline-offset-4 hover:underline"
+              className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
             >
               Cybernetgen
             </a>
@@ -80,47 +46,38 @@ export function About() {
         </div>
       </section>
 
-      <section aria-labelledby="education" className={`${card} md:col-span-2`}>
-        <h2 id="education" className="mb-4 font-display text-section font-medium">
+      <section aria-labelledby="education" className="py-12">
+        <h2 id="education" className={sectionHeading}>
           Education
         </h2>
-        <ul className="space-y-4">
-          {EDUCATION.map((edu, i) => (
-            <li key={edu.degree} className={i > 0 ? "border-t border-border/40 pt-4" : undefined}>
-              <div className="flex items-start gap-3">
-                <OrgLogo src={edu.image} alt={edu.school} scale={edu.logoScale} className="h-11 w-11" />
-                <div className="min-w-0">
-                  <p className="text-body font-semibold text-foreground">{edu.degree}</p>
-                  <p className="mt-1 text-caption text-muted-foreground">{edu.school}</p>
-                  <p className="mt-1 text-caption text-muted-foreground">
-                    {formatPeriod(edu.start, edu.end)} <span aria-hidden>·</span> {edu.location}
-                  </p>
-                </div>
+        <ul className="mt-6 grid gap-6 sm:grid-cols-2">
+          {EDUCATION.map((edu) => (
+            <li key={edu.degree} className="flex items-start gap-4">
+              <OrgLogo src={edu.image} alt={edu.school} scale={edu.logoScale} />
+              <div className="min-w-0">
+                <p className="text-body font-semibold text-foreground">{edu.degree}</p>
+                <p className="text-caption text-foreground-secondary">{edu.school}</p>
+                <p className="mt-1 font-mono text-caption text-muted-foreground tabular-nums">
+                  {formatPeriod(edu.start, edu.end)} · {edu.location}
+                </p>
               </div>
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="tools" className={`${card} md:col-span-6`}>
-        <h2 id="tools" className="mb-5 font-display text-section font-medium">
+      <section aria-labelledby="tools" className="pt-12">
+        <h2 id="tools" className={sectionHeading}>
           Tools &amp; technologies
         </h2>
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        <div className="mt-6 grid gap-8 sm:grid-cols-3">
           {CATEGORIES.map((cat) => (
-            <div key={cat.id} className="space-y-3">
+            <div key={cat.id}>
               <h3 className="text-body font-semibold text-foreground">{cat.label}</h3>
-              <ul className="grid grid-cols-2 gap-2">
+              <ul className="mt-2 space-y-1 text-body text-foreground-secondary">
                 {TECH_STACK.filter((t) => t.category === cat.id).map((t) => (
-                  <li
-                    key={t.name}
-                    data-tech
-                    className="flex min-w-0 items-center gap-3 rounded-xl border border-border/40 bg-muted/30 px-3 py-2 text-caption"
-                  >
-                    <span aria-hidden className="shrink-0 text-muted-foreground">
-                      {TECH_ICONS[t.name] ?? <Shield className={icon} />}
-                    </span>
-                    <span className="truncate text-foreground">{t.name}</span>
+                  <li key={t.name} data-tech>
+                    {t.name}
                   </li>
                 ))}
               </ul>

@@ -12,11 +12,11 @@ export const revalidate = 86400;
 export default async function AboutPage() {
   const posts = await getLatestPosts(3);
   return (
-    <Container size="wide">
+    <Container>
       <BreadcrumbJsonLd path="/about" />
       <PageHeader title="About Me" description="Background, education, and the tools I work with." />
       <About />
-      <div className="mt-10">
+      <div className="mt-16 border-t border-border pt-12">
         <LatestPosts posts={posts} />
       </div>
     </Container>

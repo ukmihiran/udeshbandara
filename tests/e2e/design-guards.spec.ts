@@ -190,3 +190,81 @@ test("headings step up the scale: page 31px and section 25px in the display face
   expect(await read("main h1")).toBe("31 Newsreader");
   expect(await read("main h2")).toBe("25 Newsreader");
 });
+
+/* ── Step 3: layout and structure ────────────────────────────────────────── */
+
+test("every page shares one content column aligned with the header name", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const path of PAGES) {
+    await page.goto(path);
+    const [brand, h1] = await Promise.all([
+      page.locator("header a[href='/']").first().boundingBox(),
+      page.locator("main h1").first().boundingBox(),
+    ]);
+    // On home the h1 starts after the (phone-only) photo slot, which is hidden at this width.
+    expect(Math.round(h1!.x), path).toBe(Math.round(brand!.x));
+  }
+});
+
+test("only clickable things are boxed: every bordered card is a link", async ({ page }) => {
+  for (const path of PAGES) {
+    await page.goto(path);
+    const boxed = await page.evaluate(() =>
+      [...document.querySelectorAll("main *")]
+        .filter((el) => {
+          const s = getComputedStyle(el);
+          const sides = [s.borderTopWidth, s.borderRightWidth, s.borderBottomWidth, s.borderLeftWidth];
+          const r = el.getBoundingClientRect();
+          // A "card" is a container: small bordered marks (timeline dots, icons) don't count.
+          return (
+            sides.every((w) => parseFloat(w) > 0) &&
+            parseFloat(s.borderTopLeftRadius) >= 8 &&
+            r.width >= 48 &&
+            r.height >= 32
+          );
+        })
+        // Images (the round profile photo's hairline) are not containers.
+        .filter((el) => el.tagName !== "A" && el.tagName !== "IMG" && !el.closest("a"))
+        .map((el) => `${el.tagName}.${String(el.className).split(" ").slice(0, 3).join(".")}`),
+    );
+    expect(boxed, path).toEqual([]);
+  }
+});
+
+test("no employment-type or 'Current' badges on the timeline", async ({ page }) => {
+  await page.goto("/experience");
+  await expect(page.getByText("Full-time", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("Current", { exact: true })).toHaveCount(0);
+  await expect(page.locator(".timeline-dot-active")).toHaveCount(1);
+});
+
+test("organisation logos are small (≤ 40px)", async ({ page }) => {
+  for (const path of ["/experience", "/certifications", "/about"]) {
+    await page.goto(path);
+    const sizes = await page.locator("[data-org-logo]").evaluateAll((els) =>
+      els.map((el) => Math.round(el.getBoundingClientRect().width)),
+    );
+    expect(sizes.length, path).toBeGreaterThan(0);
+    expect(sizes.filter((w) => w > 40), path).toEqual([]);
+  }
+});
+
+test("project language marker is neutral, not the accent colour", async ({ page }) => {
+  await page.goto("/projects");
+  const dot = page.locator("[data-repo] [data-lang-dot]").first();
+  test.skip((await dot.count()) === 0, "GitHub unavailable or no language");
+  const [dotColor, accent] = await dot.evaluate((el) => [
+    getComputedStyle(el).backgroundColor,
+    getComputedStyle(document.documentElement).getPropertyValue("--accent"),
+  ]);
+  expect(dotColor).not.toBe(accent);
+  const accentRgb = await page.evaluate(() => {
+    const probe = document.createElement("i");
+    probe.style.color = "var(--accent)";
+    document.body.append(probe);
+    const c = getComputedStyle(probe).color;
+    probe.remove();
+    return c;
+  });
+  expect(dotColor).not.toBe(accentRgb);
+});

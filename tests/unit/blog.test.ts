@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, test, vi } from "vitest";
-import { getLatestPosts, parseRss } from "@/lib/blog";
+import { getLatestPosts, isFeedDocument, parseRss } from "@/lib/blog";
 
 const fixture = readFileSync(path.join(__dirname, "fixtures/cybernetgen-rss.xml"), "utf8");
 
@@ -141,5 +141,34 @@ describe("getLatestPosts rejects non-feed documents (PR review)", () => {
     const empty = '<?xml version="1.0"?><rss version="2.0"><channel><title>x</title></channel></rss>';
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(empty, { status: 200 })));
     await expect(getLatestPosts()).resolves.toEqual([]);
+  });
+});
+
+describe("isFeedDocument checks the document root, not a substring (PR review)", () => {
+  test("accepts RSS with a prolog, comments and a doctype before the root", () => {
+    const xml = '﻿<?xml version="1.0"?>\n<!-- generated -->\n<!DOCTYPE rss>\n<rss version="2.0"><channel/></rss>\n';
+    expect(isFeedDocument(xml)).toBe(true);
+  });
+
+  test("accepts Atom and RDF roots", () => {
+    expect(isFeedDocument('<feed xmlns="http://www.w3.org/2005/Atom"></feed>')).toBe(true);
+    expect(isFeedDocument("<rdf:RDF xmlns:rdf='x'><item/></rdf:RDF>")).toBe(true);
+  });
+
+  test("rejects an HTML page that mentions <rss> inside a comment", () => {
+    expect(isFeedDocument("<!doctype html><html><!-- <rss > --><body>down</body></html>")).toBe(false);
+    expect(isFeedDocument("<!-- <rss > --><html></html>")).toBe(false);
+  });
+
+  test("rejects a truncated feed with no closing root tag", () => {
+    expect(isFeedDocument('<?xml version="1.0"?><rss version="2.0"><channel><item>')).toBe(false);
+  });
+
+  test("on the production server a commented-out root throws so ISR keeps the last good page", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PHASE", "");
+    const html = "<!doctype html><html><!-- <rss > --><body>Service unavailable</body></html>";
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(html, { status: 200 })));
+    await expect(getLatestPosts()).rejects.toThrow(/not an RSS feed/);
   });
 });

@@ -104,6 +104,33 @@ export function parseRss(xml: string, limit: number): BlogPost[] {
   return posts.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, limit);
 }
 
+const FEED_ROOTS = ["rss", "rdf:RDF", "feed"] as const;
+
+/**
+ * True when the document's root element is an RSS, RDF or Atom feed and that root is closed.
+ * Skips a BOM, whitespace, the XML declaration, processing instructions, comments and a doctype,
+ * so "<rss" inside an HTML comment or a truncated body does not pass. Linear time (indexOf scans).
+ */
+export function isFeedDocument(xml: string): boolean {
+  const isSpace = (ch: string | undefined) => ch === " " || ch === "\t" || ch === "\r" || ch === "\n";
+  let i = xml.charCodeAt(0) === 0xfeff ? 1 : 0;
+  for (;;) {
+    while (i < xml.length && isSpace(xml[i])) i++;
+    let end: number;
+    if (xml.startsWith("<?", i)) end = xml.indexOf("?>", i + 2) + 2;
+    else if (xml.startsWith("<!--", i)) end = xml.indexOf("-->", i + 4) + 3;
+    else if (xml.slice(i, i + 9).toLowerCase() === "<!doctype") end = xml.indexOf(">", i) + 1;
+    else break;
+    if (end <= i) return false; // unterminated prolog construct
+    i = end;
+  }
+  const root = FEED_ROOTS.find((name) => {
+    const next = xml[i + name.length + 1];
+    return xml.startsWith(`<${name}`, i) && (isSpace(next) || next === ">" || next === "/");
+  });
+  return root !== undefined && xml.trimEnd().endsWith(`</${root}>`);
+}
+
 export async function getLatestPosts(limit = 3): Promise<BlogPost[]> {
   try {
     const res = await fetch(SITE.blogFeedUrl, {
@@ -116,7 +143,7 @@ export async function getLatestPosts(limit = 3): Promise<BlogPost[]> {
     const xml = await res.text();
     if (xml.length > MAX_FEED_CHARS) throw new Error("feed too large");
     // A 200 with an HTML error page would parse to [] and replace the cached posts; treat it as a failure.
-    if (!/<(rss|rdf:RDF|feed)[\s>]/i.test(xml)) throw new Error("response is not an RSS feed");
+    if (!isFeedDocument(xml)) throw new Error("response is not an RSS feed");
     return parseRss(xml, limit);
   } catch (err) {
     console.error("[blog] could not load feed:", err instanceof Error ? err.message : err);

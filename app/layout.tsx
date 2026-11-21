@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
@@ -55,7 +57,8 @@ const jsonLd = {
   ],
 };
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-D2BNKKLPJV";
+/** Google Analytics loads only when explicitly configured (needs a consent banner under UK PECR). */
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({
   children,
@@ -111,6 +114,8 @@ export default function RootLayout({
           </div>
         </noscript>
 
+        <Analytics />
+        <SpeedInsights />
         {GA_ID && (
           <>
             <Script

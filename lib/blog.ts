@@ -83,6 +83,9 @@ function safeBlogUrl(link: string | undefined): string | undefined {
   }
 }
 
+/** Posts often open with their first heading run into the body ("Introduction In today's…"). */
+const LEADING_LABEL = /^(?:Introduction|Overview|Summary|Background)\s+(?=[A-Z])/;
+
 function truncate(text: string): string {
   return text.length > EXCERPT_MAX ? `${text.slice(0, EXCERPT_MAX).trimEnd()}…` : text;
 }
@@ -98,7 +101,7 @@ export function parseRss(xml: string, limit: number): BlogPost[] {
       title,
       url,
       publishedAt: date.toISOString(),
-      excerpt: truncate(field(itemXml, "description") ?? ""),
+      excerpt: truncate((field(itemXml, "description") ?? "").replace(LEADING_LABEL, "")),
     });
   }
   return posts.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, limit);
@@ -107,28 +110,67 @@ export function parseRss(xml: string, limit: number): BlogPost[] {
 const FEED_ROOTS = ["rss", "rdf:RDF", "feed"] as const;
 
 /**
- * True when the document's root element is an RSS, RDF or Atom feed and that root is closed.
- * Skips a BOM, whitespace, the XML declaration, processing instructions, comments and a doctype,
- * so "<rss" inside an HTML comment or a truncated body does not pass. Linear time (indexOf scans).
+ * True when the document is a well-formed RSS, RDF or Atom feed: exactly one feed root, every
+ * element closed in order, nothing but whitespace, comments and PIs outside it. Comments, CDATA,
+ * PIs, a doctype and quoted attribute values are skipped, so "<rss" inside an HTML comment, a
+ * truncated body or "<rss><item></rss>" all fail. Linear time: one forward scan.
  */
 export function isFeedDocument(xml: string): boolean {
   const isSpace = (ch: string | undefined) => ch === " " || ch === "\t" || ch === "\r" || ch === "\n";
   let i = xml.charCodeAt(0) === 0xfeff ? 1 : 0;
-  for (;;) {
-    while (i < xml.length && isSpace(xml[i])) i++;
+  const stack: string[] = [];
+  let rootClosed = false;
+
+  while (i < xml.length) {
+    const lt = xml.indexOf("<", i);
+    // Outside the root only whitespace may appear; inside, text is free.
+    const text = lt === -1 ? xml.slice(i) : xml.slice(i, lt);
+    if (stack.length === 0 && text.trim() !== "") return false;
+    if (lt === -1) break;
+    i = lt;
+
     let end: number;
-    if (xml.startsWith("<?", i)) end = xml.indexOf("?>", i + 2) + 2;
-    else if (xml.startsWith("<!--", i)) end = xml.indexOf("-->", i + 4) + 3;
-    else if (xml.slice(i, i + 9).toLowerCase() === "<!doctype") end = xml.indexOf(">", i) + 1;
-    else break;
-    if (end <= i) return false; // unterminated prolog construct
+    if (xml.startsWith("<!--", i)) end = xml.indexOf("-->", i + 4) + 3;
+    else if (xml.startsWith("<![CDATA[", i)) {
+      if (stack.length === 0) return false;
+      end = xml.indexOf("]]>", i + 9) + 3;
+    } else if (xml.startsWith("<?", i)) end = xml.indexOf("?>", i + 2) + 2;
+    else if (xml.slice(i, i + 9).toLowerCase() === "<!doctype") {
+      if (stack.length > 0 || rootClosed) return false;
+      end = xml.indexOf(">", i) + 1;
+    } else {
+      // An element tag: find its ">" while skipping quoted attribute values (which may contain ">").
+      let j = i + 1;
+      let quote = "";
+      for (; j < xml.length; j++) {
+        const ch = xml[j];
+        if (quote) {
+          if (ch === quote) quote = "";
+        } else if (ch === '"' || ch === "'") quote = ch;
+        else if (ch === ">") break;
+      }
+      if (j >= xml.length) return false; // unterminated tag
+      const raw = xml.slice(i + 1, j);
+      const closing = raw.startsWith("/");
+      const selfClosing = !closing && raw.endsWith("/");
+      const name = raw.replace(/^\//, "").split(/[\s/]/, 1)[0];
+      if (!name) return false;
+      if (closing) {
+        if (stack.pop() !== name) return false;
+        if (stack.length === 0) rootClosed = true;
+      } else {
+        if (stack.length === 0) {
+          if (rootClosed || !(FEED_ROOTS as readonly string[]).includes(name)) return false; // one feed root only
+          if (selfClosing) return false; // an empty root carries no channel
+        }
+        if (!selfClosing) stack.push(name);
+      }
+      end = j + 1;
+    }
+    if (end <= i) return false; // unterminated comment, CDATA, PI or doctype
     i = end;
   }
-  const root = FEED_ROOTS.find((name) => {
-    const next = xml[i + name.length + 1];
-    return xml.startsWith(`<${name}`, i) && (isSpace(next) || next === ">" || next === "/");
-  });
-  return root !== undefined && xml.trimEnd().endsWith(`</${root}>`);
+  return rootClosed && stack.length === 0;
 }
 
 export async function getLatestPosts(limit = 3): Promise<BlogPost[]> {

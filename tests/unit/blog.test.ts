@@ -172,3 +172,47 @@ describe("isFeedDocument checks the document root, not a substring (PR review)",
     await expect(getLatestPosts()).rejects.toThrow(/not an RSS feed/);
   });
 });
+
+describe("excerpts drop a leading section label (finish review)", () => {
+  test('"Introduction In today\'s tutorial" becomes "In today\'s tutorial"', () => {
+    const xml = `<rss><channel><item><title>T</title><link>https://cybernetgen.com/blog/t</link><pubDate>Mon, 02 Jan 2023 00:00:00 GMT</pubDate><description>Introduction In today's tutorial we walk through it.</description></item></channel></rss>`;
+    expect(parseRss(xml, 1)[0].excerpt).toBe("In today's tutorial we walk through it.");
+  });
+});
+
+test("a sentence that merely starts with the word keeps it", () => {
+  const xml = `<rss><channel><item><title>T</title><link>https://cybernetgen.com/blog/t</link><pubDate>Mon, 02 Jan 2023 00:00:00 GMT</pubDate><description>Introduction is the hardest part.</description></item></channel></rss>`;
+  expect(parseRss(xml, 1)[0].excerpt).toBe("Introduction is the hardest part.");
+});
+
+describe("isFeedDocument requires balanced nesting (PR review)", () => {
+  test("rejects an unclosed element inside the root", () => {
+    expect(isFeedDocument("<rss><channel><item></rss>")).toBe(false);
+  });
+
+  test("rejects a mismatched closing tag", () => {
+    expect(isFeedDocument("<rss><channel></item></channel></rss>")).toBe(false);
+  });
+
+  test("rejects content after the root element", () => {
+    expect(isFeedDocument("<rss><channel></channel></rss><html></html>")).toBe(false);
+  });
+
+  test("accepts CDATA, comments, self-closing tags and '>' inside quoted attributes", () => {
+    const xml =
+      '<?xml version="1.0"?><rss version="2.0"><channel><atom:link href="a?b>c" rel="self"/>' +
+      "<!-- note --><item><title><![CDATA[<b>not a tag</b> </rss>]]></title></item></channel></rss>";
+    expect(isFeedDocument(xml)).toBe(true);
+  });
+
+  test("still accepts a valid empty feed", () => {
+    expect(isFeedDocument('<rss version="2.0"><channel><title>x</title></channel></rss>')).toBe(true);
+  });
+
+  test("checks a megabyte of nested tags in linear time", () => {
+    const deep = "<rss>" + "<a>".repeat(100_000) + "</a>".repeat(100_000) + "</rss>";
+    const t0 = performance.now();
+    expect(isFeedDocument(deep)).toBe(true);
+    expect(performance.now() - t0).toBeLessThan(500);
+  });
+});

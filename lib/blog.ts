@@ -115,6 +115,25 @@ const PREDEFINED_ENTITIES = new Set(["amp", "lt", "gt", "quot", "apos"]);
 const NUMERIC_REF = /^#(?:[0-9]{1,7}|x[0-9A-Fa-f]{1,6})$/;
 
 /**
+ * A raw character XML 1.0 forbids anywhere in a document: C0 controls other than tab/LF/CR,
+ * U+FFFE/U+FFFF, and unpaired surrogates. Single-character alternatives only, so linear time.
+ */
+const ILLEGAL_RAW_CHAR =
+  /[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
+
+/** XML 1.0 "Char": tab, LF, CR, and the Unicode ranges that exclude controls, surrogates, FFFE/FFFF. */
+function isXmlChar(code: number): boolean {
+  return (
+    code === 0x9 ||
+    code === 0xa ||
+    code === 0xd ||
+    (code >= 0x20 && code <= 0xd7ff) ||
+    (code >= 0xe000 && code <= 0xfffd) ||
+    (code >= 0x10000 && code <= 0x10ffff)
+  );
+}
+
+/**
  * True when every "&" in text or an attribute value starts a valid reference: one of XML's five
  * predefined entities or a numeric character reference. Feeds declare no DTD, so any other named
  * entity (e.g. &nbsp;) is undefined and the document is malformed. No entity is ever expanded.
@@ -124,7 +143,10 @@ function hasValidReferences(text: string): boolean {
     const semi = text.indexOf(";", amp + 1);
     if (semi === -1 || semi - amp > 10) return false; // the longest valid reference is &#x10FFFF;
     const ref = text.slice(amp + 1, semi);
-    if (!PREDEFINED_ENTITIES.has(ref) && !NUMERIC_REF.test(ref)) return false;
+    if (PREDEFINED_ENTITIES.has(ref)) continue;
+    if (!NUMERIC_REF.test(ref)) return false;
+    const code = ref[1] === "x" ? parseInt(ref.slice(2), 16) : parseInt(ref.slice(1), 10);
+    if (!isXmlChar(code)) return false;
   }
   return true;
 }
@@ -189,6 +211,7 @@ function parseTag(raw: string): { name: string; closing: boolean; selfClosing: b
  * Linear time: one forward scan.
  */
 export function isFeedDocument(xml: string): boolean {
+  if (ILLEGAL_RAW_CHAR.test(xml)) return false;
   let i = xml.charCodeAt(0) === 0xfeff ? 1 : 0;
   const stack: string[] = [];
   let rootClosed = false;

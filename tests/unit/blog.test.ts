@@ -253,3 +253,31 @@ describe("isFeedDocument rejects invalid entity references (PR review)", () => {
     expect(isFeedDocument(xml)).toBe(true);
   });
 });
+
+describe("numeric references must name a legal XML character (PR review)", () => {
+  test.each(["&#0;", "&#x0;", "&#8;", "&#xD800;", "&#xFFFE;", "&#x110000;"])("rejects %s", (ref) => {
+    expect(isFeedDocument(`<rss><channel><title>${ref}</title></channel></rss>`)).toBe(false);
+  });
+
+  test.each(["&#9;", "&#xA;", "&#13;", "&#32;", "&#xD7FF;", "&#xE000;", "&#xFFFD;", "&#x10000;", "&#x10FFFF;"])(
+    "accepts %s",
+    (ref) => {
+      expect(isFeedDocument(`<rss><channel><title>${ref}</title></channel></rss>`)).toBe(true);
+    },
+  );
+});
+
+describe("raw characters must be legal XML characters (PR review)", () => {
+  test.each([
+    ["a NUL", "\u0000"],
+    ["a C0 control", "\u0008"],
+    ["U+FFFE", "￾"],
+    ["a lone surrogate", "\uD800"],
+  ])("rejects %s in text", (_label, ch) => {
+    expect(isFeedDocument(`<rss><channel><title>A${ch}B</title></channel></rss>`)).toBe(false);
+  });
+
+  test("accepts tabs, newlines and astral characters", () => {
+    expect(isFeedDocument("<rss><channel><title>A\tB\r\nC \u{1F512}</title></channel></rss>")).toBe(true);
+  });
+});

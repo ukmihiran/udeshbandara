@@ -15,7 +15,7 @@ export function ModeToggle() {
   if (!mounted) {
     return (
       <button
-        className="relative h-10 w-10 rounded-full flex items-center justify-center cursor-pointer text-muted-foreground"
+        className="relative size-11 rounded-full flex items-center justify-center cursor-pointer text-muted-foreground"
         aria-label="Toggle theme"
         disabled
       >
@@ -29,8 +29,8 @@ export function ModeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative h-10 w-10 rounded-full flex items-center justify-center cursor-pointer text-muted-foreground hover:text-accent transition-colors"
-      aria-label="Toggle theme"
+      className="relative size-11 rounded-full flex items-center justify-center cursor-pointer text-muted-foreground hover:text-accent transition-colors"
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
       {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
     </button>

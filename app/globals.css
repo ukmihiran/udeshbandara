@@ -98,9 +98,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    scroll-behavior: smooth;
-  }
   body {
     @apply bg-background text-foreground;
   }
@@ -147,6 +144,7 @@
   border-color: var(--accent);
   background: var(--accent);
   box-shadow: 0 0 12px var(--accent-glow-strong);
+  animation: timeline-pulse 2.5s ease-in-out infinite;
 }
 
 /* ── Hex avatar system ────────────────────────────── */
@@ -247,8 +245,10 @@
   50% { box-shadow: 0 0 0 6px transparent; }
 }
 
-.timeline-dot-active {
-  animation: timeline-pulse 2.5s ease-in-out infinite;
+/* ── Page transitions (React <ViewTransition>) ───── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
 }
 
 /* Subtle scanline overlay for cards */
@@ -278,5 +278,10 @@
   .hex-border-pulse,
   .hex-scanlines {
     animation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

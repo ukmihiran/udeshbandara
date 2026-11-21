@@ -42,7 +42,7 @@ export function ProjectGrid({
             className="card-glow group flex h-full flex-col rounded-xl border border-border/40 bg-card p-5"
           >
             <div className="flex items-start gap-2">
-              <Heading className="min-w-0 text-sm font-semibold break-all transition-colors group-hover:text-accent">
+              <Heading className="min-w-0 text-sm font-semibold [overflow-wrap:anywhere] transition-colors group-hover:text-accent">
                 {repo.name}
               </Heading>
               <ExternalLink

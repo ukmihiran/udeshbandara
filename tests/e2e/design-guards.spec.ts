@@ -396,3 +396,14 @@ test("the 404 page does not claim a canonical URL", async ({ page }) => {
   await page.goto("/nope");
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
 });
+
+test("the cube poster's optimised image URL actually loads", async ({ page, request }) => {
+  await page.goto("/");
+  const url = await page
+    .locator("[data-cube-poster]")
+    .evaluate((el) => getComputedStyle(el).backgroundImage.match(/url\("?(.*?)"?\)/)?.[1] ?? "");
+  expect(url).toContain("cube-poster.png");
+  const res = await request.get(url, { headers: { Accept: "image/avif,image/webp,image/*" } });
+  expect(res.status()).toBe(200);
+  expect(res.headers()["content-type"]).toMatch(/^image\//);
+});

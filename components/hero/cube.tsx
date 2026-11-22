@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
      same first frame, and replaces the poster with no visible change; then the motion begins.
    Purely decorative: hidden from assistive tech. */
 
-/** The poster through Next's image optimiser (AVIF/WebP at 640px wide covers 2x screens). */
-const POSTER = getImageProps({ src: "/cube-poster.png", alt: "", width: 640, height: 640, quality: 80 }).props.src;
+/** The poster through Next's image optimiser (AVIF/WebP, default quality 75, which Vercel serves). */
+const POSTER = getImageProps({ src: "/cube-poster.png", alt: "", width: 640, height: 640 }).props.src;
 
 export function HeroCube({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

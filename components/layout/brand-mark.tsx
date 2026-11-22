@@ -1,10 +1,19 @@
-/** The site mark: a small isometric cube, echoing the hero cube. Decorative next to the name. */
+import Image from "next/image";
+
+/**
+ * The site mark: the profile picture as a small round avatar beside the name in the header and
+ * footer. Decorative there (the name is the link text), so alt is empty. Served through
+ * next/image at 28px, so the 800px source PNG is never downloaded.
+ */
 export function BrandMark() {
   return (
-    <svg aria-hidden viewBox="0 0 24 24" className="size-6 shrink-0" fill="none">
-      <path d="M12 2.5 20.5 7.25v9.5L12 21.5l-8.5-4.75v-9.5L12 2.5Z" className="fill-surface-2 stroke-border-strong" strokeWidth="1" />
-      <path d="M12 12 20.5 7.25M12 12 3.5 7.25M12 12v9.5" className="stroke-border-strong" strokeWidth="1" />
-      <path d="M12 2.5 20.5 7.25 12 12 3.5 7.25 12 2.5Z" className="fill-accent" />
-    </svg>
+    <Image
+      src="/avatar-3d.png"
+      alt=""
+      width={28}
+      height={28}
+      sizes="28px"
+      className="size-7 shrink-0 rounded-full border border-border-strong object-cover"
+    />
   );
 }

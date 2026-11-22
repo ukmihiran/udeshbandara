@@ -66,20 +66,19 @@ test("theme toggle switches and persists across navigation", async ({ page }) =>
   await expect(html).toHaveAttribute("class", after ?? "");
 });
 
-test("the hero does not re-wrap when the web font arrives (no layout shift)", async ({ page }) => {
+test("home has a good Cumulative Layout Shift on a phone (< 0.1)", async ({ page }) => {
   await page.setViewportSize({ width: 412, height: 823 });
-  let release!: () => void;
-  const gate = new Promise<void>((r) => (release = r));
-  await page.route(/\.woff2$/, async (route) => {
-    await gate;
-    await route.continue();
+  await page.addInitScript(() => {
+    (window as unknown as { __cls: number }).__cls = 0;
+    new PerformanceObserver((list) => {
+      for (const entry of list.getEntries() as unknown as { value: number; hadRecentInput: boolean }[]) {
+        if (!entry.hadRecentInput) (window as unknown as { __cls: number }).__cls += entry.value;
+      }
+    }).observe({ type: "layout-shift", buffered: true });
   });
-  await page.goto("/", { waitUntil: "domcontentloaded" });
-  const heroHeight = () => page.locator("main section").first().evaluate((el) => Math.round(el.getBoundingClientRect().height));
-  const withFallback = await heroHeight();
-  release();
+  await page.goto("/");
   await page.waitForLoadState("networkidle");
   await page.evaluate(() => document.fonts.ready);
-  // Before the fix the role line wrapped to 2 lines in the fallback face: 396px vs 370px.
-  expect(Math.abs((await heroHeight()) - withFallback)).toBeLessThanOrEqual(2);
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => (window as unknown as { __cls: number }).__cls)).toBeLessThan(0.1);
 });

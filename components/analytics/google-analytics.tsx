@@ -81,14 +81,9 @@ export function GoogleAnalytics({ gaId }: { gaId: string }) {
       if (href.startsWith("mailto:")) trackEvent("generate_lead", { method: "email" });
       else if (href.includes("linkedin.com")) trackEvent("generate_lead", { method: "linkedin" });
     }
-    function onCopy() {
-      trackEvent("generate_lead", { method: "copy_email" });
-    }
     document.addEventListener("click", onClick);
-    window.addEventListener("email-copied", onCopy);
     return () => {
       document.removeEventListener("click", onClick);
-      window.removeEventListener("email-copied", onCopy);
     };
   }, [consent]);
 

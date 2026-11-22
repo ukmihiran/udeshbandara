@@ -1,26 +1,32 @@
 import { ArrowUpRight, Linkedin, Mail } from "lucide-react";
 import { buttonPrimary, buttonSecondary } from "@/components/ui/button-styles";
-import { CopyEmail } from "@/components/ui/copy-email";
 import { SITE } from "@/lib/site";
 
-/** The page close on every route: one line of intent, the address in plain text, two ways to reach out. */
+/**
+ * The page close on every route: one card with the ask on the left and the two ways to reach
+ * out on the right. The address stays visible as plain, selectable text for visitors without
+ * a mail client.
+ */
 export function ContactCta() {
   return (
     <section
       aria-labelledby="contact"
-      className="grid gap-8 border-t border-border pt-16 md:grid-cols-[1fr_auto] md:items-end"
+      className="panel grid gap-6 rounded-xl border border-border bg-card p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-10 md:p-10"
     >
       <div>
-        <h2 id="contact" className="font-display text-page font-semibold">
+        <h2 id="contact" className="font-display text-section font-semibold">
           Hiring for a red team or pentest role?
         </h2>
-        <p className="mt-3 max-w-[52ch] text-body text-foreground-secondary">
-          Email is the quickest way to reach me. I&apos;m also on LinkedIn.
+        <p className="mt-2 max-w-[52ch] text-body text-foreground-secondary">
+          I&apos;m open to offensive security, red teaming and cloud security roles. Email is the quickest way to
+          reach me.
         </p>
-        <p className="-ml-3 mt-4 flex flex-wrap items-center gap-x-1">
-          <span className="pl-3 font-mono text-body text-foreground">{SITE.email}</span>
-          <CopyEmail email={SITE.email} />
-        </p>
+        <a
+          href={`mailto:${SITE.email}`}
+          className="mt-2 inline-flex min-h-11 items-center break-all text-caption text-muted-foreground underline decoration-border-strong underline-offset-4 transition-colors duration-100 hover:text-foreground"
+        >
+          {SITE.email}
+        </a>
       </div>
       <div className="flex flex-wrap gap-3">
         <a href={`mailto:${SITE.email}`} className={buttonPrimary}>

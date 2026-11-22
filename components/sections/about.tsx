@@ -33,8 +33,9 @@ const FOCUS: { icon: LucideIcon; title: string; body: string }[] = [
 ];
 
 const sectionHeading = "font-display text-section font-semibold";
+/* Phones/tablets: centred chips in a row. Desktop: a quiet vertical list in the sticky column. */
 const contactLink =
-  "flex min-h-11 items-center gap-3 rounded-lg px-3 text-caption text-foreground-secondary transition-colors duration-100 hover:bg-surface-2 hover:text-foreground";
+  "flex min-h-11 items-center gap-2 rounded-lg border border-border px-4 text-caption text-foreground-secondary transition-colors duration-100 hover:bg-surface-2 hover:text-foreground lg:gap-3 lg:border-transparent lg:px-3";
 
 /** Profile panel on the left (sticky on desktop), the story and the toolkit on the right. */
 export function About() {
@@ -44,22 +45,26 @@ export function About() {
   return (
     <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
       <aside aria-label="Profile" className="lg:col-span-4">
-        <div className="lg:sticky lg:top-24">
+        <div className="flex flex-col items-center text-center lg:sticky lg:top-24 lg:items-start lg:text-left">
           <ProfilePhoto sizes="112px" className="size-28" />
           <p className="mt-5 text-title font-semibold text-foreground">{SITE.name}</p>
           <p className="text-body text-foreground-secondary">
             {current.role}, {current.company}
           </p>
-          <p className="mt-3 flex items-center gap-2 text-caption text-muted-foreground">
-            <MapPin aria-hidden className="size-4" /> {current.location}
+          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-caption text-muted-foreground lg:flex-col lg:items-start lg:gap-y-1">
+            <span className="inline-flex items-center gap-2">
+              <MapPin aria-hidden className="size-4" /> {current.location}
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden className="mx-1 size-2 rounded-full bg-accent" /> {PROFILE.status}
+            </span>
           </p>
-          <p className="mt-1 flex items-center gap-2 text-caption text-muted-foreground">
-            <span aria-hidden className="mx-1 size-2 rounded-full bg-accent" /> {PROFILE.status}
-          </p>
-          <ul className="-mx-3 mt-6 border-t border-border pt-4">
+          <ul className="mt-6 flex w-full flex-wrap justify-center gap-2 border-t border-border pt-5 lg:-mx-3 lg:block lg:w-auto lg:pt-4">
             <li>
               <a href={`mailto:${SITE.email}`} className={contactLink}>
-                <Mail aria-hidden className="size-4" /> {SITE.email}
+                <Mail aria-hidden className="size-4" />
+                <span className="lg:hidden">Email</span>
+                <span className="hidden lg:inline">{SITE.email}</span>
               </a>
             </li>
             <li>

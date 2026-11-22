@@ -35,11 +35,19 @@ test.describe("reduced motion", () => {
   });
 });
 
-test("the hero cube is decorative: hidden from assistive tech, 27 cubelets", async ({ page }) => {
+test("the hero cube is decorative: hidden from assistive tech, poster first, 3D canvas behind it", async ({ page }) => {
   await page.goto("/");
   const cube = page.locator("[data-hero-cube]");
   await expect(cube).toHaveAttribute("aria-hidden", "true");
-  await expect(cube.locator(".cubie")).toHaveCount(27);
+  await expect(cube.locator("[data-cube-poster]")).toHaveCount(1);
+  await expect(cube.locator("canvas")).toHaveCount(1);
+});
+
+test("server HTML paints the cube poster (the 3D scene's first frame), never a different placeholder", async ({ request }) => {
+  const html = await (await request.get("/")).text();
+  const hero = html.slice(html.indexOf("data-hero-cube"), html.indexOf("data-hero-cube") + 2000);
+  expect(hero).toContain("cube-poster.png");
+  expect(html).not.toContain('class="cubie"');
 });
 
 test("no glass: nothing uses backdrop-filter", async ({ page }) => {
@@ -161,9 +169,10 @@ const textStyles = () =>
       return { size: parseFloat(s.fontSize), weight: s.fontWeight, family: s.fontFamily, tag: el.tagName };
     });
 
-const ALLOWED_SIZES = [14, 16, 18, 24, 36]; // caption, body, title, section, page
+// At the 1280px test viewport the fluid heading roles sit at their caps: section 28, page 44.
+const ALLOWED_SIZES = [14, 16, 18, 28, 44]; // caption, body, title, section, page
 /** The fluid display size is allowed only for the hero name on "/"; every other H1 must be on the scale. */
-const isDisplay = (s: { tag: string; size: number }, path: string) => path === "/" && s.tag === "H1" && s.size >= 36;
+const isDisplay = (s: { tag: string; size: number }, path: string) => path === "/" && s.tag === "H1" && s.size >= 44;
 
 test("text uses only the five type-scale sizes (plus the fluid hero name)", async ({ page }) => {
   for (const path of PAGES) {
@@ -212,15 +221,24 @@ test("headings balance their wrap and paragraphs avoid stragglers", async ({ pag
   expect(wraps).toEqual({ h: "balance", p: "pretty" });
 });
 
-test("headings step up the scale: page 36px and section 24px in Geist", async ({ page }) => {
+test("headings step up the scale: page 44px and section 28px in Geist at 1280px", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/about");
   const read = (sel: string) =>
     page.locator(sel).first().evaluate((el) => {
       const s = getComputedStyle(el);
       return `${Math.round(parseFloat(s.fontSize))} ${s.fontFamily.split(",")[0].replace(/['"]/g, "")}`;
     });
-  expect(await read("main h1")).toMatch(/^36 Geist\b/);
-  expect(await read("main h2")).toMatch(/^24 Geist\b/);
+  expect(await read("main h1")).toMatch(/^44 Geist\b/);
+  expect(await read("main h2")).toMatch(/^28 Geist\b/);
+});
+
+test("fluid headings scale down on a phone: page 32px, section 22px", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/about");
+  const size = (sel: string) => page.locator(sel).first().evaluate((el) => Math.round(parseFloat(getComputedStyle(el).fontSize)));
+  expect(await size("main h1")).toBe(32);
+  expect(await size("main h2")).toBe(22);
 });
 
 /* ── Layout and structure ────────────────────────────────────────────────── */

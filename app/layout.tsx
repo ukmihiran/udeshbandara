@@ -16,11 +16,19 @@ import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 // Type system (DESIGN.md): Geist for display and body, Geist Mono only for dates, years and figures.
-// display "optional": a preloaded face that arrives within ~100ms is used; otherwise the page keeps
-// its fallback for that view instead of swapping later. Fallback metrics differ per OS (no Arial on
-// Android or Linux), so a late swap would re-wrap text and shift the layout (CLS).
-const sans = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["400", "500", "600"], display: "optional" });
-const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], weight: ["400"], display: "optional" });
+// "swap": visitors always get Geist. Its fallback is metric-matched to Arial, and the hero's
+// lines are short enough not to re-wrap when the swap happens.
+const sans = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
+// Mono (dates, years) falls back to a real monospace face. The default fallback is Arial scaled
+// to Geist Mono's metrics, which renders digits far too large whenever the font is late.
+const mono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+});
 
 // Canonical URLs are set per page; the root must not give one to 404 / error pages.
 const { alternates: _homeCanonical, ...homeMeta } = pageMetadata("/");

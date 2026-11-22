@@ -48,9 +48,12 @@ function SheetContent({
   className,
   children,
   side = "right",
+  hideClose = false,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left"
+  /** Set when the content renders its own SheetClose (e.g. inside a header row). */
+  hideClose?: boolean
 }) {
   return (
     <SheetPortal>
@@ -72,10 +75,10 @@ function SheetContent({
         {...props}
       >
         {children}
-        <SheetPrimitive.Close className="ring-offset-background focus:ring-ring absolute top-[max(0.5rem,env(safe-area-inset-top))] right-2 flex size-11 items-center justify-center rounded-full opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
+        {!hideClose && <SheetPrimitive.Close className="ring-offset-background focus:ring-ring absolute top-[max(0.5rem,env(safe-area-inset-top))] right-2 flex size-11 items-center justify-center rounded-full opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
           <XIcon className="size-5" />
           <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
+        </SheetPrimitive.Close>}
       </SheetPrimitive.Content>
     </SheetPortal>
   )

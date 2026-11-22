@@ -13,7 +13,7 @@ export function Hero() {
   const featured = CERTIFICATIONS.filter((c) => c.featured).map((c) => c.name);
 
   return (
-    <section className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 pt-10 sm:px-6 md:pt-16 lg:min-h-[min(36rem,calc(100svh-3.5rem))] lg:grid-cols-12 lg:pt-8">
+    <section className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-4 px-4 pt-4 sm:gap-8 sm:px-6 md:pt-16 lg:min-h-[min(36rem,calc(100svh-3.5rem))] lg:grid-cols-12 lg:pt-8">
       <div className="lg:col-span-7">
         <h1 className="font-display text-display font-semibold">{SITE.name}</h1>
         {/* Kept short enough for one line in both Geist and its fallback at 360px+, so the font swap
@@ -57,10 +57,9 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Decorative: shown from sm up. On phones the proof below takes the space instead. */}
-      <div className="hidden justify-center sm:flex lg:col-span-5 lg:justify-end">
-        <HeroCube />
-      </div>
+      {/* Decorative and draggable. Phones: first, above the name (compact, so the primary
+          button still lands in the first screen). Desktop: the right-hand column. */}
+      <HeroCube className="order-first -mx-4 h-[13.5rem] sm:mx-0 sm:h-80 lg:order-none lg:col-span-5 lg:h-[28rem]" />
     </section>
   );
 }

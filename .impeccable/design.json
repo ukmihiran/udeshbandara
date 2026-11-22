@@ -4,67 +4,491 @@
   "title": "Design System: Udesh Bandara",
   "extensions": {
     "colorMeta": {
-      "graphite-ground": { "role": "neutral", "displayName": "Graphite Ground", "canonical": "oklch(0.155 0.003 270)", "cssVar": "--background (.dark)", "approxHex": "#0c0c0d", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "graphite-card": { "role": "neutral", "displayName": "Graphite Card", "canonical": "oklch(0.185 0.004 270)", "cssVar": "--card (.dark)", "approxHex": "#121315", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "graphite-raised": { "role": "neutral", "displayName": "Graphite Raised", "canonical": "oklch(0.225 0.005 270)", "cssVar": "--surface-2 (.dark)", "approxHex": "#1b1c1e", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(0.97 0.002 270)", "cssVar": "--foreground (.dark)", "approxHex": "#f4f5f6", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "ink-secondary": { "role": "neutral", "displayName": "Ink Secondary", "canonical": "oklch(0.82 0.004 270)", "cssVar": "--foreground-secondary (.dark)", "approxHex": "#c3c4c7", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "ink-muted": { "role": "neutral", "displayName": "Ink Muted", "canonical": "oklch(0.69 0.006 270)", "cssVar": "--muted-foreground (.dark)", "approxHex": "#9a9b9f", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "oklch(1 0 0 / 8%)", "cssVar": "--border (.dark)", "tonalRamp": ["oklch(1 0 0 / 4%)", "oklch(1 0 0 / 8%)", "oklch(1 0 0 / 12%)", "oklch(1 0 0 / 15%)", "oklch(1 0 0 / 20%)", "oklch(1 0 0 / 30%)", "oklch(1 0 0 / 45%)", "oklch(1 0 0 / 60%)"] },
-      "hairline-strong": { "role": "neutral", "displayName": "Hairline Strong", "canonical": "oklch(1 0 0 / 15%)", "cssVar": "--border-strong (.dark)", "tonalRamp": ["oklch(1 0 0 / 4%)", "oklch(1 0 0 / 8%)", "oklch(1 0 0 / 12%)", "oklch(1 0 0 / 15%)", "oklch(1 0 0 / 20%)", "oklch(1 0 0 / 30%)", "oklch(1 0 0 / 45%)", "oklch(1 0 0 / 60%)"] },
-      "lit-edge": { "role": "neutral", "displayName": "Lit Edge", "canonical": "oklch(1 0 0 / 7%)", "cssVar": "--card-highlight (.dark; 0% in light)", "tonalRamp": ["oklch(1 0 0 / 2%)", "oklch(1 0 0 / 4%)", "oklch(1 0 0 / 7%)", "oklch(1 0 0 / 10%)", "oklch(1 0 0 / 14%)", "oklch(1 0 0 / 20%)", "oklch(1 0 0 / 30%)", "oklch(1 0 0 / 45%)"] },
-      "signal-green": { "role": "primary", "displayName": "Signal Green", "canonical": "oklch(0.8 0.16 155)", "cssVar": "--accent, --ring (.dark)", "approxHex": "#56db8f", "tonalRamp": ["oklch(0.15 0.03 155)", "oklch(0.26 0.07 155)", "oklch(0.37 0.1 155)", "oklch(0.5 0.14 155)", "oklch(0.62 0.15 155)", "oklch(0.72 0.16 155)", "oklch(0.8 0.16 155)", "oklch(0.95 0.05 155)"] },
-      "signal-green-ink": { "role": "primary", "displayName": "Signal Green Ink", "canonical": "oklch(0.17 0.03 155)", "cssVar": "--accent-foreground (.dark)", "approxHex": "#04130a", "tonalRamp": ["oklch(0.15 0.03 155)", "oklch(0.26 0.07 155)", "oklch(0.37 0.1 155)", "oklch(0.5 0.14 155)", "oklch(0.62 0.15 155)", "oklch(0.72 0.16 155)", "oklch(0.8 0.16 155)", "oklch(0.95 0.05 155)"] },
-      "paper-ground": { "role": "neutral", "displayName": "Paper Ground", "canonical": "oklch(0.985 0.001 270)", "cssVar": "--background (:root)", "approxHex": "#fafafb", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "paper-card": { "role": "neutral", "displayName": "Paper Card", "canonical": "oklch(1 0 0)", "cssVar": "--card (:root)", "approxHex": "#ffffff", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "paper-raised": { "role": "neutral", "displayName": "Paper Raised", "canonical": "oklch(0.955 0.002 270)", "cssVar": "--surface-2 (:root)", "approxHex": "#eff0f1", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "graphite-ink": { "role": "neutral", "displayName": "Graphite Ink", "canonical": "oklch(0.19 0.006 270)", "cssVar": "--foreground (:root)", "approxHex": "#131417", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "graphite-ink-secondary": { "role": "neutral", "displayName": "Graphite Ink Secondary", "canonical": "oklch(0.36 0.008 270)", "cssVar": "--foreground-secondary (:root)", "approxHex": "#3b3d41", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "graphite-ink-muted": { "role": "neutral", "displayName": "Graphite Ink Muted", "canonical": "oklch(0.47 0.008 270)", "cssVar": "--muted-foreground (:root)", "approxHex": "#595b5f", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
-      "hairline-light": { "role": "neutral", "displayName": "Hairline (light)", "canonical": "oklch(0.19 0.006 270 / 9%)", "cssVar": "--border (:root)", "tonalRamp": ["oklch(0.19 0.006 270 / 4%)", "oklch(0.19 0.006 270 / 9%)", "oklch(0.19 0.006 270 / 13%)", "oklch(0.19 0.006 270 / 18%)", "oklch(0.19 0.006 270 / 25%)", "oklch(0.19 0.006 270 / 35%)", "oklch(0.19 0.006 270 / 50%)", "oklch(0.19 0.006 270 / 65%)"] },
-      "hairline-strong-light": { "role": "neutral", "displayName": "Hairline Strong (light)", "canonical": "oklch(0.19 0.006 270 / 18%)", "cssVar": "--border-strong (:root)", "tonalRamp": ["oklch(0.19 0.006 270 / 4%)", "oklch(0.19 0.006 270 / 9%)", "oklch(0.19 0.006 270 / 13%)", "oklch(0.19 0.006 270 / 18%)", "oklch(0.19 0.006 270 / 25%)", "oklch(0.19 0.006 270 / 35%)", "oklch(0.19 0.006 270 / 50%)", "oklch(0.19 0.006 270 / 65%)"] },
-      "signal-green-deep": { "role": "primary", "displayName": "Signal Green Deep", "canonical": "oklch(0.5 0.14 155)", "cssVar": "--accent, --ring (:root)", "approxHex": "#00793d", "tonalRamp": ["oklch(0.15 0.03 155)", "oklch(0.26 0.07 155)", "oklch(0.37 0.1 155)", "oklch(0.5 0.14 155)", "oklch(0.62 0.15 155)", "oklch(0.72 0.16 155)", "oklch(0.8 0.16 155)", "oklch(0.95 0.05 155)"] }
+      "graphite-ground": {
+        "role": "neutral",
+        "displayName": "Graphite Ground",
+        "canonical": "oklch(0.155 0.003 270)",
+        "cssVar": "--background (.dark)",
+        "approxHex": "#0c0c0d",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "graphite-card": {
+        "role": "neutral",
+        "displayName": "Graphite Card",
+        "canonical": "oklch(0.185 0.004 270)",
+        "cssVar": "--card (.dark)",
+        "approxHex": "#121315",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "graphite-raised": {
+        "role": "neutral",
+        "displayName": "Graphite Raised",
+        "canonical": "oklch(0.225 0.005 270)",
+        "cssVar": "--surface-2 (.dark)",
+        "approxHex": "#1b1c1e",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.97 0.002 270)",
+        "cssVar": "--foreground (.dark)",
+        "approxHex": "#f4f5f6",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Ink Secondary",
+        "canonical": "oklch(0.82 0.004 270)",
+        "cssVar": "--foreground-secondary (.dark)",
+        "approxHex": "#c3c4c7",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "oklch(0.69 0.006 270)",
+        "cssVar": "--muted-foreground (.dark)",
+        "approxHex": "#9a9b9f",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(1 0 0 / 8%)",
+        "cssVar": "--border (.dark)",
+        "tonalRamp": [
+          "oklch(1 0 0 / 4%)",
+          "oklch(1 0 0 / 8%)",
+          "oklch(1 0 0 / 12%)",
+          "oklch(1 0 0 / 15%)",
+          "oklch(1 0 0 / 20%)",
+          "oklch(1 0 0 / 30%)",
+          "oklch(1 0 0 / 45%)",
+          "oklch(1 0 0 / 60%)"
+        ]
+      },
+      "hairline-strong": {
+        "role": "neutral",
+        "displayName": "Hairline Strong",
+        "canonical": "oklch(1 0 0 / 15%)",
+        "cssVar": "--border-strong (.dark)",
+        "tonalRamp": [
+          "oklch(1 0 0 / 4%)",
+          "oklch(1 0 0 / 8%)",
+          "oklch(1 0 0 / 12%)",
+          "oklch(1 0 0 / 15%)",
+          "oklch(1 0 0 / 20%)",
+          "oklch(1 0 0 / 30%)",
+          "oklch(1 0 0 / 45%)",
+          "oklch(1 0 0 / 60%)"
+        ]
+      },
+      "lit-edge": {
+        "role": "neutral",
+        "displayName": "Lit Edge",
+        "canonical": "oklch(1 0 0 / 7%)",
+        "cssVar": "--card-highlight (.dark; 0% in light)",
+        "tonalRamp": [
+          "oklch(1 0 0 / 2%)",
+          "oklch(1 0 0 / 4%)",
+          "oklch(1 0 0 / 7%)",
+          "oklch(1 0 0 / 10%)",
+          "oklch(1 0 0 / 14%)",
+          "oklch(1 0 0 / 20%)",
+          "oklch(1 0 0 / 30%)",
+          "oklch(1 0 0 / 45%)"
+        ]
+      },
+      "signal-green": {
+        "role": "primary",
+        "displayName": "Signal Green",
+        "canonical": "oklch(0.8 0.16 155)",
+        "cssVar": "--accent, --ring (.dark)",
+        "approxHex": "#56db8f",
+        "tonalRamp": [
+          "oklch(0.15 0.03 155)",
+          "oklch(0.26 0.07 155)",
+          "oklch(0.37 0.1 155)",
+          "oklch(0.5 0.14 155)",
+          "oklch(0.62 0.15 155)",
+          "oklch(0.72 0.16 155)",
+          "oklch(0.8 0.16 155)",
+          "oklch(0.95 0.05 155)"
+        ]
+      },
+      "signal-green-ink": {
+        "role": "primary",
+        "displayName": "Signal Green Ink",
+        "canonical": "oklch(0.17 0.03 155)",
+        "cssVar": "--accent-foreground (.dark)",
+        "approxHex": "#04130a",
+        "tonalRamp": [
+          "oklch(0.15 0.03 155)",
+          "oklch(0.26 0.07 155)",
+          "oklch(0.37 0.1 155)",
+          "oklch(0.5 0.14 155)",
+          "oklch(0.62 0.15 155)",
+          "oklch(0.72 0.16 155)",
+          "oklch(0.8 0.16 155)",
+          "oklch(0.95 0.05 155)"
+        ]
+      },
+      "paper-ground": {
+        "role": "neutral",
+        "displayName": "Paper Ground",
+        "canonical": "oklch(0.985 0.001 270)",
+        "cssVar": "--background (:root)",
+        "approxHex": "#fafafb",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "paper-card": {
+        "role": "neutral",
+        "displayName": "Paper Card",
+        "canonical": "oklch(1 0 0)",
+        "cssVar": "--card (:root)",
+        "approxHex": "#ffffff",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "paper-raised": {
+        "role": "neutral",
+        "displayName": "Paper Raised",
+        "canonical": "oklch(0.955 0.002 270)",
+        "cssVar": "--surface-2 (:root)",
+        "approxHex": "#eff0f1",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "graphite-ink": {
+        "role": "neutral",
+        "displayName": "Graphite Ink",
+        "canonical": "oklch(0.19 0.006 270)",
+        "cssVar": "--foreground (:root)",
+        "approxHex": "#131417",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "graphite-ink-secondary": {
+        "role": "neutral",
+        "displayName": "Graphite Ink Secondary",
+        "canonical": "oklch(0.36 0.008 270)",
+        "cssVar": "--foreground-secondary (:root)",
+        "approxHex": "#3b3d41",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "graphite-ink-muted": {
+        "role": "neutral",
+        "displayName": "Graphite Ink Muted",
+        "canonical": "oklch(0.47 0.008 270)",
+        "cssVar": "--muted-foreground (:root)",
+        "approxHex": "#595b5f",
+        "tonalRamp": [
+          "oklch(0.15 0.003 270)",
+          "oklch(0.26 0.005 270)",
+          "oklch(0.37 0.007 270)",
+          "oklch(0.48 0.008 270)",
+          "oklch(0.6 0.008 270)",
+          "oklch(0.72 0.006 270)",
+          "oklch(0.84 0.004 270)",
+          "oklch(0.95 0.002 270)"
+        ]
+      },
+      "hairline-light": {
+        "role": "neutral",
+        "displayName": "Hairline (light)",
+        "canonical": "oklch(0.19 0.006 270 / 9%)",
+        "cssVar": "--border (:root)",
+        "tonalRamp": [
+          "oklch(0.19 0.006 270 / 4%)",
+          "oklch(0.19 0.006 270 / 9%)",
+          "oklch(0.19 0.006 270 / 13%)",
+          "oklch(0.19 0.006 270 / 18%)",
+          "oklch(0.19 0.006 270 / 25%)",
+          "oklch(0.19 0.006 270 / 35%)",
+          "oklch(0.19 0.006 270 / 50%)",
+          "oklch(0.19 0.006 270 / 65%)"
+        ]
+      },
+      "hairline-strong-light": {
+        "role": "neutral",
+        "displayName": "Hairline Strong (light)",
+        "canonical": "oklch(0.19 0.006 270 / 18%)",
+        "cssVar": "--border-strong (:root)",
+        "tonalRamp": [
+          "oklch(0.19 0.006 270 / 4%)",
+          "oklch(0.19 0.006 270 / 9%)",
+          "oklch(0.19 0.006 270 / 13%)",
+          "oklch(0.19 0.006 270 / 18%)",
+          "oklch(0.19 0.006 270 / 25%)",
+          "oklch(0.19 0.006 270 / 35%)",
+          "oklch(0.19 0.006 270 / 50%)",
+          "oklch(0.19 0.006 270 / 65%)"
+        ]
+      },
+      "signal-green-deep": {
+        "role": "primary",
+        "displayName": "Signal Green Deep",
+        "canonical": "oklch(0.5 0.14 155)",
+        "cssVar": "--accent, --ring (:root)",
+        "approxHex": "#00793d",
+        "tonalRamp": [
+          "oklch(0.15 0.03 155)",
+          "oklch(0.26 0.07 155)",
+          "oklch(0.37 0.1 155)",
+          "oklch(0.5 0.14 155)",
+          "oklch(0.62 0.15 155)",
+          "oklch(0.72 0.16 155)",
+          "oklch(0.8 0.16 155)",
+          "oklch(0.95 0.05 155)"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "cssVar": "--text-display", "purpose": "The hero name only; the one fluid size, 44 to 76px." },
-      "page": { "displayName": "Page", "cssVar": "--text-page", "purpose": "Inner-page H1 and the closing contact heading (36px)." },
-      "section": { "displayName": "Section", "cssVar": "--text-section", "purpose": "Section H2s via the section heading pattern (24px)." },
-      "title": { "displayName": "Title", "cssVar": "--text-title", "purpose": "Card and role titles at 600; lead lines and page descriptions at 400 (18px)." },
-      "body": { "displayName": "Body", "cssVar": "--text-body", "purpose": "Paragraphs, capped at 52 to 65ch (16px)." },
-      "button": { "displayName": "Button", "cssVar": "--text-body", "purpose": "Button labels: body size at weight 500." },
-      "caption": { "displayName": "Caption", "cssVar": "--text-caption", "purpose": "Metadata, card descriptions, footer; the 14px floor." },
-      "label": { "displayName": "Label", "cssVar": "--text-caption", "purpose": "Desktop nav labels: caption size at weight 500." },
-      "meta": { "displayName": "Meta (Geist Mono)", "cssVar": "--font-mono", "purpose": "Dates, years and figures only, with tabular numerals." }
+      "display": {
+        "displayName": "Display",
+        "cssVar": "--text-display",
+        "purpose": "The hero name only; the one fluid size, 44 to 76px."
+      },
+      "page": {
+        "displayName": "Page",
+        "cssVar": "--text-page",
+        "purpose": "Inner-page H1 (fluid 32px to 44px)."
+      },
+      "section": {
+        "displayName": "Section",
+        "cssVar": "--text-section",
+        "purpose": "Section H2s via the section heading pattern and the contact close (fluid 22px to 28px)."
+      },
+      "title": {
+        "displayName": "Title",
+        "cssVar": "--text-title",
+        "purpose": "Card and role titles at 600; lead lines and page descriptions at 400 (18px)."
+      },
+      "body": {
+        "displayName": "Body",
+        "cssVar": "--text-body",
+        "purpose": "Paragraphs, capped at 52 to 65ch (16px)."
+      },
+      "button": {
+        "displayName": "Button",
+        "cssVar": "--text-body",
+        "purpose": "Button labels: body size at weight 500."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "cssVar": "--text-caption",
+        "purpose": "Metadata, card descriptions, footer; the 14px floor."
+      },
+      "label": {
+        "displayName": "Label",
+        "cssVar": "--text-caption",
+        "purpose": "Desktop nav labels: caption size at weight 500."
+      },
+      "meta": {
+        "displayName": "Meta (Geist Mono)",
+        "cssVar": "--font-mono",
+        "purpose": "Dates, years and figures only, with tabular numerals."
+      }
     },
     "fontRationale": "Geist and Geist Mono are a deliberate category-canon choice: the user picked the modern developer-portfolio standard with Raycast and Resend as the quality bar, and Geist is that canon's native face. The detector flags Geist as overused; the familiarity is intended. Loaded via next/font (Geist 400/500/600, Geist Mono 400) from the site's own origin to satisfy the static CSP.",
     "shadows": [
-      { "name": "lit-top-edge", "value": "inset 0 1px 0 var(--card-highlight)", "purpose": "Every card (.panel). Visible in dark mode only; the system's single elevation." },
-      { "name": "keycap-edge", "value": "inset 0 -1px 0 var(--border-strong)", "purpose": "Tags only: a heavier bottom edge so they read as keycaps." },
-      { "name": "focus-ring", "value": "outline: 2px solid var(--ring); outline-offset: 2px", "purpose": "Every :focus-visible element; one consistent signal-green ring." },
-      { "name": "selection", "value": "background-color: color-mix(in oklch, var(--accent) 32%, transparent)", "purpose": "Themed text selection; scrollbars use 22% foreground on transparent." }
+      {
+        "name": "lit-top-edge",
+        "value": "inset 0 1px 0 var(--card-highlight)",
+        "purpose": "Every card (.panel). Visible in dark mode only; the system's single elevation."
+      },
+      {
+        "name": "keycap-edge",
+        "value": "inset 0 -1px 0 var(--border-strong)",
+        "purpose": "Tags only: a heavier bottom edge so they read as keycaps."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid var(--ring); outline-offset: 2px",
+        "purpose": "Every :focus-visible element; one consistent signal-green ring."
+      },
+      {
+        "name": "selection",
+        "value": "background-color: color-mix(in oklch, var(--accent) 32%, transparent)",
+        "purpose": "Themed text selection; scrollbars use 22% foreground on transparent."
+      }
     ],
     "motion": [
-      { "name": "hover-colour", "value": "100ms", "purpose": "Text-colour changes on links, nav items and icon buttons." },
-      { "name": "hover-surface", "value": "150ms ease-out", "purpose": "Card-link and button surface and border steps; card corner arrow drift." },
-      { "name": "press", "value": "translateY(1px)", "purpose": "Primary button :active nudge." },
-      { "name": "page-crossfade", "value": "180ms", "purpose": "Root view-transition cross-fade between pages; header excluded." },
-      { "name": "shared-morph", "value": "220ms cubic-bezier(0.2, 0, 0, 1)", "purpose": "Shared elements (a certification, the current role) morphing between pages." },
-      { "name": "sheet", "value": "200ms open / 150ms close", "purpose": "Mobile navigation sheet; must open in 200ms or less." },
-      { "name": "cube-sway", "value": "14s ease-in-out infinite alternate", "purpose": "Whole hero cube swaying from rotateX(-24deg) rotateY(-36deg) to rotateX(-30deg) rotateY(-54deg)." },
-      { "name": "cube-twist", "value": "24s cubic-bezier(0.7, 0, 0.25, 1) infinite", "purpose": "Each cube layer turns 90deg four times per loop; layer delays 0.6s, 2.6s, 4.6s; bottom layer reversed. The only infinite animations; all stop under prefers-reduced-motion." }
+      {
+        "name": "hover-colour",
+        "value": "100ms",
+        "purpose": "Text-colour changes on links, nav items and icon buttons."
+      },
+      {
+        "name": "hover-surface",
+        "value": "150ms ease-out",
+        "purpose": "Card-link and button surface and border steps; card corner arrow drift."
+      },
+      {
+        "name": "press",
+        "value": "translateY(1px)",
+        "purpose": "Primary button :active nudge."
+      },
+      {
+        "name": "page-crossfade",
+        "value": "180ms",
+        "purpose": "Root view-transition cross-fade between pages; header excluded."
+      },
+      {
+        "name": "shared-morph",
+        "value": "220ms cubic-bezier(0.2, 0, 0, 1)",
+        "purpose": "Shared elements (a certification, the current role) morphing between pages."
+      },
+      {
+        "name": "sheet",
+        "value": "200ms open / 150ms close",
+        "purpose": "Mobile navigation sheet; must open in 200ms or less."
+      },
+      {
+        "name": "cube-sway",
+        "value": "14s ease-in-out infinite alternate",
+        "purpose": "Whole hero cube swaying from rotateX(-24deg) rotateY(-36deg) to rotateX(-30deg) rotateY(-54deg)."
+      },
+      {
+        "name": "cube-twist",
+        "value": "24s cubic-bezier(0.7, 0, 0.25, 1) infinite",
+        "purpose": "Each cube layer turns 90deg four times per loop; layer delays 0.6s, 2.6s, 4.6s; bottom layer reversed. The only infinite animations; all stop under prefers-reduced-motion."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px", "purpose": "Gutters widen to 24px; two-column card grids; timeline date column." },
-      { "name": "md", "value": "768px", "purpose": "Larger section spacing; cube cubelets 72px." },
-      { "name": "lg", "value": "1024px", "purpose": "Two-column hero (7/12 + 5/12), desktop nav, About 4/8 split, 3- and 4-column grids." },
-      { "name": "xl", "value": "1280px", "purpose": "Cube cubelets 82px." }
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Gutters widen to 24px; two-column card grids; timeline date column."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Larger section spacing; cube cubelets 72px."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Two-column hero (7/12 + 5/12), desktop nav, About 4/8 split, 3- and 4-column grids."
+      },
+      {
+        "name": "xl",
+        "value": "1280px",
+        "purpose": "Cube cubelets 82px."
+      }
     ],
     "cube": {
-      "cssVars": {
-        "dark": { "--cube-top": "oklch(0.42 0.004 270)", "--cube-side": "oklch(0.3 0.004 270)", "--cube-shade": "oklch(0.235 0.004 270)", "--cube-core": "oklch(0.1 0.002 270)", "--cube-edge": "oklch(1 0 0 / 14%)", "--cube-sticker": "oklch(0.78 0.16 155)" },
-        "light": { "--cube-top": "oklch(0.93 0.002 270)", "--cube-side": "oklch(0.86 0.003 270)", "--cube-shade": "oklch(0.78 0.004 270)", "--cube-core": "oklch(0.3 0.004 270)", "--cube-edge": "oklch(1 0 0 / 55%)", "--cube-sticker": "oklch(0.62 0.15 155)" }
+      "renderer": "WebGL (three.js) in a Web Worker on OffscreenCanvas; main-thread fallback",
+      "source": "components/hero/cube-scene.ts",
+      "poster": "/cube-poster.png (exact first frame; regenerate with npm run cube:poster)",
+      "material": {
+        "body": "#0f1012, metalness 0.55, roughness 0.24, clearcoat 1",
+        "sticker": "#16c060"
       },
-      "geometry": "27 cubelets; edge 50px / 72px (md) / 82px (xl), gap 4 / 5 / 6px; faces rounded 16%; perspective 1200px at 50% 40%; 5 green stickers."
+      "motion": {
+        "turnMs": 700,
+        "pauseMs": 450,
+        "axes": "x, y, z",
+        "drag": "spin with momentum"
+      },
+      "reducedMotion": "one still frame"
     }
   },
   "components": [
@@ -112,9 +536,9 @@
       "name": "Section Heading",
       "kind": "custom",
       "refersTo": "section",
-      "description": "24px semibold section title with an optional one-line description and a trailing 14px section link; never an eyebrow above it.",
+      "description": "Fluid 22-28px semibold section title with an optional one-line description and a trailing 14px section link; never an eyebrow above it.",
       "html": "<div class=\"ds-sh\"><div><h2 class=\"ds-sh-title\">Selected projects</h2><p class=\"ds-sh-desc\">Open-source security tools from GitHub.</p></div><a class=\"ds-sh-link\" href=\"#\">All projects<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
-      "css": ".ds-sh { display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 24px; font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; } .ds-sh-title { margin: 0; font-size: 24px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; color: var(--foreground, oklch(0.97 0.002 270)); text-wrap: balance; } .ds-sh-desc { margin: 4px 0 0; font-size: 16px; line-height: 1.6; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-sh-link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 14px; color: var(--muted-foreground, oklch(0.69 0.006 270)); text-decoration: none; transition: color 100ms; } .ds-sh-link:hover { color: var(--foreground, oklch(0.97 0.002 270)); } .ds-sh-link:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; }"
+      "css": ".ds-sh { display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 24px; font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; } .ds-sh-title { margin: 0; font-size: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem); line-height: 1.2; letter-spacing: -0.02em; font-weight: 600; color: var(--foreground, oklch(0.97 0.002 270)); text-wrap: balance; } .ds-sh-desc { margin: 4px 0 0; font-size: 16px; line-height: 1.6; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-sh-link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 14px; color: var(--muted-foreground, oklch(0.69 0.006 270)); text-decoration: none; transition: color 100ms; } .ds-sh-link:hover { color: var(--foreground, oklch(0.97 0.002 270)); } .ds-sh-link:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; }"
     },
     {
       "name": "Timeline Entry",
@@ -131,14 +555,6 @@
       "description": "The hero meta block: a green status dot with its line, then years and featured certifications in 14px muted text.",
       "html": "<div class=\"ds-meta\"><p class=\"ds-meta-status\"><i></i>Open to opportunities</p><p>N years experience · AWS Solutions Architect · CRTP · CREST CRT</p></div>",
       "css": ".ds-meta { font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; font-size: 14px; line-height: 1.45; color: var(--muted-foreground, oklch(0.69 0.006 270)); font-variant-numeric: tabular-nums; } .ds-meta p { margin: 0 0 6px; } .ds-meta-status { display: inline-flex; align-items: center; gap: 8px; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-meta-status i { width: 8px; height: 8px; border-radius: 9999px; background: var(--accent, oklch(0.8 0.16 155)); }"
-    },
-    {
-      "name": "Hero Cube Cubelet",
-      "kind": "custom",
-      "refersTo": "hero-cube",
-      "description": "One cubelet of the signature 27-piece CSS 3D Rubik's cube: three graphite face tones by orientation, a faint sheen, a light edge, and a green sticker. The full cube sways and twists; it is the only infinite animation and stops under reduced motion.",
-      "html": "<div class=\"ds-cube-scene\" aria-hidden=\"true\"><div class=\"ds-cubie\"><span class=\"ds-face ds-front ds-sticker\"></span><span class=\"ds-face ds-right\"></span><span class=\"ds-face ds-top\"></span></div></div>",
-      "css": ".ds-cube-scene { width: 160px; height: 160px; perspective: 1200px; perspective-origin: 50% 40%; display: grid; place-items: center; } .ds-cubie { --s: 72px; --half: 36px; position: relative; width: var(--s); height: var(--s); transform-style: preserve-3d; transform: rotateX(-24deg) rotateY(-36deg); animation: ds-cube-sway 14s ease-in-out infinite alternate; } @keyframes ds-cube-sway { to { transform: rotateX(-30deg) rotateY(-54deg); } } .ds-face { position: absolute; inset: 0; border-radius: 16%; backface-visibility: hidden; background-image: linear-gradient(150deg, oklch(1 0 0 / 9%), transparent 55%); box-shadow: inset 0 0 0 1px var(--cube-edge, oklch(1 0 0 / 14%)); } .ds-front { transform: translateZ(var(--half)); background-color: var(--cube-side, oklch(0.3 0.004 270)); } .ds-right { transform: rotateY(90deg) translateZ(var(--half)); background-color: var(--cube-shade, oklch(0.235 0.004 270)); } .ds-top { transform: rotateX(90deg) translateZ(var(--half)); background-color: var(--cube-top, oklch(0.42 0.004 270)); } .ds-front.ds-sticker { background-color: var(--cube-sticker, oklch(0.78 0.16 155)); } @media (prefers-reduced-motion: reduce) { .ds-cubie { animation: none; } }"
     }
   ],
   "narrative": {
@@ -153,15 +569,51 @@
       "One authored motion moment: the 27-cubelet hero cube, which stops under reduced motion."
     ],
     "rules": [
-      { "name": "The Signal Rule", "body": "Green means status, primary action or keyboard focus (plus the cube motif that carries the identity). It never marks data: the repository language dot is neutral grey, and there is one filled green dot on the timeline, for the current role only.", "section": "colors" },
-      { "name": "The Mirror Rule", "body": "Light and dark are the same structure with different values. Every role exists in both themes; a component never picks a colour that exists in only one.", "section": "colors" },
-      { "name": "The Five Sizes Rule", "body": "Text is 14, 16, 18, 24 or 36px, plus the fluid hero name. No other size, no text under 14px. An e2e guard enforces this on every page.", "section": "typography" },
-      { "name": "The Numbers-in-Mono Rule", "body": "Geist Mono is for dates, years and figures, nothing else. Date ranges set the en dash in the sans face, because a monospaced en dash is as short as a hyphen.", "section": "typography" },
-      { "name": "The Quiet Wrap Rule", "body": "Headings use balanced wrapping; paragraphs, list items and definitions use pretty wrapping.", "section": "typography" },
-      { "name": "The One Column Rule", "body": "Every page shares the header's column and gutters. Nothing breaks out to full bleed except the header and footer bands.", "section": "layout" },
-      { "name": "The Lit Edge Rule", "body": "The only elevation is a 1px inset line. No outer shadows, no blur, no glow, no backdrop-filter, at rest or on hover.", "section": "elevation" },
-      { "name": "The Flat Hover Rule", "body": "Only whole-card links react to hover, and they react by stepping up one surface (card to raised) and brightening the border to hairline-strong, in 150ms ease-out. Cards that are not links never change on hover.", "section": "elevation" },
-      { "name": "The One Moving Thing Rule", "body": "The hero cube is the only infinite animation on any page, and under `prefers-reduced-motion: reduce` it holds completely still. All other motion is a response to the user: 100 to 150ms colour and surface transitions, 180ms page cross-fades and 220ms shared-element morphs through view transitions (a certification or the current role keeps one identity across pages), all disabled under reduced motion.", "section": "components" }
+      {
+        "name": "The Signal Rule",
+        "body": "Green means status, primary action or keyboard focus (plus the cube motif that carries the identity). It never marks data: the repository language dot is neutral grey, and there is one filled green dot on the timeline, for the current role only.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mirror Rule",
+        "body": "Light and dark are the same structure with different values. Every role exists in both themes; a component never picks a colour that exists in only one.",
+        "section": "colors"
+      },
+      {
+        "name": "The Five Sizes Rule",
+        "body": "Text is 14, 16, 18, 24 or 36px, plus the fluid hero name. No other size, no text under 14px. An e2e guard enforces this on every page.",
+        "section": "typography"
+      },
+      {
+        "name": "The Numbers-in-Mono Rule",
+        "body": "Geist Mono is for dates, years and figures, nothing else. Date ranges set the en dash in the sans face, because a monospaced en dash is as short as a hyphen.",
+        "section": "typography"
+      },
+      {
+        "name": "The Quiet Wrap Rule",
+        "body": "Headings use balanced wrapping; paragraphs, list items and definitions use pretty wrapping.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Column Rule",
+        "body": "Every page shares the header's column and gutters. Nothing breaks out to full bleed except the header and footer bands.",
+        "section": "layout"
+      },
+      {
+        "name": "The Lit Edge Rule",
+        "body": "The only elevation is a 1px inset line. No outer shadows, no blur, no glow, no backdrop-filter, at rest or on hover.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat Hover Rule",
+        "body": "Only whole-card links react to hover, and they react by stepping up one surface (card to raised) and brightening the border to hairline-strong, in 150ms ease-out. Cards that are not links never change on hover.",
+        "section": "elevation"
+      },
+      {
+        "name": "The One Moving Thing Rule",
+        "body": "The hero cube is the only infinite animation on any page, and under `prefers-reduced-motion: reduce` it holds completely still. All other motion is a response to the user: 100 to 150ms colour and surface transitions, 180ms page cross-fades and 220ms shared-element morphs through view transitions (a certification or the current role keeps one identity across pages), all disabled under reduced motion.",
+        "section": "components"
+      }
     ],
     "dos": [
       "**Do** set text only in the five sizes (14, 16, 18, 24, 36px) or the fluid hero display, and never below 14px.",

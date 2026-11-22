@@ -1,18 +1,19 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** Home-screen icon: the site's cube mark on the graphite ground (hex approximations of DESIGN.md tokens). */
-export default function AppleIcon() {
+/** Home-screen icon: the profile picture, matching the favicon (app/icon.tsx) and the site mark. */
+export default async function AppleIcon() {
+  const avatar = await readFile(path.join(process.cwd(), "public", "avatar-3d.png"));
+  const src = `data:image/png;base64,${avatar.toString("base64")}`;
   return new ImageResponse(
     (
-      <div style={{ display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", background: "#121214" }}>
-        <svg width="112" height="112" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2.5 20.5 7.25v9.5L12 21.5l-8.5-4.75v-9.5L12 2.5Z" fill="#26262a" stroke="#4a4a50" strokeWidth="0.6" />
-          <path d="M12 12 20.5 7.25M12 12 3.5 7.25M12 12v9.5" stroke="#4a4a50" strokeWidth="0.6" />
-          <path d="M12 2.5 20.5 7.25 12 12 3.5 7.25 12 2.5Z" fill="#4ade80" />
-        </svg>
+      <div style={{ display: "flex", width: "100%", height: "100%", background: "#121214" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse requires <img> */}
+        <img src={src} alt="" width={180} height={180} style={{ objectFit: "cover" }} />
       </div>
     ),
     size,

@@ -5,10 +5,12 @@ import { ImageResponse } from "next/og";
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
 
-const BG = "#0f1520";
+// Graphite palette from DESIGN.md (hex approximations of the oklch tokens; Satori has no oklch).
+const BG = "#121214";
+const SURFACE = "#1a1a1d";
 const ACCENT = "#4ade80";
-const TEXT = "#e6e9ef";
-const MUTED = "#94a3b8";
+const TEXT = "#f4f4f5";
+const MUTED = "#a1a1aa";
 
 let avatarCache: Promise<string | null> | undefined;
 function loadAvatar(): Promise<string | null> {
@@ -31,7 +33,7 @@ export async function renderOgImage(opts: { eyebrow: string; title: string; subt
           width: "100%",
           height: "100%",
           padding: "72px",
-          background: `linear-gradient(135deg, ${BG} 0%, #131c2b 60%, ${BG} 100%)`,
+          background: BG,
           color: TEXT,
           fontFamily: "sans-serif",
         }}
@@ -61,8 +63,8 @@ export async function renderOgImage(opts: { eyebrow: string; title: string; subt
               marginLeft: 48,
               borderRadius: 24,
               overflow: "hidden",
-              border: `3px solid ${ACCENT}55`,
-              background: "#131c2b",
+              border: "1px solid #ffffff26",
+              background: SURFACE,
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse requires <img> */}

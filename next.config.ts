@@ -1,11 +1,12 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import type { NextConfig } from "next";
+import { GA_ID } from "./lib/analytics";
 import { buildCsp } from "./lib/csp";
 
 const csp = buildCsp({
   dev: process.env.NODE_ENV !== "production",
-  gaEnabled: Boolean(process.env.NEXT_PUBLIC_GA_ID),
+  gaEnabled: Boolean(GA_ID),
 });
 
 const nextConfig: NextConfig = {

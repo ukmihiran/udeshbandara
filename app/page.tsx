@@ -2,6 +2,8 @@ import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Hero } from "@/components/hero/hero";
+import { JsonLd } from "@/components/layout/json-ld";
+import { websiteJsonLd } from "@/lib/structured-data";
 import { ContactCta } from "@/components/sections/contact-cta";
 import { LatestPosts } from "@/components/sections/latest-posts";
 import { OrgLogo } from "@/components/sections/org-logo";
@@ -28,6 +30,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={websiteJsonLd()} />
       <Hero />
 
       <div className="mx-auto w-full max-w-6xl space-y-20 px-4 pb-20 pt-12 sm:px-6 md:space-y-24 md:pt-16">

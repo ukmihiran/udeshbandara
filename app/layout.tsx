@@ -1,14 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { GA_ID } from "@/lib/analytics";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { PageTransition } from "@/components/layout/page-transition";
-import { PAGE_META, jsonLdScript, pageMetadata } from "@/lib/seo";
+import { PAGE_META, pageMetadata, verificationMetadata } from "@/lib/seo";
+import { personJsonLd } from "@/lib/structured-data";
+import { JsonLd } from "@/components/layout/json-ld";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +28,7 @@ export const metadata: Metadata = {
   keywords: ["cybersecurity", "penetration testing", "red teaming", "offensive security", "Udesh Bandara", "Kroll"],
   robots: { index: true, follow: true },
   metadataBase: new URL(SITE.url),
+  verification: verificationMetadata({ GOOGLE_SITE_VERIFICATION: process.env.GOOGLE_SITE_VERIFICATION }),
 };
 
 export const viewport: Viewport = {
@@ -34,20 +38,6 @@ export const viewport: Viewport = {
   ],
   viewportFit: "cover",
 };
-
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: SITE.name,
-  alternateName: SITE.alternateName,
-  jobTitle: SITE.jobTitle,
-  worksFor: { "@type": "Organization", name: SITE.employer },
-  url: SITE.url,
-  sameAs: [SITE.linkedin, SITE.github, SITE.blogUrl],
-};
-
-/** Google Analytics loads only when explicitly configured (needs a consent banner under UK PECR). */
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -59,10 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           mono.variable,
         )}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(personJsonLd) }}
-        />
+        <JsonLd data={personJsonLd()} />
         <a
           href="#main"
           className="sr-only z-[60] rounded-md bg-accent px-4 py-2 text-accent-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
@@ -83,14 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
         <Analytics />
         <SpeedInsights />
-        {GA_ID && (
-          <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
-            <Script id="ga-init" strategy="lazyOnload">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',${JSON.stringify(GA_ID)});`}
-            </Script>
-          </>
-        )}
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
       </body>
     </html>
   );

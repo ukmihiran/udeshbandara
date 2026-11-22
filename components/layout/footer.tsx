@@ -4,6 +4,8 @@ import { NAV_ITEMS } from "@/lib/data";
 import { SITE, SOCIALS } from "@/lib/site";
 import type { Social } from "@/lib/types";
 import { BrandMark } from "./brand-mark";
+import { AnalyticsSettingsButton } from "@/components/analytics/google-analytics";
+import { GA_ID } from "@/lib/analytics";
 
 const ICONS: Record<Social["label"], LucideIcon> = {
   GitHub: Github,
@@ -42,8 +44,13 @@ export function Footer() {
         </nav>
 
         <div className="flex items-center justify-between gap-3 border-t border-border pt-4 md:col-span-2">
-          <p className="text-caption text-muted-foreground">
-            &copy; {new Date().getFullYear()} {SITE.name}
+          <p className="flex flex-wrap items-center gap-x-4 text-caption text-muted-foreground">
+            <span>
+              &copy; {new Date().getFullYear()} {SITE.name}
+            </span>
+            {GA_ID && (
+              <AnalyticsSettingsButton className="min-h-11 text-caption text-muted-foreground underline decoration-border-strong underline-offset-4 transition-colors duration-100 hover:text-foreground" />
+            )}
           </p>
           <ul className="-mr-3 flex items-center">
             {SOCIALS.map(({ href, label }) => {

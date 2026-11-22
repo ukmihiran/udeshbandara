@@ -7,31 +7,33 @@ type Path = NavItem["href"];
 export const PAGE_META: Record<Path, { name: string; title: string; description: string }> = {
   "/": {
     name: "Home",
-    title: "Udesh Bandara | Offensive Security Consultant",
+    title: "Udesh Bandara | Offensive Security Consultant, London",
     description:
-      "Udesh Bandara — Offensive Security Consultant at Kroll UK. Penetration testing, red teaming and cloud security.",
+      "Udesh Bandara is an Offensive Security Consultant at Kroll in London: penetration testing, red teaming and cloud security assessments. CREST CRT and CRTP.",
   },
   "/about": {
     name: "About",
-    title: "About",
+    title: "About: Offensive Security Consultant",
     description:
-      "Background, education (MSc Cyber Security, UWE Bristol) and the offensive security tools Udesh Bandara works with.",
+      "About Udesh Bandara: penetration testing, red teaming, vulnerability management and cloud security, with an MSc in Cyber Security from UWE Bristol.",
   },
   "/experience": {
     name: "Experience",
-    title: "Experience",
+    title: "Offensive Security Experience",
     description:
-      "Career timeline: offensive security consulting at Kroll, plus security roles at Axiata Digital Labs, CryptoGen and PwC.",
+      "Career timeline of Udesh Bandara: offensive security consulting at Kroll, plus security roles at Axiata Digital Labs, CryptoGen and PwC Sri Lanka.",
   },
   "/certifications": {
     name: "Certifications",
-    title: "Certifications",
-    description: "Security certifications including AWS Solutions Architect, CRTP, CREST CRT, CREST CPSA, CEH and eJPT.",
+    title: "Certifications: CREST CRT, CRTP, AWS",
+    description:
+      "Udesh Bandara's security certifications: AWS Solutions Architect, CRTP, CREST CRT, CREST CPSA, CEH, eJPT, Azure Fundamentals and CCNA Cyber Ops.",
   },
   "/projects": {
     name: "Projects",
-    title: "Projects",
-    description: "Open-source security tools and research by Udesh Bandara: BloodHound standalone, recon scripts and more.",
+    title: "Open-Source Security Tools",
+    description:
+      "Open-source security tools by Udesh Bandara: a standalone BloodHound container, live-host enumeration, SecurityTrails subdomain scanning and DGA detection.",
   },
 };
 
@@ -47,7 +49,14 @@ export function pageMetadata(path: Path): Metadata {
     title: path === "/" ? { absolute: title } : title,
     description,
     alternates: { canonical: absoluteUrl(path) },
-    openGraph: { title: fullTitle, description, url: absoluteUrl(path), siteName: SITE.name, type: "website" },
+    openGraph: {
+      title: fullTitle,
+      description,
+      url: absoluteUrl(path),
+      siteName: SITE.name,
+      type: "website",
+      locale: "en_GB",
+    },
     twitter: { card: "summary_large_image", title: fullTitle, description },
   };
 }
@@ -61,6 +70,15 @@ export function breadcrumbJsonLd(path: Exclude<Path, "/">) {
       { "@type": "ListItem", position: 2, name: PAGE_META[path].name, item: absoluteUrl(path) },
     ],
   };
+}
+
+/**
+ * Google Search Console HTML-tag verification. Set GOOGLE_SITE_VERIFICATION in Vercel to the
+ * token from Search Console (only needed when the site is not already verified by DNS).
+ */
+export function verificationMetadata(env: { GOOGLE_SITE_VERIFICATION?: string }): Metadata["verification"] {
+  const token = env.GOOGLE_SITE_VERIFICATION?.trim();
+  return token && /^[A-Za-z0-9_-]{10,100}$/.test(token) ? { google: token } : undefined;
 }
 
 /** Serialise JSON-LD safely for an inline <script>. */

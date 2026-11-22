@@ -11,3 +11,9 @@ test("sitemap lists every route with absolute URLs", () => {
 test("robots points at the sitemap", () => {
   expect(robots().sitemap).toBe("https://udeshbandara.com/sitemap.xml");
 });
+
+test("every sitemap entry carries a lastModified date", () => {
+  for (const entry of sitemap()) {
+    expect(entry.lastModified, entry.url).toBeInstanceOf(Date);
+  }
+});

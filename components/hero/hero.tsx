@@ -16,8 +16,10 @@ export function Hero() {
     <section className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 pt-10 sm:px-6 md:pt-16 lg:min-h-[min(36rem,calc(100svh-3.5rem))] lg:grid-cols-12 lg:pt-8">
       <div className="lg:col-span-7">
         <h1 className="font-display text-display font-semibold">{SITE.name}</h1>
+        {/* Kept short enough for one line in both Geist and its fallback at 360px+, so the font swap
+            cannot re-wrap it and shift the page (CLS). The location lives in the footer and About. */}
         <p className="mt-5 text-title text-foreground">
-          {SITE.jobTitle} at {current.company}, {current.location.split(",")[0]}
+          {SITE.jobTitle} at {current.company}
         </p>
         <p className="mt-2 max-w-[52ch] text-body text-foreground-secondary">
           Penetration testing, red teaming and cloud security assessments for enterprise clients, plus open-source

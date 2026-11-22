@@ -85,8 +85,13 @@ NEXT_PUBLIC_APP_URL="http://localhost:3000"
 # GitHub token: raises the API rate limit for /projects (public repos work without it)
 GH_TOKEN="your_github_token"
 
-# Google Analytics 4. Leave unset unless you add a cookie-consent banner (UK PECR).
+# Google Analytics 4. Optional override: Vercel production already uses the site's
+# property (lib/analytics.ts); previews and local builds load no analytics.
+# GA only loads after the visitor allows it in the consent banner (UK PECR).
 NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
+
+# Google Search Console HTML-tag verification token (skip if verified by DNS).
+GOOGLE_SITE_VERIFICATION="token-from-search-console"
 ```
 
 GitHub Actions secret names can't start with `GITHUB_`, so prefer `GH_TOKEN` (`GITHUB_TOKEN` also works locally).
@@ -130,7 +135,7 @@ tests/unit tests/e2e
 
 ## Deploy
 
-Deploy on **Vercel**. Optionally set `NEXT_PUBLIC_APP_URL`, `GH_TOKEN` and `NEXT_PUBLIC_GA_ID`.
+Deploy on **Vercel**. Optionally set `NEXT_PUBLIC_APP_URL`, `GH_TOKEN`, `NEXT_PUBLIC_GA_ID` and `GOOGLE_SITE_VERIFICATION`.
 
 ## License
 

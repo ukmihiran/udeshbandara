@@ -15,6 +15,7 @@ export function CopyEmail({ email, className }: { email: string; className?: str
     try {
       await navigator.clipboard.writeText(email);
       setCopied(true);
+      window.dispatchEvent(new Event("email-copied")); // picked up by analytics when allowed
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
       // Clipboard blocked (permissions or insecure context): the address is on screen to select.

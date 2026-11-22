@@ -11,14 +11,14 @@ function CertBody({ cert }: { cert: Certification }) {
         <OrgLogo src={cert.image} alt={cert.issuer} scale={cert.logoScale} />
         <span className="font-mono text-caption text-muted-foreground tabular-nums">{cert.year}</span>
       </div>
-      <p
+      <h2
         data-cert-name
         data-cert-vt={cert.name}
         style={transitionStyle("cert", cert.name)}
         className="mt-4 text-body font-semibold text-foreground [overflow-wrap:anywhere] sm:mt-6 sm:text-title"
       >
         {cert.name}
-      </p>
+      </h2>
       <p className="text-caption text-foreground-secondary">{cert.issuer}</p>
       {cert.verifyUrl && (
         <span className="mt-auto inline-flex items-center gap-1 pt-5 text-caption text-muted-foreground transition-colors duration-100 group-hover:text-foreground">

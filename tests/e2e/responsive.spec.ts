@@ -65,3 +65,21 @@ test("theme toggle switches and persists across navigation", async ({ page }) =>
   await expect(page).toHaveURL(/\/about$/);
   await expect(html).toHaveAttribute("class", after ?? "");
 });
+
+test("the hero does not re-wrap when the web font arrives (no layout shift)", async ({ page }) => {
+  await page.setViewportSize({ width: 412, height: 823 });
+  let release!: () => void;
+  const gate = new Promise<void>((r) => (release = r));
+  await page.route(/\.woff2$/, async (route) => {
+    await gate;
+    await route.continue();
+  });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  const heroHeight = () => page.locator("main section").first().evaluate((el) => Math.round(el.getBoundingClientRect().height));
+  const withFallback = await heroHeight();
+  release();
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+  // Before the fix the role line wrapped to 2 lines in the fallback face: 396px vs 370px.
+  expect(Math.abs((await heroHeight()) - withFallback)).toBeLessThanOrEqual(2);
+});

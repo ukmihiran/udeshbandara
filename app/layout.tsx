@@ -16,8 +16,11 @@ import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 // Type system (DESIGN.md): Geist for display and body, Geist Mono only for dates, years and figures.
-const sans = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["400", "500", "600"] });
-const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], weight: ["400"] });
+// display "optional": a preloaded face that arrives within ~100ms is used; otherwise the page keeps
+// its fallback for that view instead of swapping later. Fallback metrics differ per OS (no Arial on
+// Android or Linux), so a late swap would re-wrap text and shift the layout (CLS).
+const sans = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["400", "500", "600"], display: "optional" });
+const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], weight: ["400"], display: "optional" });
 
 // Canonical URLs are set per page; the root must not give one to 404 / error pages.
 const { alternates: _homeCanonical, ...homeMeta } = pageMetadata("/");

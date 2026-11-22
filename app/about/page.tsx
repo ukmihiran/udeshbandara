@@ -2,22 +2,22 @@ import { BreadcrumbJsonLd } from "@/components/layout/breadcrumb-jsonld";
 import { pageMetadata } from "@/lib/seo";
 import { Container } from "@/components/layout/container";
 import { About } from "@/components/sections/about";
-import { LatestPosts } from "@/components/sections/latest-posts";
+import { ContactCta } from "@/components/sections/contact-cta";
 import { PageHeader } from "@/components/sections/page-header";
-import { getLatestPosts } from "@/lib/blog";
 
 export const metadata = pageMetadata("/about");
-export const revalidate = 86400;
 
-export default async function AboutPage() {
-  const posts = await getLatestPosts(3);
+export default function AboutPage() {
   return (
     <Container>
       <BreadcrumbJsonLd path="/about" />
-      <PageHeader title="About Me" description="Background, education, and the tools I work with." />
+      <PageHeader
+        title="About"
+        description="Background, focus areas, toolkit and education."
+      />
       <About />
-      <div className="mt-16 border-t border-border pt-12">
-        <LatestPosts posts={posts} />
+      <div className="mt-20">
+        <ContactCta />
       </div>
     </Container>
   );

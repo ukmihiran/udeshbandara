@@ -51,7 +51,7 @@ test.describe("phone without JavaScript", () => {
   });
 
   test("the avatar is visible", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/about");
     const opacity = await page
       .getByAltText("Udesh Bandara", { exact: true })
       .evaluate((img) => {

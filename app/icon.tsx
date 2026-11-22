@@ -25,8 +25,8 @@ export default async function Icon() {
             height: "100%",
             borderRadius: "50%",
             overflow: "hidden",
-            background: "#0d1a0d",
-            border: "1px solid #9FEF0030",
+            background: "#151517",
+            border: "1px solid #ffffff26",
             position: "relative",
           }}
         >
@@ -56,13 +56,13 @@ export default async function Icon() {
             width: "100%",
             height: "100%",
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #0d1a0d 0%, #1a2e1a 100%)",
-            color: "#9FEF00",
+            background: "#151517",
+            color: "#4ade80",
             fontSize: "14px",
             fontWeight: 700,
             fontFamily: "sans-serif",
             letterSpacing: "-0.5px",
-            border: "1px solid #9FEF0030",
+            border: "1px solid #ffffff26",
           }}
         >
           UB

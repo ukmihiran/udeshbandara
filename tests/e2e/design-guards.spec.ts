@@ -1,22 +1,45 @@
 import { expect, test } from "@playwright/test";
+import { EXPERIENCES } from "../../lib/data";
+import { yearsOfExperience } from "../../lib/format";
 
 /**
- * Guards against the "AI template" look (docs/design/2026-11-21-ui-ux-audit.md, step 1).
- * Each test pins one removed pattern so it cannot creep back in.
+ * Guards for the design system (DESIGN.md): the removed "AI template" patterns stay out, and the
+ * graphite product-UI world keeps its rules. Each test pins one rule so it cannot drift.
  */
 const PAGES = ["/", "/about", "/experience", "/certifications", "/projects"];
 
-test("no infinite decorative animations on any page", async ({ page }) => {
+/** Infinite animations outside the hero cube, which is the one authored motion moment. */
+const strayInfinite = () =>
+  document
+    .getAnimations()
+    .filter((a) => a.effect?.getComputedTiming().iterations === Infinity)
+    .map((a) => (a.effect as KeyframeEffect | null)?.target as Element | null)
+    .filter((el) => !el?.closest("[data-hero-cube]"))
+    .map((el) => el?.className?.toString() ?? "?");
+
+test("the hero cube is the only infinite animation on any page", async ({ page }) => {
   for (const path of PAGES) {
     await page.goto(path);
-    const infinite = await page.evaluate(() =>
-      document
-        .getAnimations()
-        .filter((a) => a.effect?.getComputedTiming().iterations === Infinity)
-        .map((a) => (a.effect as KeyframeEffect | null)?.target?.className?.toString() ?? "?"),
-    );
-    expect(infinite, path).toEqual([]);
+    expect(await page.evaluate(strayInfinite), path).toEqual([]);
   }
+});
+
+test.describe("reduced motion", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("the hero cube holds still", async ({ page }) => {
+    await page.goto("/");
+    const cube = page.locator("[data-hero-cube]");
+    await expect(cube).toBeVisible();
+    expect(await cube.evaluate((el) => el.getAnimations({ subtree: true }).length)).toBe(0);
+  });
+});
+
+test("the hero cube is decorative: hidden from assistive tech, 27 cubelets", async ({ page }) => {
+  await page.goto("/");
+  const cube = page.locator("[data-hero-cube]");
+  await expect(cube).toHaveAttribute("aria-hidden", "true");
+  await expect(cube.locator(".cubie")).toHaveCount(27);
 });
 
 test("no glass: nothing uses backdrop-filter", async ({ page }) => {
@@ -73,15 +96,15 @@ test("hero: the name comes first, with one static role line and no stat tiles", 
   expect(firstText).toBe("h1");
   await expect(page.locator("[data-role-text]")).toHaveCount(0);
   await expect(page.locator("[data-stat]")).toHaveCount(0);
-  await expect(page.locator("[data-hero-meta]")).toContainText("4+ years");
+  await expect(page.locator("[data-hero-meta]")).toContainText(`${yearsOfExperience(EXPERIENCES, new Date())} years`);
 });
 
 test("avatar is a plain image: no clip-path, glow filter or animation", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/about");
   const img = page.getByAltText("Udesh Bandara", { exact: true });
   const decoration = await img.evaluate((el) => {
     const out: string[] = [];
-    for (let n: Element | null = el; n && n.tagName !== "SECTION"; n = n.parentElement) {
+    for (let n: Element | null = el; n && n.tagName !== "MAIN"; n = n.parentElement) {
       const s = getComputedStyle(n);
       if (s.clipPath !== "none") out.push(`clip-path on ${n.tagName}`);
       if (s.filter !== "none") out.push(`filter on ${n.tagName}`);
@@ -106,9 +129,16 @@ test("clickable cards change surface on hover, without a glow", async ({ page })
   await page.goto("/projects");
   const card = page.locator("[data-repo]").first();
   test.skip((await card.count()) === 0, "GitHub unavailable — fallback card shown");
+  const read = () =>
+    card.evaluate((el) => ({ shadow: getComputedStyle(el).boxShadow, bg: getComputedStyle(el).backgroundColor }));
+  const rest = await read();
   await card.hover();
   await page.waitForTimeout(300);
-  expect(await card.evaluate((el) => getComputedStyle(el).boxShadow)).toBe("none");
+  const hover = await read();
+  expect(hover.bg).not.toBe(rest.bg); // the surface steps up
+  expect(hover.shadow).toBe(rest.shadow); // hover adds no glow
+  // The only elevation is the 1px inset top edge: no outer, blurred shadow.
+  expect(rest.shadow === "none" || /^\S.*0px 1px 0px 0px inset$/.test(rest.shadow), rest.shadow).toBe(true);
 });
 
 test("footer has no terminal costume", async ({ page }) => {
@@ -116,7 +146,7 @@ test("footer has no terminal costume", async ({ page }) => {
   await expect(page.locator("footer")).not.toContainText("whoami");
 });
 
-/* ── Step 2: the type system (tokens in app/globals.css) ─────────────────── */
+/* ── The type system (tokens in app/globals.css) ─────────────────────────── */
 
 /** Computed font size, weight and family of every element that directly holds visible text. */
 const textStyles = () =>
@@ -131,8 +161,8 @@ const textStyles = () =>
       return { size: parseFloat(s.fontSize), weight: s.fontWeight, family: s.fontFamily, tag: el.tagName };
     });
 
-const ALLOWED_SIZES = [14, 16, 20, 25, 31]; // caption, body, title, section, page
-const isDisplay = (s: { tag: string; size: number }) => s.tag === "H1" && s.size >= 31; // fluid hero name
+const ALLOWED_SIZES = [14, 16, 18, 24, 36]; // caption, body, title, section, page
+const isDisplay = (s: { tag: string; size: number }) => s.tag === "H1" && s.size >= 36; // fluid hero name
 
 test("text uses only the five type-scale sizes (plus the fluid hero name)", async ({ page }) => {
   for (const path of PAGES) {
@@ -151,24 +181,25 @@ test("no text smaller than the 14px caption floor", async ({ page }) => {
   }
 });
 
-test("only 400/600 sans weights and the 500 display weight", async ({ page }) => {
+test("only the 400/500/600 Geist weights and 400 Geist Mono", async ({ page }) => {
   for (const path of PAGES) {
     await page.goto(path);
     const bad = (await page.evaluate(textStyles))
       .filter((s) => {
-        const display = /newsreader/i.test(s.family);
-        return display ? s.weight !== "500" : !["400", "600"].includes(s.weight);
+        const mono = /mono/i.test(s.family);
+        return mono ? s.weight !== "400" : !["400", "500", "600"].includes(s.weight);
       })
       .map((s) => `${s.tag} ${s.weight} ${s.family.split(",")[0]}`);
     expect([...new Set(bad)], path).toEqual([]);
   }
 });
 
-test("chosen families only: Newsreader, Source Sans 3, IBM Plex Mono (no Geist)", async ({ page }) => {
-  await page.goto("/experience");
-  const families = [...new Set((await page.evaluate(textStyles)).map((s) => s.family.split(",")[0].replace(/['"]/g, "").trim()))];
-  expect(families.some((f) => /geist/i.test(f))).toBe(false);
-  for (const f of families) expect(f, families.join(" | ")).toMatch(/Newsreader|Source Sans 3|IBM Plex Mono/);
+test("chosen families only: Geist and Geist Mono", async ({ page }) => {
+  for (const path of ["/", "/experience"]) {
+    await page.goto(path);
+    const families = [...new Set((await page.evaluate(textStyles)).map((s) => s.family.split(",")[0].replace(/['"]/g, "").trim()))];
+    for (const f of families) expect(f, families.join(" | ")).toMatch(/^Geist( Mono)?\b/);
+  }
 });
 
 test("headings balance their wrap and paragraphs avoid stragglers", async ({ page }) => {
@@ -180,18 +211,18 @@ test("headings balance their wrap and paragraphs avoid stragglers", async ({ pag
   expect(wraps).toEqual({ h: "balance", p: "pretty" });
 });
 
-test("headings step up the scale: page 31px and section 25px in the display face", async ({ page }) => {
+test("headings step up the scale: page 36px and section 24px in Geist", async ({ page }) => {
   await page.goto("/about");
   const read = (sel: string) =>
     page.locator(sel).first().evaluate((el) => {
       const s = getComputedStyle(el);
       return `${Math.round(parseFloat(s.fontSize))} ${s.fontFamily.split(",")[0].replace(/['"]/g, "")}`;
     });
-  expect(await read("main h1")).toBe("31 Newsreader");
-  expect(await read("main h2")).toBe("25 Newsreader");
+  expect(await read("main h1")).toMatch(/^36 Geist\b/);
+  expect(await read("main h2")).toMatch(/^24 Geist\b/);
 });
 
-/* ── Step 3: layout and structure ────────────────────────────────────────── */
+/* ── Layout and structure ────────────────────────────────────────────────── */
 
 test("every page shares one content column aligned with the header name", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -206,28 +237,23 @@ test("every page shares one content column aligned with the header name", async 
   }
 });
 
-test("only clickable things are boxed: every bordered card is a link", async ({ page }) => {
+test("no nested cards: a bordered card never sits inside another", async ({ page }) => {
   for (const path of PAGES) {
     await page.goto(path);
-    const boxed = await page.evaluate(() =>
-      [...document.querySelectorAll("main *")]
-        .filter((el) => {
-          const s = getComputedStyle(el);
-          const sides = [s.borderTopWidth, s.borderRightWidth, s.borderBottomWidth, s.borderLeftWidth];
-          const r = el.getBoundingClientRect();
-          // A "card" is a container: small bordered marks (timeline dots, icons) don't count.
-          return (
-            sides.every((w) => parseFloat(w) > 0) &&
-            parseFloat(s.borderTopLeftRadius) >= 8 &&
-            r.width >= 48 &&
-            r.height >= 32
-          );
-        })
-        // Images (the round profile photo's hairline) are not containers.
-        .filter((el) => el.tagName !== "A" && el.tagName !== "IMG" && !el.closest("a"))
-        .map((el) => `${el.tagName}.${String(el.className).split(" ").slice(0, 3).join(".")}`),
-    );
-    expect(boxed, path).toEqual([]);
+    const nested = await page.evaluate(() => {
+      const isCard = (el: Element) => {
+        const s = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        const sides = [s.borderTopWidth, s.borderRightWidth, s.borderBottomWidth, s.borderLeftWidth];
+        // A "card" is a container: chips, dots and icons are smaller than this.
+        return sides.every((w) => parseFloat(w) > 0) && parseFloat(s.borderTopLeftRadius) >= 8 && r.width >= 120 && r.height >= 80;
+      };
+      const cards = [...document.querySelectorAll("main *")].filter((el) => el.tagName !== "IMG" && isCard(el));
+      return cards
+        .filter((el) => cards.some((other) => other !== el && other.contains(el)))
+        .map((el) => `${el.tagName}.${String(el.className).split(" ").slice(0, 3).join(".")}`);
+    });
+    expect(nested, path).toEqual([]);
   }
 });
 
@@ -238,14 +264,17 @@ test("no employment-type or 'Current' badges on the timeline", async ({ page }) 
   await expect(page.locator(".timeline-dot-active")).toHaveCount(1);
 });
 
-test("organisation logos are small (≤ 40px)", async ({ page }) => {
+test("organisation logos are small (≤ 40px tall, ≤ 56px wide for wordmarks)", async ({ page }) => {
   for (const path of ["/experience", "/certifications", "/about"]) {
     await page.goto(path);
-    const sizes = await page.locator("[data-org-logo]").evaluateAll((els) =>
-      els.map((el) => Math.round(el.getBoundingClientRect().width)),
+    const boxes = await page.locator("[data-org-logo]").evaluateAll((els) =>
+      els.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { w: Math.round(r.width), h: Math.round(r.height) };
+      }),
     );
-    expect(sizes.length, path).toBeGreaterThan(0);
-    expect(sizes.filter((w) => w > 40), path).toEqual([]);
+    expect(boxes.length, path).toBeGreaterThan(0);
+    expect(boxes.filter((b) => b.h > 40 || b.w > 56), path).toEqual([]);
   }
 });
 
@@ -269,7 +298,7 @@ test("project language marker is neutral, not the accent colour", async ({ page 
   expect(dotColor).not.toBe(accentRgb);
 });
 
-/* ── Step 5: polish ──────────────────────────────────────────────────────── */
+/* ── Polish ─────────────────────────────────────────────────────────────── */
 
 test("keyboard focus shows one consistent 2px accent ring", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });

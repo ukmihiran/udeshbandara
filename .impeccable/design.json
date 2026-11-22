@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-21T00:00:00Z",
+  "title": "Design System: Udesh Bandara",
+  "extensions": {
+    "colorMeta": {
+      "graphite-ground": { "role": "neutral", "displayName": "Graphite Ground", "canonical": "oklch(0.155 0.003 270)", "cssVar": "--background (.dark)", "approxHex": "#0c0c0d", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "graphite-card": { "role": "neutral", "displayName": "Graphite Card", "canonical": "oklch(0.185 0.004 270)", "cssVar": "--card (.dark)", "approxHex": "#121315", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "graphite-raised": { "role": "neutral", "displayName": "Graphite Raised", "canonical": "oklch(0.225 0.005 270)", "cssVar": "--surface-2 (.dark)", "approxHex": "#1b1c1e", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(0.97 0.002 270)", "cssVar": "--foreground (.dark)", "approxHex": "#f4f5f6", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "ink-secondary": { "role": "neutral", "displayName": "Ink Secondary", "canonical": "oklch(0.82 0.004 270)", "cssVar": "--foreground-secondary (.dark)", "approxHex": "#c3c4c7", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "ink-muted": { "role": "neutral", "displayName": "Ink Muted", "canonical": "oklch(0.69 0.006 270)", "cssVar": "--muted-foreground (.dark)", "approxHex": "#9a9b9f", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "oklch(1 0 0 / 8%)", "cssVar": "--border (.dark)", "tonalRamp": ["oklch(1 0 0 / 4%)", "oklch(1 0 0 / 8%)", "oklch(1 0 0 / 12%)", "oklch(1 0 0 / 15%)", "oklch(1 0 0 / 20%)", "oklch(1 0 0 / 30%)", "oklch(1 0 0 / 45%)", "oklch(1 0 0 / 60%)"] },
+      "hairline-strong": { "role": "neutral", "displayName": "Hairline Strong", "canonical": "oklch(1 0 0 / 15%)", "cssVar": "--border-strong (.dark)", "tonalRamp": ["oklch(1 0 0 / 4%)", "oklch(1 0 0 / 8%)", "oklch(1 0 0 / 12%)", "oklch(1 0 0 / 15%)", "oklch(1 0 0 / 20%)", "oklch(1 0 0 / 30%)", "oklch(1 0 0 / 45%)", "oklch(1 0 0 / 60%)"] },
+      "lit-edge": { "role": "neutral", "displayName": "Lit Edge", "canonical": "oklch(1 0 0 / 7%)", "cssVar": "--card-highlight (.dark; 0% in light)", "tonalRamp": ["oklch(1 0 0 / 2%)", "oklch(1 0 0 / 4%)", "oklch(1 0 0 / 7%)", "oklch(1 0 0 / 10%)", "oklch(1 0 0 / 14%)", "oklch(1 0 0 / 20%)", "oklch(1 0 0 / 30%)", "oklch(1 0 0 / 45%)"] },
+      "signal-green": { "role": "primary", "displayName": "Signal Green", "canonical": "oklch(0.8 0.16 155)", "cssVar": "--accent, --ring (.dark)", "approxHex": "#56db8f", "tonalRamp": ["oklch(0.15 0.03 155)", "oklch(0.26 0.07 155)", "oklch(0.37 0.1 155)", "oklch(0.5 0.14 155)", "oklch(0.62 0.15 155)", "oklch(0.72 0.16 155)", "oklch(0.8 0.16 155)", "oklch(0.95 0.05 155)"] },
+      "signal-green-ink": { "role": "primary", "displayName": "Signal Green Ink", "canonical": "oklch(0.17 0.03 155)", "cssVar": "--accent-foreground (.dark)", "approxHex": "#04130a", "tonalRamp": ["oklch(0.15 0.03 155)", "oklch(0.26 0.07 155)", "oklch(0.37 0.1 155)", "oklch(0.5 0.14 155)", "oklch(0.62 0.15 155)", "oklch(0.72 0.16 155)", "oklch(0.8 0.16 155)", "oklch(0.95 0.05 155)"] },
+      "paper-ground": { "role": "neutral", "displayName": "Paper Ground", "canonical": "oklch(0.985 0.001 270)", "cssVar": "--background (:root)", "approxHex": "#fafafb", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "paper-card": { "role": "neutral", "displayName": "Paper Card", "canonical": "oklch(1 0 0)", "cssVar": "--card (:root)", "approxHex": "#ffffff", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "paper-raised": { "role": "neutral", "displayName": "Paper Raised", "canonical": "oklch(0.955 0.002 270)", "cssVar": "--surface-2 (:root)", "approxHex": "#eff0f1", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "graphite-ink": { "role": "neutral", "displayName": "Graphite Ink", "canonical": "oklch(0.19 0.006 270)", "cssVar": "--foreground (:root)", "approxHex": "#131417", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "graphite-ink-secondary": { "role": "neutral", "displayName": "Graphite Ink Secondary", "canonical": "oklch(0.36 0.008 270)", "cssVar": "--foreground-secondary (:root)", "approxHex": "#3b3d41", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "graphite-ink-muted": { "role": "neutral", "displayName": "Graphite Ink Muted", "canonical": "oklch(0.47 0.008 270)", "cssVar": "--muted-foreground (:root)", "approxHex": "#595b5f", "tonalRamp": ["oklch(0.15 0.003 270)", "oklch(0.26 0.005 270)", "oklch(0.37 0.007 270)", "oklch(0.48 0.008 270)", "oklch(0.6 0.008 270)", "oklch(0.72 0.006 270)", "oklch(0.84 0.004 270)", "oklch(0.95 0.002 270)"] },
+      "hairline-light": { "role": "neutral", "displayName": "Hairline (light)", "canonical": "oklch(0.19 0.006 270 / 9%)", "cssVar": "--border (:root)", "tonalRamp": ["oklch(0.19 0.006 270 / 4%)", "oklch(0.19 0.006 270 / 9%)", "oklch(0.19 0.006 270 / 13%)", "oklch(0.19 0.006 270 / 18%)", "oklch(0.19 0.006 270 / 25%)", "oklch(0.19 0.006 270 / 35%)", "oklch(0.19 0.006 270 / 50%)", "oklch(0.19 0.006 270 / 65%)"] },
+      "hairline-strong-light": { "role": "neutral", "displayName": "Hairline Strong (light)", "canonical": "oklch(0.19 0.006 270 / 18%)", "cssVar": "--border-strong (:root)", "tonalRamp": ["oklch(0.19 0.006 270 / 4%)", "oklch(0.19 0.006 270 / 9%)", "oklch(0.19 0.006 270 / 13%)", "oklch(0.19 0.006 270 / 18%)", "oklch(0.19 0.006 270 / 25%)", "oklch(0.19 0.006 270 / 35%)", "oklch(0.19 0.006 270 / 50%)", "oklch(0.19 0.006 270 / 65%)"] },
+      "signal-green-deep": { "role": "primary", "displayName": "Signal Green Deep", "canonical": "oklch(0.5 0.14 155)", "cssVar": "--accent, --ring (:root)", "approxHex": "#00793d", "tonalRamp": ["oklch(0.15 0.03 155)", "oklch(0.26 0.07 155)", "oklch(0.37 0.1 155)", "oklch(0.5 0.14 155)", "oklch(0.62 0.15 155)", "oklch(0.72 0.16 155)", "oklch(0.8 0.16 155)", "oklch(0.95 0.05 155)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "cssVar": "--text-display", "purpose": "The hero name only; the one fluid size, 44 to 76px." },
+      "page": { "displayName": "Page", "cssVar": "--text-page", "purpose": "Inner-page H1 and the closing contact heading (36px)." },
+      "section": { "displayName": "Section", "cssVar": "--text-section", "purpose": "Section H2s via the section heading pattern (24px)." },
+      "title": { "displayName": "Title", "cssVar": "--text-title", "purpose": "Card and role titles at 600; lead lines and page descriptions at 400 (18px)." },
+      "body": { "displayName": "Body", "cssVar": "--text-body", "purpose": "Paragraphs, capped at 52 to 65ch (16px)." },
+      "button": { "displayName": "Button", "cssVar": "--text-body", "purpose": "Button labels: body size at weight 500." },
+      "caption": { "displayName": "Caption", "cssVar": "--text-caption", "purpose": "Metadata, card descriptions, footer; the 14px floor." },
+      "label": { "displayName": "Label", "cssVar": "--text-caption", "purpose": "Desktop nav labels: caption size at weight 500." },
+      "meta": { "displayName": "Meta (Geist Mono)", "cssVar": "--font-mono", "purpose": "Dates, years and figures only, with tabular numerals." }
+    },
+    "fontRationale": "Geist and Geist Mono are a deliberate category-canon choice: the user picked the modern developer-portfolio standard with Raycast and Resend as the quality bar, and Geist is that canon's native face. The detector flags Geist as overused; the familiarity is intended. Loaded via next/font (Geist 400/500/600, Geist Mono 400) from the site's own origin to satisfy the static CSP.",
+    "shadows": [
+      { "name": "lit-top-edge", "value": "inset 0 1px 0 var(--card-highlight)", "purpose": "Every card (.panel). Visible in dark mode only; the system's single elevation." },
+      { "name": "keycap-edge", "value": "inset 0 -1px 0 var(--border-strong)", "purpose": "Tags only: a heavier bottom edge so they read as keycaps." },
+      { "name": "focus-ring", "value": "outline: 2px solid var(--ring); outline-offset: 2px", "purpose": "Every :focus-visible element; one consistent signal-green ring." },
+      { "name": "selection", "value": "background-color: color-mix(in oklch, var(--accent) 32%, transparent)", "purpose": "Themed text selection; scrollbars use 22% foreground on transparent." }
+    ],
+    "motion": [
+      { "name": "hover-colour", "value": "100ms", "purpose": "Text-colour changes on links, nav items and icon buttons." },
+      { "name": "hover-surface", "value": "150ms ease-out", "purpose": "Card-link and button surface and border steps; card corner arrow drift." },
+      { "name": "press", "value": "translateY(1px)", "purpose": "Primary button :active nudge." },
+      { "name": "page-crossfade", "value": "180ms", "purpose": "Root view-transition cross-fade between pages; header excluded." },
+      { "name": "shared-morph", "value": "220ms cubic-bezier(0.2, 0, 0, 1)", "purpose": "Shared elements (a certification, the current role) morphing between pages." },
+      { "name": "sheet", "value": "200ms open / 150ms close", "purpose": "Mobile navigation sheet; must open in 200ms or less." },
+      { "name": "cube-sway", "value": "14s ease-in-out infinite alternate", "purpose": "Whole hero cube swaying from rotateX(-24deg) rotateY(-36deg) to rotateX(-30deg) rotateY(-54deg)." },
+      { "name": "cube-twist", "value": "24s cubic-bezier(0.7, 0, 0.25, 1) infinite", "purpose": "Each cube layer turns 90deg four times per loop; layer delays 0.6s, 2.6s, 4.6s; bottom layer reversed. The only infinite animations; all stop under prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px", "purpose": "Gutters widen to 24px; two-column card grids; timeline date column." },
+      { "name": "md", "value": "768px", "purpose": "Larger section spacing; cube cubelets 72px." },
+      { "name": "lg", "value": "1024px", "purpose": "Two-column hero (7/12 + 5/12), desktop nav, About 4/8 split, 3- and 4-column grids." },
+      { "name": "xl", "value": "1280px", "purpose": "Cube cubelets 82px." }
+    ],
+    "cube": {
+      "cssVars": {
+        "dark": { "--cube-top": "oklch(0.42 0.004 270)", "--cube-side": "oklch(0.3 0.004 270)", "--cube-shade": "oklch(0.235 0.004 270)", "--cube-core": "oklch(0.1 0.002 270)", "--cube-edge": "oklch(1 0 0 / 14%)", "--cube-sticker": "oklch(0.78 0.16 155)" },
+        "light": { "--cube-top": "oklch(0.93 0.002 270)", "--cube-side": "oklch(0.86 0.003 270)", "--cube-shade": "oklch(0.78 0.004 270)", "--cube-core": "oklch(0.3 0.004 270)", "--cube-edge": "oklch(1 0 0 / 55%)", "--cube-sticker": "oklch(0.62 0.15 155)" }
+      },
+      "geometry": "27 cubelets; edge 50px / 72px (md) / 82px (xl), gap 4 / 5 / 6px; faces rounded 16%; perspective 1200px at 50% 40%; 5 green stickers."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled action per group, in signal green: Get in touch, email.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/></svg>Get in touch</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 8px; background: var(--accent, oklch(0.8 0.16 155)); color: var(--accent-foreground, oklch(0.17 0.03 155)); font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 1.6; font-weight: 500; text-decoration: none; transition: background-color 150ms ease-out, transform 150ms ease-out; } .ds-btn-primary:hover { background: color-mix(in oklch, var(--accent, oklch(0.8 0.16 155)) 90%, transparent); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Hairline button on the card surface for every other action: View projects, Download CV, LinkedIn.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">View projects<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 8px; border: 1px solid var(--border-strong, oklch(1 0 0 / 15%)); background: var(--card, oklch(0.185 0.004 270)); color: var(--foreground, oklch(0.97 0.002 270)); font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 1.6; font-weight: 500; text-decoration: none; transition: background-color 150ms ease-out, border-color 150ms ease-out; } .ds-btn-secondary:hover { background: var(--surface-2, oklch(0.225 0.005 270)); border-color: color-mix(in oklch, var(--foreground, oklch(0.97 0.002 270)) 30%, transparent); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Card Link",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A whole-card link (repository, post, summary): card surface, hairline border, lit top edge; hover steps the surface up, never glows.",
+      "html": "<a class=\"ds-card\" href=\"#\"><div class=\"ds-card-head\"><h3 class=\"ds-card-title\">repository-name</h3><svg class=\"ds-card-arrow\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></div><p class=\"ds-card-desc\">One-line repository description from GitHub.</p><div class=\"ds-card-meta\"><span class=\"ds-card-lang\"><i></i>Python</span><span>0 stars</span><span>0 forks</span></div></a>",
+      "css": ".ds-card { display: flex; flex-direction: column; max-width: 360px; padding: 24px; border-radius: 12px; border: 1px solid var(--border, oklch(1 0 0 / 8%)); background: var(--card, oklch(0.185 0.004 270)); box-shadow: inset 0 1px 0 var(--card-highlight, oklch(1 0 0 / 7%)); color: var(--foreground, oklch(0.97 0.002 270)); font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; text-decoration: none; transition: border-color 150ms ease-out, background-color 150ms ease-out; } .ds-card:hover { border-color: var(--border-strong, oklch(1 0 0 / 15%)); background: var(--surface-2, oklch(0.225 0.005 270)); } .ds-card:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; } .ds-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; } .ds-card-title { margin: 0; font-size: 18px; line-height: 1.45; font-weight: 600; } .ds-card-arrow { margin-top: 4px; flex-shrink: 0; color: var(--muted-foreground, oklch(0.69 0.006 270)); transition: color 150ms ease-out, transform 150ms ease-out; } .ds-card:hover .ds-card-arrow { color: var(--foreground, oklch(0.97 0.002 270)); transform: translate(2px, -2px); } .ds-card-desc { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-card-meta { display: flex; gap: 16px; margin-top: 24px; font-size: 14px; line-height: 1.45; color: var(--muted-foreground, oklch(0.69 0.006 270)); font-variant-numeric: tabular-nums; } .ds-card-lang { display: inline-flex; align-items: center; gap: 8px; } .ds-card-lang i { width: 8px; height: 8px; border-radius: 9999px; background: color-mix(in oklch, var(--muted-foreground, oklch(0.69 0.006 270)) 60%, transparent); }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Keycap-style label for tools and certifications; never interactive. Featured items carry a small green dot.",
+      "html": "<ul class=\"ds-tags\"><li class=\"ds-tag\"><i class=\"ds-tag-dot\"></i>CRTP</li><li class=\"ds-tag\">Burp Suite</li><li class=\"ds-tag\">BloodHound</li></ul>",
+      "css": ".ds-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; } .ds-tag { display: inline-flex; align-items: center; gap: 8px; padding: 4px 10px 5px; border-radius: 6px; border: 1px solid var(--border, oklch(1 0 0 / 8%)); background: var(--surface-2, oklch(0.225 0.005 270)); box-shadow: inset 0 -1px 0 var(--border-strong, oklch(1 0 0 / 15%)); color: var(--foreground, oklch(0.97 0.002 270)); font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; font-size: 14px; line-height: 1.45; } .ds-tag-dot { width: 6px; height: 6px; border-radius: 9999px; background: var(--accent, oklch(0.8 0.16 155)); }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Desktop header: brand mark and name, 14px medium nav items with a raised fill for the current page, a divider, then 44px icon buttons.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-nav-brand\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M12 2.5 20.5 7.25v9.5L12 21.5l-8.5-4.75v-9.5L12 2.5Z\" fill=\"var(--surface-2, oklch(0.225 0.005 270))\" stroke=\"var(--border-strong, oklch(1 0 0 / 15%))\"/><path d=\"M12 12 20.5 7.25M12 12 3.5 7.25M12 12v9.5\" stroke=\"var(--border-strong, oklch(1 0 0 / 15%))\"/><path d=\"M12 2.5 20.5 7.25 12 12 3.5 7.25 12 2.5Z\" fill=\"var(--accent, oklch(0.8 0.16 155))\"/></svg>Udesh Bandara</a><nav class=\"ds-nav-links\"><a href=\"#\" aria-current=\"page\">About</a><a href=\"#\">Experience</a><a href=\"#\">Certifications</a><a href=\"#\">Projects</a><span class=\"ds-nav-sep\"></span><a class=\"ds-nav-icon\" href=\"#\" aria-label=\"Email\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/></svg></a></nav></header>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 24px; border-bottom: 1px solid var(--border, oklch(1 0 0 / 8%)); background: var(--background, oklch(0.155 0.003 270)); font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; } .ds-nav-brand { display: flex; align-items: center; gap: 10px; min-height: 44px; color: var(--foreground, oklch(0.97 0.002 270)); font-size: 16px; font-weight: 600; letter-spacing: -0.01em; text-decoration: none; } .ds-nav-links { display: flex; align-items: center; gap: 2px; } .ds-nav-links > a:not(.ds-nav-icon) { display: flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 8px; color: var(--muted-foreground, oklch(0.69 0.006 270)); font-size: 14px; line-height: 1.45; font-weight: 500; text-decoration: none; transition: color 100ms; } .ds-nav-links > a:not(.ds-nav-icon):hover { color: var(--foreground, oklch(0.97 0.002 270)); } .ds-nav-links > a[aria-current=page] { background: var(--surface-2, oklch(0.225 0.005 270)); color: var(--foreground, oklch(0.97 0.002 270)); } .ds-nav-links a:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; } .ds-nav-sep { width: 1px; height: 20px; margin: 0 8px; background: var(--border, oklch(1 0 0 / 8%)); } .ds-nav-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 8px; color: var(--muted-foreground, oklch(0.69 0.006 270)); transition: color 100ms, background-color 100ms; } .ds-nav-icon:hover { background: var(--surface-2, oklch(0.225 0.005 270)); color: var(--foreground, oklch(0.97 0.002 270)); }"
+    },
+    {
+      "name": "Section Heading",
+      "kind": "custom",
+      "refersTo": "section",
+      "description": "24px semibold section title with an optional one-line description and a trailing 14px section link; never an eyebrow above it.",
+      "html": "<div class=\"ds-sh\"><div><h2 class=\"ds-sh-title\">Selected projects</h2><p class=\"ds-sh-desc\">Open-source security tools from GitHub.</p></div><a class=\"ds-sh-link\" href=\"#\">All projects<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
+      "css": ".ds-sh { display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 24px; font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; } .ds-sh-title { margin: 0; font-size: 24px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; color: var(--foreground, oklch(0.97 0.002 270)); text-wrap: balance; } .ds-sh-desc { margin: 4px 0 0; font-size: 16px; line-height: 1.6; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-sh-link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 14px; color: var(--muted-foreground, oklch(0.69 0.006 270)); text-decoration: none; transition: color 100ms; } .ds-sh-link:hover { color: var(--foreground, oklch(0.97 0.002 270)); } .ds-sh-link:focus-visible { outline: 2px solid var(--ring, oklch(0.8 0.16 155)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Timeline Entry",
+      "kind": "custom",
+      "refersTo": "timeline",
+      "description": "Changelog-style rail: mono date range, ring dot (filled green for the current role only), logo tile, role and organisation.",
+      "html": "<ol class=\"ds-tl\"><li><span class=\"ds-tl-line\"></span><span class=\"ds-tl-dot ds-tl-dot-on\"></span><p class=\"ds-tl-date\"><span class=\"ds-mono\">Jul 2024</span> – <span class=\"ds-mono\">Present</span></p><div class=\"ds-tl-body\"><span class=\"ds-tl-logo\"></span><div><h3>Consultant, Offensive Security</h3><p>Kroll <span>· London, UK</span></p></div></div></li><li><span class=\"ds-tl-dot\"></span><p class=\"ds-tl-date\"><span class=\"ds-mono\">Apr 2021</span> – <span class=\"ds-mono\">Dec 2021</span></p><div class=\"ds-tl-body\"><span class=\"ds-tl-logo\"></span><div><h3>Cyber Security Specialist</h3><p>Axiata Digital Labs <span>· Colombo, Sri Lanka</span></p></div></div></li></ol>",
+      "css": ".ds-tl { position: relative; margin: 0; padding: 0; list-style: none; font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; } .ds-tl > li { position: relative; padding: 0 0 32px 36px; } .ds-tl-line { position: absolute; left: 7px; top: 22px; bottom: -3px; width: 2px; border-radius: 1px; background: var(--border, oklch(1 0 0 / 8%)); } .ds-tl-dot { position: absolute; left: 0; top: 4px; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--border-strong, oklch(1 0 0 / 15%)); background: var(--background, oklch(0.155 0.003 270)); } .ds-tl-dot-on { border-color: var(--accent, oklch(0.8 0.16 155)); background: var(--accent, oklch(0.8 0.16 155)); } .ds-tl-date { margin: 0 0 8px; font-size: 14px; color: var(--muted-foreground, oklch(0.69 0.006 270)); } .ds-mono { font-family: var(--font-geist-mono, 'Geist Mono'), ui-monospace, monospace; font-variant-numeric: tabular-nums; } .ds-tl-body { display: flex; align-items: flex-start; gap: 16px; } .ds-tl-logo { width: 40px; height: 40px; flex-shrink: 0; border-radius: 6px; background: #fff; } .ds-tl-body h3 { margin: 0; font-size: 18px; line-height: 1.45; font-weight: 600; color: var(--foreground, oklch(0.97 0.002 270)); } .ds-tl-body p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-tl-body p span { color: var(--muted-foreground, oklch(0.69 0.006 270)); }"
+    },
+    {
+      "name": "Hero Status Meta",
+      "kind": "custom",
+      "refersTo": "status-dot",
+      "description": "The hero meta block: a green status dot with its line, then years and featured certifications in 14px muted text.",
+      "html": "<div class=\"ds-meta\"><p class=\"ds-meta-status\"><i></i>Open to opportunities</p><p>N years experience · AWS Solutions Architect · CRTP · CREST CRT</p></div>",
+      "css": ".ds-meta { font-family: var(--font-geist, Geist), ui-sans-serif, system-ui, sans-serif; font-size: 14px; line-height: 1.45; color: var(--muted-foreground, oklch(0.69 0.006 270)); font-variant-numeric: tabular-nums; } .ds-meta p { margin: 0 0 6px; } .ds-meta-status { display: inline-flex; align-items: center; gap: 8px; color: var(--foreground-secondary, oklch(0.82 0.004 270)); } .ds-meta-status i { width: 8px; height: 8px; border-radius: 9999px; background: var(--accent, oklch(0.8 0.16 155)); }"
+    },
+    {
+      "name": "Hero Cube Cubelet",
+      "kind": "custom",
+      "refersTo": "hero-cube",
+      "description": "One cubelet of the signature 27-piece CSS 3D Rubik's cube: three graphite face tones by orientation, a faint sheen, a light edge, and a green sticker. The full cube sways and twists; it is the only infinite animation and stops under reduced motion.",
+      "html": "<div class=\"ds-cube-scene\" aria-hidden=\"true\"><div class=\"ds-cubie\"><span class=\"ds-face ds-front ds-sticker\"></span><span class=\"ds-face ds-right\"></span><span class=\"ds-face ds-top\"></span></div></div>",
+      "css": ".ds-cube-scene { width: 160px; height: 160px; perspective: 1200px; perspective-origin: 50% 40%; display: grid; place-items: center; } .ds-cubie { --s: 72px; --half: 36px; position: relative; width: var(--s); height: var(--s); transform-style: preserve-3d; transform: rotateX(-24deg) rotateY(-36deg); animation: ds-cube-sway 14s ease-in-out infinite alternate; } @keyframes ds-cube-sway { to { transform: rotateX(-30deg) rotateY(-54deg); } } .ds-face { position: absolute; inset: 0; border-radius: 16%; backface-visibility: hidden; background-image: linear-gradient(150deg, oklch(1 0 0 / 9%), transparent 55%); box-shadow: inset 0 0 0 1px var(--cube-edge, oklch(1 0 0 / 14%)); } .ds-front { transform: translateZ(var(--half)); background-color: var(--cube-side, oklch(0.3 0.004 270)); } .ds-right { transform: rotateY(90deg) translateZ(var(--half)); background-color: var(--cube-shade, oklch(0.235 0.004 270)); } .ds-top { transform: rotateX(90deg) translateZ(var(--half)); background-color: var(--cube-top, oklch(0.42 0.004 270)); } .ds-front.ds-sticker { background-color: var(--cube-sticker, oklch(0.78 0.16 155)); } @media (prefers-reduced-motion: reduce) { .ds-cubie { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Well-Made Tool",
+    "overview": "The site reads like a calm, crisp developer product rather than an editorial page or a consultancy template. It is a near-black graphite world (dark is the default theme; a paper-white light theme mirrors the same structure exactly), built from stepped surfaces, 1px hairlines and one restrained signal green. The quality bar is the category canon: Raycast's quiet, precise product UI and Resend's single animated 3D object in the hero. Everything else holds still so that the one moving thing, a monochrome Rubik's cube, can carry the personality.\n\nDensity is product-UI density: compact cards on a 12px grid gap, small keycap tags, 14px captions for metadata, and a single content column that every page shares with the header. Information is shown as evidence (roles, certifications, tools, repositories) in bordered cards and a changelog-style timeline, never as stat tiles or adjectives. Depth comes from tone and light, not shadow: a card is one step lighter than the ground and carries a lit hairline on its top edge.\n\nThe direction was chosen deliberately as the category standard and executed at full commitment. That includes Geist: the font detector flags it as overused, and the choice stands because Geist is the native face of the developer-tool canon this site places itself in. Its familiarity is the signal (\"this person ships tools\"), not a default that slipped through.",
+    "keyCharacteristics": [
+      "Near-black graphite ground with two lighter surface steps; light theme mirrors it.",
+      "1px hairline borders plus a lit top edge; no outer shadows, no glow, no glass.",
+      "One signal green for status, primary action and focus; everything else is greyscale.",
+      "Geist for display and body, Geist Mono only for dates, years and figures.",
+      "Five fixed type sizes plus one fluid hero name.",
+      "One authored motion moment: the 27-cubelet hero cube, which stops under reduced motion."
+    ],
+    "rules": [
+      { "name": "The Signal Rule", "body": "Green means status, primary action or keyboard focus (plus the cube motif that carries the identity). It never marks data: the repository language dot is neutral grey, and there is one filled green dot on the timeline, for the current role only.", "section": "colors" },
+      { "name": "The Mirror Rule", "body": "Light and dark are the same structure with different values. Every role exists in both themes; a component never picks a colour that exists in only one.", "section": "colors" },
+      { "name": "The Five Sizes Rule", "body": "Text is 14, 16, 18, 24 or 36px, plus the fluid hero name. No other size, no text under 14px. An e2e guard enforces this on every page.", "section": "typography" },
+      { "name": "The Numbers-in-Mono Rule", "body": "Geist Mono is for dates, years and figures, nothing else. Date ranges set the en dash in the sans face, because a monospaced en dash is as short as a hyphen.", "section": "typography" },
+      { "name": "The Quiet Wrap Rule", "body": "Headings use balanced wrapping; paragraphs, list items and definitions use pretty wrapping.", "section": "typography" },
+      { "name": "The One Column Rule", "body": "Every page shares the header's column and gutters. Nothing breaks out to full bleed except the header and footer bands.", "section": "layout" },
+      { "name": "The Lit Edge Rule", "body": "The only elevation is a 1px inset line. No outer shadows, no blur, no glow, no backdrop-filter, at rest or on hover.", "section": "elevation" },
+      { "name": "The Flat Hover Rule", "body": "Only whole-card links react to hover, and they react by stepping up one surface (card to raised) and brightening the border to hairline-strong, in 150ms ease-out. Cards that are not links never change on hover.", "section": "elevation" },
+      { "name": "The One Moving Thing Rule", "body": "The hero cube is the only infinite animation on any page, and under `prefers-reduced-motion: reduce` it holds completely still. All other motion is a response to the user: 100 to 150ms colour and surface transitions, 180ms page cross-fades and 220ms shared-element morphs through view transitions (a certification or the current role keeps one identity across pages), all disabled under reduced motion.", "section": "components" }
+    ],
+    "dos": [
+      "**Do** set text only in the five sizes (14, 16, 18, 24, 36px) or the fluid hero display, and never below 14px.",
+      "**Do** use Geist at 400, 500 and 600 and Geist Mono at 400 only, with Mono reserved for dates, years and figures.",
+      "**Do** separate surfaces with a 1px hairline and give every card the 1px lit top edge.",
+      "**Do** make hover on a card link a surface step (card to raised) and a border step (hairline to hairline-strong) in 150ms ease-out.",
+      "**Do** keep signal green for status, the primary action, focus and selection, and the cube motif.",
+      "**Do** keep every interactive target at least 44px and show the 2px green focus ring at a 2px offset.",
+      "**Do** align every page's content to the header's single column, and cap prose at 52 to 65ch.",
+      "**Do** build every new colour role in both the dark and light themes."
+    ],
+    "donts": [
+      "**Don't** use backdrop-filter or glass, gradient text, or decorative radial-gradient backgrounds (dot grids, halos).",
+      "**Don't** put uppercase eyebrow or kicker labels above headings, and don't use uppercase text anywhere in page content.",
+      "**Don't** nest a bordered card inside another card.",
+      "**Don't** add outer, blurred or glowing shadows, at rest or on hover.",
+      "**Don't** add another infinite animation; the hero cube is the only one, and it stops under reduced motion.",
+      "**Don't** put icons inside headings.",
+      "**Don't** make non-link cards react to hover.",
+      "**Don't** use the accent colour for data marks such as language dots.",
+      "**Don't** put stat tiles or rotating role text in the hero; the name comes first.",
+      "**Don't** show organisation logos larger than 40px.",
+      "**Don't** add employment-type or \"Current\" badges to the timeline.",
+      "**Don't** dress the site in terminal costume (prompts, `whoami`, typing effects)."
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { ArrowUpRight, Menu } from "lucide-react";
 import {
   Sheet,
   SheetClose,
@@ -23,7 +23,7 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
-        className="flex size-11 items-center justify-center rounded-full text-foreground transition-colors duration-100 hover:bg-muted"
+        className="flex size-11 items-center justify-center rounded-lg text-foreground transition-colors duration-100 hover:bg-surface-2"
         aria-label="Open menu"
       >
         <Menu className="size-5" />
@@ -51,20 +51,28 @@ export function MobileNav({ pathname, cvHref }: { pathname: string; cvHref: stri
               </SheetClose>
             );
           })}
-          <div aria-hidden className="my-2 h-px bg-border/50" />
-          <a
-            href={SITE.blogUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-11 items-center px-3 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
-          >
-            Blog
-          </a>
+          <div aria-hidden className="my-2 h-px bg-border" />
+          {[
+            { href: SITE.linkedin, label: "LinkedIn" },
+            { href: SITE.github, label: "GitHub" },
+            { href: SITE.blogUrl, label: "Blog" },
+          ].map(({ href, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-11 items-center gap-1.5 px-3 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
+            >
+              {label} <ArrowUpRight aria-hidden className="size-3.5" />
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          ))}
           <a
             href={`mailto:${SITE.email}`}
             className="flex min-h-11 items-center px-3 text-body text-muted-foreground transition-colors duration-100 hover:text-foreground"
           >
-            Contact
+            Email {SITE.email}
           </a>
           {cvHref && (
             <a

@@ -2,6 +2,7 @@ import { BreadcrumbJsonLd } from "@/components/layout/breadcrumb-jsonld";
 import { pageMetadata } from "@/lib/seo";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { ContactCta } from "@/components/sections/contact-cta";
 import { PageHeader } from "@/components/sections/page-header";
 import { ProjectGrid } from "@/components/sections/projects";
 import { getFeaturedRepos } from "@/lib/github";
@@ -27,6 +28,9 @@ export default async function ProjectsPage() {
           More on GitHub <ArrowUpRight aria-hidden className="size-3.5" />
         </a>
       )}
+      <div className="mt-20">
+        <ContactCta />
+      </div>
     </Container>
   );
 }

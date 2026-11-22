@@ -23,6 +23,7 @@ export const EXPERIENCES: Experience[] = [
     description:
       "Leading penetration testing, red team operations, and cloud security assessments for global enterprise clients across critical infrastructure and financial services.",
     image: "/kroll.png",
+    logoWide: true,
   },
   {
     role: "Cyber Security Specialist",
@@ -115,12 +116,30 @@ export const TECH_STACK: TechItem[] = [
   { name: "Windows AD", category: "cloud" },
 ];
 
+/**
+ * Edited one-line descriptions shown instead of GitHub's own (same facts, cleaner wording).
+ * Repos not listed keep their GitHub description.
+ */
+export const REPO_DESCRIPTIONS: Record<string, string> = {
+  EnumLiveHost: "Python script that enumerates the live hosts in a list of URLs.",
+  WifiPasswordViewer: "Windows Forms app that shows the Wi-Fi passwords saved on the machine.",
+  PDFUnlocker: "Windows Forms app that unlocks password-protected PDF files.",
+  dga_detection_deep_learning: "Detects and classifies DGA domains with an LSTM deep-learning model.",
+  "SecurityTrails-Subdomain-Scanner": "Script that lists a domain's subdomains from SecurityTrails.",
+};
+
 /** GitHub repos shown first on /projects, in this order. Edit to curate. */
 export const FEATURED_REPOS: string[] = [
   "BloodHound-Standalone",
   "EnumLiveHost",
+  "SecurityTrails-Subdomain-Scanner",
+  "dga_detection_deep_learning",
   "WifiPasswordViewer",
   "PDFUnlocker",
-  "dga_detection_deep_learning",
-  "SecurityTrails-Subdomain-Scanner",
 ];
+
+/** Readable display names for repos whose GitHub slug is not a title. The link still goes to the repo. */
+export const REPO_TITLES: Record<string, string> = {
+  dga_detection_deep_learning: "DGA Detection (Deep Learning)",
+  "SecurityTrails-Subdomain-Scanner": "SecurityTrails Subdomain Scanner",
+};

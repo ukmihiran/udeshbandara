@@ -4,37 +4,33 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Families */
-  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  /* Families: Geist carries display and body; Geist Mono only for dates, years and figures. */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Type scale: five roles (≈1.25 ratio from a 16px body) + one fluid display */
+  /* Type scale: five fixed roles + one fluid display for the hero name */
   --text-caption: 0.875rem;
   --text-caption--line-height: 1.45;
   --text-body: 1rem;
   --text-body--line-height: 1.6;
-  --text-title: 1.25rem;
-  --text-title--line-height: 1.35;
-  --text-section: 1.5625rem;
-  --text-section--line-height: 1.2;
-  --text-section--letter-spacing: -0.01em;
-  --text-page: 1.9375rem;
-  --text-page--line-height: 1.12;
-  --text-page--letter-spacing: -0.015em;
-  --text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.25rem);
-  --text-display--line-height: 1.08;
-  --text-display--letter-spacing: -0.02em;
+  --text-title: 1.125rem;
+  --text-title--line-height: 1.45;
+  --text-section: 1.5rem;
+  --text-section--line-height: 1.25;
+  --text-section--letter-spacing: -0.02em;
+  --text-page: 2.25rem;
+  --text-page--line-height: 1.1;
+  --text-page--letter-spacing: -0.03em;
+  --text-display: clamp(2.75rem, 1.6rem + 4vw, 4.75rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
 
   /* Text roles: foreground (primary) · foreground-secondary · muted-foreground */
   --color-foreground-secondary: var(--foreground-secondary);
   /* Surfaces: background (0) · card (1) · surface-2 (raised / hover) */
   --color-surface-2: var(--surface-2);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --color-border-strong: var(--border-strong);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -51,72 +47,79 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  /* Radii: 8px controls, 12px cards */
+  /* Radii: 8px controls and tags, 12px cards */
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
 }
 
-/* ── Light mode ─────────────────────────────────────── */
+/* ── Light mode: paper-white with graphite ink ──────── */
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.98 0.002 240);
-  --foreground: oklch(0.13 0.02 260);
-  --foreground-secondary: oklch(0.32 0.015 260);
-  --surface-2: oklch(0.955 0.004 240);
+  --background: oklch(0.985 0.001 270);
+  --foreground: oklch(0.19 0.006 270);
+  --foreground-secondary: oklch(0.36 0.008 270);
+  --surface-2: oklch(0.955 0.002 270);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0.02 260);
+  --card-foreground: oklch(0.19 0.006 270);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.13 0.02 260);
-  --primary: oklch(0.15 0.02 260);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.003 240);
-  --secondary-foreground: oklch(0.15 0.02 260);
-  --muted: oklch(0.95 0.003 240);
-  --muted-foreground: oklch(0.45 0.015 260);
-  --accent: oklch(0.45 0.18 145);
-  --accent-foreground: oklch(0.98 0 0);
+  --popover-foreground: oklch(0.19 0.006 270);
+  --primary: oklch(0.19 0.006 270);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.955 0.002 270);
+  --secondary-foreground: oklch(0.19 0.006 270);
+  --muted: oklch(0.955 0.002 270);
+  --muted-foreground: oklch(0.47 0.008 270);
+  --accent: oklch(0.5 0.14 155);
+  --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0 0 0 / 8%);
-  --input: oklch(0 0 0 / 8%);
-  --ring: oklch(0.45 0.18 145);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-
+  --border: oklch(0.19 0.006 270 / 9%);
+  --border-strong: oklch(0.19 0.006 270 / 18%);
+  --input: oklch(0.19 0.006 270 / 9%);
+  --ring: oklch(0.5 0.14 155);
+  /* Hero cube: lit graphite faces + the accent sticker */
+  --cube-top: oklch(0.93 0.002 270);
+  --cube-side: oklch(0.86 0.003 270);
+  --cube-shade: oklch(0.78 0.004 270);
+  --cube-core: oklch(0.72 0.004 270);
+  --cube-edge: oklch(1 0 0 / 55%);
+  --cube-sticker: oklch(0.62 0.15 155);
+  /* Top-edge light on cards (Raycast-style): invisible on white, a lit hairline in dark. */
+  --card-highlight: oklch(1 0 0 / 0%);
 }
 
-/* ── Dark mode — modern deep navy-slate ─────────────── */
+/* ── Dark mode: near-black graphite ─────────────────── */
 .dark {
-  --background: oklch(0.155 0.015 260);
-  --foreground: oklch(0.92 0.005 240);
-  --foreground-secondary: oklch(0.82 0.008 250);
-  --surface-2: oklch(0.235 0.018 260);
-  --card: oklch(0.195 0.018 260);
-  --card-foreground: oklch(0.92 0.005 240);
-  --popover: oklch(0.195 0.018 260);
-  --popover-foreground: oklch(0.92 0.005 240);
-  --primary: oklch(0.92 0 0);
-  --primary-foreground: oklch(0.155 0.015 260);
-  --secondary: oklch(0.24 0.018 260);
-  --secondary-foreground: oklch(0.92 0.005 240);
-  --muted: oklch(0.24 0.018 260);
-  --muted-foreground: oklch(0.72 0.012 260);
-  --accent: oklch(0.78 0.2 145);
-  --accent-foreground: oklch(0.1 0.02 260);
+  --background: oklch(0.155 0.003 270);
+  --foreground: oklch(0.97 0.002 270);
+  --foreground-secondary: oklch(0.82 0.004 270);
+  --surface-2: oklch(0.225 0.005 270);
+  --card: oklch(0.185 0.004 270);
+  --card-foreground: oklch(0.97 0.002 270);
+  --popover: oklch(0.185 0.004 270);
+  --popover-foreground: oklch(0.97 0.002 270);
+  --primary: oklch(0.97 0.002 270);
+  --primary-foreground: oklch(0.155 0.003 270);
+  --secondary: oklch(0.225 0.005 270);
+  --secondary-foreground: oklch(0.97 0.002 270);
+  --muted: oklch(0.225 0.005 270);
+  --muted-foreground: oklch(0.69 0.006 270);
+  --accent: oklch(0.8 0.16 155);
+  --accent-foreground: oklch(0.17 0.03 155);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.78 0.2 145);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-
+  --border: oklch(1 0 0 / 8%);
+  --border-strong: oklch(1 0 0 / 15%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.8 0.16 155);
+  --cube-top: oklch(0.42 0.004 270);
+  --cube-side: oklch(0.3 0.004 270);
+  --cube-shade: oklch(0.235 0.004 270);
+  --cube-core: oklch(0.1 0.002 270);
+  --cube-edge: oklch(1 0 0 / 14%);
+  --cube-sticker: oklch(0.78 0.16 155);
+  --card-highlight: oklch(1 0 0 / 7%);
 }
 
 @layer base {
@@ -148,32 +151,42 @@
   }
 }
 
-/* ── Clickable cards ──────────────────────────────── */
-/* Only whole-card links get a hover state: a quick border change, no lift, no glow. */
-.card-link {
-  transition: border-color 100ms ease-out;
-}
-.card-link:hover {
-  border-color: color-mix(in oklch, var(--foreground) 30%, transparent);
+/* ── Cards ────────────────────────────────────────── */
+/* One elevation: the 1px border plus a lit top edge. No outer shadow. */
+.panel {
+  box-shadow: inset 0 1px 0 var(--card-highlight);
 }
 
-/* ── Timeline ─────────────────────────────────────── */
+/* ── Clickable cards ──────────────────────────────── */
+/* Only whole-card links react: the hairline brightens and the surface lifts one step. No glow. */
+.card-link {
+  transition:
+    border-color 150ms ease-out,
+    background-color 150ms ease-out;
+}
+.card-link:hover {
+  border-color: var(--border-strong);
+  background-color: var(--surface-2);
+}
+
+/* ── Timeline rail (components/sections/timeline.tsx) ── */
 .timeline-line {
   position: absolute;
-  left: 19px;
-  top: 0;
-  bottom: 0;
+  left: 7px;
+  top: 22px;
+  bottom: -3rem;
   width: 2px;
+  border-radius: 1px;
   background: var(--border);
 }
 
 .timeline-dot {
   position: absolute;
-  top: 6px;
+  top: 4px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-strong);
   background: var(--background);
   z-index: 2;
 }
@@ -210,5 +223,110 @@
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
+  }
+}
+
+/* ── Hero cube: 27 graphite cubelets, layers twisting in turn (components/hero/cube.tsx) ── */
+.cube-scene {
+  --s: 50px; /* cubelet edge */
+  --gap: 4px;
+  --u: calc(var(--s) + var(--gap));
+  --half: calc(var(--s) / 2);
+  position: relative;
+  width: calc(var(--u) * 5.4);
+  height: calc(var(--u) * 4.6);
+  perspective: 1200px;
+  perspective-origin: 50% 40%;
+}
+@media (min-width: 768px) {
+  .cube-scene { --s: 72px; --gap: 5px; height: calc(var(--u) * 5); }
+}
+@media (min-width: 1280px) {
+  .cube-scene { --s: 82px; --gap: 6px; }
+}
+
+.cube {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-24deg) rotateY(-36deg);
+  animation: cube-sway 14s ease-in-out infinite alternate;
+}
+@keyframes cube-sway {
+  to { transform: rotateX(-30deg) rotateY(-54deg); }
+}
+
+.cube-layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* Each layer turns 90° four times per 24s loop, so the loop closes on a full 360°. */
+  animation: cube-twist 24s cubic-bezier(0.7, 0, 0.25, 1) infinite;
+}
+.cube-layer[data-layer="0"] { animation-delay: 0.6s; }
+.cube-layer[data-layer="1"] { animation-delay: 2.6s; }
+.cube-layer[data-layer="2"] { animation-delay: 4.6s; animation-name: cube-twist-back; }
+
+@keyframes cube-twist {
+  0%, 100% { transform: rotateY(0deg); }
+  3% { transform: rotateY(90deg); }
+  25% { transform: rotateY(90deg); }
+  28% { transform: rotateY(180deg); }
+  50% { transform: rotateY(180deg); }
+  53% { transform: rotateY(270deg); }
+  75% { transform: rotateY(270deg); }
+  78%, 99.99% { transform: rotateY(360deg); }
+}
+@keyframes cube-twist-back {
+  0%, 100% { transform: rotateY(0deg); }
+  3% { transform: rotateY(-90deg); }
+  25% { transform: rotateY(-90deg); }
+  28% { transform: rotateY(-180deg); }
+  50% { transform: rotateY(-180deg); }
+  53% { transform: rotateY(-270deg); }
+  75% { transform: rotateY(-270deg); }
+  78%, 99.99% { transform: rotateY(-360deg); }
+}
+
+.cubie {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--half) * -1) 0 0 calc(var(--half) * -1);
+  transform-style: preserve-3d;
+  transform: translate3d(calc(var(--x) * var(--u)), calc(var(--y) * var(--u)), calc(var(--z) * var(--u)));
+}
+
+.cube-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16%;
+  backface-visibility: hidden;
+  background-color: var(--cube-core);
+}
+.cube-face[data-out] {
+  background-image: linear-gradient(150deg, oklch(1 0 0 / 9%), transparent 55%);
+  box-shadow: inset 0 0 0 1px var(--cube-edge);
+}
+.cube-face[data-face="front"] { transform: translateZ(var(--half)); }
+.cube-face[data-face="back"] { transform: rotateY(180deg) translateZ(var(--half)); }
+.cube-face[data-face="right"] { transform: rotateY(90deg) translateZ(var(--half)); }
+.cube-face[data-face="left"] { transform: rotateY(-90deg) translateZ(var(--half)); }
+.cube-face[data-face="top"] { transform: rotateX(90deg) translateZ(var(--half)); }
+.cube-face[data-face="bottom"] { transform: rotateX(-90deg) translateZ(var(--half)); }
+
+/* A monochrome Rubik's cube: each face type keeps its own graphite value, so twists scramble the tones. */
+.cube-face[data-out][data-face="top"] { background-color: var(--cube-top); }
+.cube-face[data-out]:is([data-face="front"], [data-face="back"]) { background-color: var(--cube-side); }
+.cube-face[data-out]:is([data-face="right"], [data-face="left"], [data-face="bottom"]) { background-color: var(--cube-shade); }
+.cube-face[data-out][data-sticker] { background-color: var(--cube-sticker); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* [data-layer] matches the per-layer rules' specificity so none of them re-enable a twist. */
+  .cube,
+  .cube-layer[data-layer] {
+    animation: none;
   }
 }

@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import fixture from "./fixtures/github-repos.json";
 import { getFeaturedRepos, selectFeaturedRepos, type GitHubRepoApi } from "@/lib/github";
+import { REPO_DESCRIPTIONS } from "@/lib/data";
 
 const raw = fixture as GitHubRepoApi[];
 const base = { username: "ukmihiran", pinned: [] as string[] };
@@ -47,7 +48,7 @@ describe("getFeaturedRepos", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(Response.json(raw)));
     const { repos, error } = await getFeaturedRepos(3);
     expect(error).toBe(false);
-    expect(repos.map((r) => r.name)).toEqual(["BloodHound-Standalone", "EnumLiveHost", "WifiPasswordViewer"]);
+    expect(repos.map((r) => r.name)).toEqual(["BloodHound-Standalone", "EnumLiveHost", "SecurityTrails-Subdomain-Scanner"]);
   });
 
   test("returns an error flag on a 403 rate limit", async () => {
@@ -107,5 +108,19 @@ describe("selectFeaturedRepos with undated repos (PR review)", () => {
     const input = [repo("undated", null), repo("dated", "2026-01-01T00:00:00Z"), repo("undated2", null)];
     expect(() => selectFeaturedRepos(input, { ...base, limit: 3 })).not.toThrow();
     expect(selectFeaturedRepos(input, { ...base, limit: 3 })[0].name).toBe("dated");
+  });
+});
+
+describe("edited repo descriptions (finish review)", () => {
+  test("an edited description in REPO_DESCRIPTIONS replaces GitHub's", () => {
+    const input = [{ ...raw.find((r) => r.name === "WifiPasswordViewer")! }];
+    const [repo] = selectFeaturedRepos(input, { ...base, limit: 1 });
+    expect(repo.description).toBe(REPO_DESCRIPTIONS.WifiPasswordViewer);
+  });
+
+  test("repos without an override keep GitHub's description", () => {
+    const other = raw.find((r) => !(r.name in REPO_DESCRIPTIONS) && !r.fork && !r.archived && r.name !== "ukmihiran" && r.name !== "udeshbandara")!;
+    const [repo] = selectFeaturedRepos([other], { ...base, limit: 1 });
+    expect(repo.description).toBe(other.description);
   });
 });

@@ -45,6 +45,7 @@ export function buildTimeline(experiences: Experience[], education: Education[])
     badge: e.type,
     image: e.image,
     logoScale: e.logoScale,
+    logoWide: e.logoWide,
   }));
   const study: TimelineEntry[] = education.map((e) => ({
     kind: "education",

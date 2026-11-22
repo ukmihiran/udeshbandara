@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("server HTML contains each section's content", async ({ request }) => {
   expect(await (await request.get("/experience")).text()).toContain("Leading penetration testing");
   expect(await (await request.get("/certifications")).text()).toContain("Altered Security");
-  expect(await (await request.get("/about")).text()).toContain("Cyber Security Professional");
+  expect((await (await request.get("/about")).text()).toLowerCase()).toContain("cyber security professional");
 });
 
 test("timeline shows the MSc between Kroll and Axiata", async ({ page }) => {

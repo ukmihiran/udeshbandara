@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Newsreader, Source_Sans_3 } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -12,10 +12,9 @@ import { PAGE_META, jsonLdScript, pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-// Type system (docs/design/2026-11-21-ui-ux-audit.md, step 2): serif display, humanist sans body, mono for dates.
-const display = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], weight: ["500"] });
-const sans = Source_Sans_3({ variable: "--font-source-sans", subsets: ["latin"], weight: ["400", "600"] });
-const mono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400"] });
+// Type system (DESIGN.md): Geist for display and body, Geist Mono only for dates, years and figures.
+const sans = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["400", "500", "600"] });
+const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], weight: ["400"] });
 
 // Canonical URLs are set per page; the root must not give one to 404 / error pages.
 const { alternates: _homeCanonical, ...homeMeta } = pageMetadata("/");
@@ -30,8 +29,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0f1520" },
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0d" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfbfc" },
   ],
   viewportFit: "cover",
 };
@@ -56,7 +55,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body
         className={cn(
           "flex min-h-dvh flex-col overflow-x-clip bg-background font-sans antialiased",
-          display.variable,
           sans.variable,
           mono.variable,
         )}

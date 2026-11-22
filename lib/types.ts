@@ -12,6 +12,8 @@ export interface Experience {
   description: string;
   image?: string;
   logoScale?: number;
+  /** A wide wordmark (e.g. Kroll) gets a wider tile so it stays legible. */
+  logoWide?: boolean;
 }
 
 export interface Education {
@@ -81,4 +83,5 @@ export interface TimelineEntry {
   badge?: string;
   image?: string;
   logoScale?: number;
+  logoWide?: boolean;
 }

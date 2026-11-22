@@ -1,4 +1,4 @@
-import { FEATURED_REPOS } from "./data";
+import { FEATURED_REPOS, REPO_DESCRIPTIONS } from "./data";
 import { FETCH_TIMEOUT_MS, shouldThrowOnFetchFailure } from "./runtime";
 import { SITE } from "./site";
 import type { Repository } from "./types";
@@ -25,7 +25,7 @@ function toRepository(r: GitHubRepoApi): Repository {
     id: r.id,
     name: r.name,
     url: r.html_url,
-    description: r.description,
+    description: REPO_DESCRIPTIONS[r.name] ?? r.description,
     stars: r.stargazers_count,
     forks: r.forks_count,
     language: r.language,

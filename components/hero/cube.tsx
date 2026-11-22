@@ -34,7 +34,8 @@ export function HeroCube({ className }: { className?: string }) {
       const probe = document.createElement("canvas");
       if (!probe.getContext("webgl2") && !probe.getContext("webgl")) return;
 
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const reducedMotion = motionQuery.matches;
       const size = () => ({ width: canvas.clientWidth, height: canvas.clientHeight });
       const onReady = () => !disposed && setReady(true);
 
@@ -68,6 +69,7 @@ export function HeroCube({ className }: { className?: string }) {
         send = (msg) => {
           if (msg.type === "resize") cube.resize(msg.width as number, msg.height as number);
           else if (msg.type === "running") cube.setRunning(msg.running as boolean);
+          else if (msg.type === "motion") cube.setReducedMotion(msg.reduced as boolean);
           else if (msg.type === "pointer") cube.pointer(msg.kind as "down", msg.x as number, msg.y as number);
         };
         stopScene = () => cube.dispose();
@@ -90,13 +92,21 @@ export function HeroCube({ className }: { className?: string }) {
         send({ type: "pointer", kind, x: e.clientX, y: e.clientY });
       };
       const handlers = { pointerdown: pointer("down"), pointermove: pointer("move"), pointerup: pointer("up"), pointercancel: pointer("up") };
-      if (!reducedMotion) for (const [type, fn] of Object.entries(handlers)) canvas.addEventListener(type, fn as EventListener);
+      // The scene ignores drags while reduced motion is on, so the listeners can stay attached.
+      for (const [type, fn] of Object.entries(handlers)) canvas.addEventListener(type, fn as EventListener);
+      // Follow the preference live: turning reduced motion on mid-visit stops the cube at once.
+      const onMotionChange = () => {
+        send({ type: "motion", reduced: motionQuery.matches });
+        sync();
+      };
+      motionQuery.addEventListener("change", onMotionChange);
       sync();
 
       teardown = () => {
         io.disconnect();
         ro.disconnect();
         document.removeEventListener("visibilitychange", sync);
+        motionQuery.removeEventListener("change", onMotionChange);
         for (const [type, fn] of Object.entries(handlers)) canvas.removeEventListener(type, fn as EventListener);
         stopScene();
       };

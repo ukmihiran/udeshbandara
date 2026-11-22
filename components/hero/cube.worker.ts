@@ -8,6 +8,7 @@ type Message =
   | ({ type: "init"; canvas: OffscreenCanvas } & CubeOptions)
   | { type: "resize"; width: number; height: number }
   | { type: "running"; running: boolean }
+  | { type: "motion"; reduced: boolean }
   | { type: "pointer"; kind: "down" | "move" | "up"; x: number; y: number }
   | { type: "dispose" };
 
@@ -31,6 +32,7 @@ function apply(msg: Message) {
   if (!cube) return;
   if (msg.type === "resize") cube.resize(msg.width, msg.height);
   else if (msg.type === "running") cube.setRunning(msg.running);
+  else if (msg.type === "motion") cube.setReducedMotion(msg.reduced);
   else if (msg.type === "pointer") cube.pointer(msg.kind, msg.x, msg.y);
   else if (msg.type === "dispose") {
     cube.dispose();

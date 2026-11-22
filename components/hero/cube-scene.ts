@@ -31,6 +31,8 @@ export type CubeOptions = { width: number; height: number; dpr: number; reducedM
 export type CubeScene = {
   resize: (width: number, height: number) => void;
   setRunning: (running: boolean) => void;
+  /** Follows a live change of prefers-reduced-motion: stops (still frame) or allows motion. */
+  setReducedMotion: (reduced: boolean) => void;
   pointer: (kind: "down" | "move" | "up", x: number, y: number) => void;
   dispose: () => void;
 };
@@ -275,6 +277,10 @@ export async function createCubeScene(
       if (!raf) draw();
     },
     setRunning,
+    setReducedMotion: (reduced) => {
+      opts.reducedMotion = reduced;
+      if (reduced) setRunning(false);
+    },
     pointer,
     dispose: () => {
       setRunning(false);

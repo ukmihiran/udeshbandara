@@ -41,12 +41,13 @@ This is my personal portfolio web app. It’s designed to be fast, accessible, a
 
 ## Highlights
 
-- **Responsive navigation**: Desktop floating nav + mobile drawer menu
-- **Tabbed experience**: Home / About / Experience / Certifications / Projects
-- **Theming**: Dark & light mode with `next-themes`
-- **GitHub projects**: Server route `GET /api/repos` via Octokit
-- **SEO**: `robots.txt`, `sitemap.xml`, Open Graph/Twitter images
-- **Analytics (optional)**: GA4 via `NEXT_PUBLIC_GA_ID`
+- **A page per section**: `/`, `/about`, `/experience`, `/certifications`, `/projects`, all server-rendered and statically generated, with smooth View Transitions between them
+- **Works on every screen**: tested at 320–1920px wide with no horizontal scroll; floating nav from 1024px up, a menu sheet below that
+- **Accessible**: skip link, `aria-current` nav, 44px touch targets, respects reduced motion, works without JavaScript
+- **Live content**: GitHub repos (refreshed hourly) and recent posts from the [Cybernetgen](https://cybernetgen.com/) RSS feed (refreshed daily); both degrade gracefully if unreachable
+- **SEO**: per-page titles, descriptions, canonical URLs, branded Open Graph images, sitemap and JSON-LD
+- **Security**: Content-Security-Policy and hardening headers, `/.well-known/security.txt`
+- **Privacy-friendly analytics**: Vercel Web Analytics + Speed Insights (cookieless); Google Analytics only if you set an ID
 
 ## Quickstart
 
@@ -57,85 +58,84 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+## Editing content
+
+Everything lives in `lib/data.ts` and `lib/site.ts`:
+
+| What | Where |
+| --- | --- |
+| Jobs, education, certifications, tools | `EXPERIENCES`, `EDUCATION`, `CERTIFICATIONS`, `TECH_STACK` in `lib/data.ts` |
+| Featured GitHub repos (shown first, in order) | `FEATURED_REPOS` in `lib/data.ts` |
+| Status pill, engagements count, typewriter roles | `PROFILE` in `lib/data.ts` |
+| Name, email, social links, blog feed | `SITE` in `lib/site.ts` |
+| Per-page titles and descriptions | `PAGE_META` in `lib/seo.ts` |
+
+- **Certificate verification links**: add `verifyUrl` (e.g. a Credly URL) to a certification and its card becomes a link.
+- **CV download**: drop your PDF at `public/cv/udesh-bandara-cv.pdf`. The "Download CV" button appears on the next build.
+- **Years of experience** and the **certification count** in the hero are calculated from the data, so they stay correct.
+
 ## Environment variables
 
-Create `.env.local` in the project root (don’t commit it).
+Create `.env.local` (don't commit it). All are optional.
 
 ```bash
-# Optional: used by /api/repos to fetch GitHub repositories
-GH_TOKEN="your_github_token"
-
-# Used for canonical URLs / metadata
+# Site URL for canonical links, sitemap and OG images (defaults to https://udeshbandara.com)
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
-# Optional: Google Analytics 4 Measurement ID
+# GitHub token: raises the API rate limit for /projects (public repos work without it)
+GH_TOKEN="your_github_token"
+
+# Google Analytics 4. Optional override: Vercel production already uses the site's
+# property (lib/analytics.ts); previews and local builds load no analytics.
+# GA only loads after the visitor allows it in the consent banner (UK PECR).
 NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
+
+# Google Search Console HTML-tag verification token (skip if verified by DNS).
+GOOGLE_SITE_VERIFICATION="token-from-search-console"
 ```
 
-### GitHub token notes
+GitHub Actions secret names can't start with `GITHUB_`, so prefer `GH_TOKEN` (`GITHUB_TOKEN` also works locally).
 
-- **Token is optional** (public repos can be fetched without one), but recommended to avoid rate limits.
-- **Vercel**: add the token as **`GH_TOKEN`** in Project Settings → Environment Variables.
-- **GitHub Environments/Secrets**: secret names **cannot** start with `GITHUB_`, so prefer `GH_TOKEN`.
-- **Backwards compatible**: the code also supports `GITHUB_TOKEN` (local/dev), but `GH_TOKEN` is preferred.
+## Testing
 
-## How “Projects” works
+```bash
+npm run lint        # ESLint
+npm run typecheck   # tsc --noEmit
+npm test            # Vitest unit tests (tests/unit)
+npm run test:e2e    # Playwright: builds, starts on :3100, runs tests/e2e
+```
 
-- UI fetches `GET /api/repos` from `components/sections/projects-panel.tsx`
-- API route: `app/api/repos/route.ts`
-- GitHub call: `lib/github.ts` (Octokit → `GET /users/{username}/repos`)
+First time running e2e: `npx playwright install chromium`. CI (`.github/workflows/ci.yml`) runs all of the above plus `npm audit` on every push and pull request.
 
 <details>
-  <summary><strong>Architecture (high level)</strong></summary>
+  <summary><strong>Architecture</strong></summary>
   <br />
 
 ```text
 app/
-  layout.tsx              # global layout, metadata, analytics (optional)
-  page.tsx                # tabbed single-page shell
-  api/repos/route.ts      # GitHub repos API (server)
+  layout.tsx              # shell: header, footer, skip link, analytics, JSON-LD
+  page.tsx                # home: hero + highlights
+  about/ experience/ certifications/ projects/   # one route per section
+  */opengraph-image.tsx   # branded social cards (lib/og.tsx)
+  sitemap.ts robots.ts not-found.tsx error.tsx
 components/
-  ui/                     # shared UI (Header, Sheet, Buttons, etc.)
-  sections/               # tab panels (Hero/About/Experience/Certs/Projects)
+  layout/                 # header, mobile nav, footer, container, page transition
+  hero/                   # hero (server) + avatar and typewriter (client islands)
+  sections/               # about, timeline, certifications, projects, blog posts
+  ui/                     # small primitives (badge, sheet, mode toggle)
 lib/
-  data.ts                 # content (tabs, experience, certifications, etc.)
-  github.ts               # Octokit GitHub fetcher
-public/                   # static assets (logos/images)
+  data.ts site.ts         # content and site config
+  format.ts               # dates, hero stats, combined timeline
+  github.ts blog.ts       # server data fetching (never throws)
+  csp.ts seo.ts og.tsx    # headers, metadata, social images
+tests/unit tests/e2e
 ```
 
-- **Content updates**: start in `lib/data.ts` (experience/certs/education/etc.).
-- **UI changes**: edit section components in `components/sections/`.
-</details>
-
-<details>
-  <summary><strong>Stack & scripts</strong></summary>
-  <br />
-
-**Stack**
-
-- **Next.js 16** (App Router) + **React 19**
-- **TypeScript**
-- **Tailwind CSS v4** + PostCSS
-- **Radix UI** primitives (Sheet/Dialog) + component layer
-- **Octokit** (GitHub API)
-
-**Scripts**
-
-```bash
-npm run dev
-npm run build
-npm run start
-npm run lint
-```
 </details>
 
 ## Deploy
 
-Deploy on **Vercel** and set:
-
-- `NEXT_PUBLIC_APP_URL` (your production domain)
-- `NEXT_PUBLIC_GA_ID` (optional)
-- `GH_TOKEN` (optional)
+Deploy on **Vercel**. Optionally set `NEXT_PUBLIC_APP_URL`, `GH_TOKEN`, `NEXT_PUBLIC_GA_ID` and `GOOGLE_SITE_VERIFICATION`.
 
 ## License
 

@@ -54,3 +54,9 @@ next-env.d.ts
 .cursor/skills/ui-ux-pro-max/scripts/charts.csv
 .cursor/skills/ui-ux-pro-max/scripts/landing.csv
 .cursor/skills/ui-ux-pro-max/scripts/products.csv
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -1,82 +1,77 @@
-import type {
-  NavTab,
-  Experience,
-  Certification,
-  Education,
-  TechItem,
-} from "./types";
+import type { Certification, Education, Experience, NavItem, TechItem } from "./types";
 
-export type { TabId } from "./types";
-
-export const NAV_TABS: NavTab[] = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "certifications", label: "Certifications" },
-  { id: "projects", label: "Projects" },
+export const NAV_ITEMS: NavItem[] = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/experience", label: "Experience" },
+  { href: "/certifications", label: "Certifications" },
+  { href: "/projects", label: "Projects" },
 ];
 
-export const EXTERNAL_LINKS = [
-  { href: "https://cybernetgen.com/", label: "Blog" },
-  { href: "mailto:contact@udeshbandara.com", label: "Contact" },
-];
+/** Hand-maintained profile facts. Edit freely. */
+export const PROFILE = {
+  status: "Open to opportunities",
+} as const;
 
 export const EXPERIENCES: Experience[] = [
   {
     role: "Consultant, Offensive Security",
     company: "Kroll",
     location: "London, UK",
-    period: "Jul 2024 — Present",
-    current: true,
+    start: "2024-07",
     type: "Full-time",
     description:
       "Leading penetration testing, red team operations, and cloud security assessments for global enterprise clients across critical infrastructure and financial services.",
     image: "/kroll.png",
+    logoWide: true,
   },
   {
     role: "Cyber Security Specialist",
     company: "Axiata Digital Labs",
     location: "Colombo, Sri Lanka",
-    period: "Apr 2021 — Dec 2021",
-    current: false,
+    start: "2021-04",
+    end: "2021-12",
     type: "Full-time",
     description:
       "Conducted security assessments and vulnerability management for digital services across Axiata Group's South-East Asian operations.",
     image: "/axiata.png",
+    logoScale: 1.35,
   },
   {
     role: "Assistant Engineer — InfoSec",
     company: "CryptoGen",
     location: "Colombo, Sri Lanka",
-    period: "Apr 2020 — Apr 2021",
-    current: false,
+    start: "2020-04",
+    end: "2021-04",
     type: "Full-time",
     description:
       "Performed network and application security testing, vulnerability assessments, and security monitoring for enterprise clients.",
     image: "/cryptogen.jpeg",
+    logoScale: 1.28,
   },
   {
     role: "Cyber Security Analyst",
     company: "PwC Sri Lanka",
     location: "Sri Lanka",
-    period: "Jul 2019 — Apr 2020",
-    current: false,
+    start: "2019-07",
+    end: "2020-04",
     type: "Full-time",
     description:
       "Delivered cybersecurity consulting services including penetration testing, vulnerability assessments, and compliance audits.",
     image: "/pwc.png",
+    logoScale: 1.2,
   },
 ];
 
 export const CERTIFICATIONS: Certification[] = [
-  { name: "AWS Solutions Architect", issuer: "Amazon Web Services", year: "2025", image: "/certs/AWS.png" },
-  { name: "CRTP", issuer: "Altered Security", year: "2025", image: "/certs/CRTP.png" },
-  { name: "CREST CRT", issuer: "CREST", year: "2024", image: "/certs/crest.png" },
-  { name: "CREST CPSA", issuer: "CREST", year: "2024", image: "/certs/crest.png" },
-  { name: "CEH", issuer: "EC-Council", year: "2020", image: "/certs/CEH.png" },
-  { name: "Azure Fundamentals", issuer: "Microsoft", year: "2020", image: "/certs/azure.png" },
-  { name: "eJPT", issuer: "eLearnSecurity", year: "2020", image: "/certs/ejpt.svg" },
-  { name: "CCNA Cyber Ops", issuer: "Cisco", year: "2019", image: "/certs/cisco.svg" },
+  { name: "AWS Solutions Architect", issuer: "Amazon Web Services", year: "2025", image: "/certs/AWS.png", logoScale: 1.1, featured: true },
+  { name: "CRTP", issuer: "Altered Security", year: "2025", image: "/certs/CRTP.png", logoScale: 1.12, featured: true },
+  { name: "CREST CRT", issuer: "CREST", year: "2024", image: "/certs/crest.png", logoScale: 1.2, featured: true },
+  { name: "CREST CPSA", issuer: "CREST", year: "2024", image: "/certs/crest.png", logoScale: 1.2 },
+  { name: "CEH", issuer: "EC-Council", year: "2020", image: "/certs/CEH.png", logoScale: 1.55 },
+  { name: "Azure Fundamentals", issuer: "Microsoft", year: "2020", image: "/certs/azure.png", logoScale: 1.12 },
+  { name: "eJPT", issuer: "eLearnSecurity", year: "2020", image: "/certs/ejpt.svg", logoScale: 1.14 },
+  { name: "CCNA Cyber Ops", issuer: "Cisco", year: "2019", image: "/certs/cisco.svg", logoScale: 1.2 },
 ];
 
 export const EDUCATION: Education[] = [
@@ -84,15 +79,19 @@ export const EDUCATION: Education[] = [
     degree: "MSc Cyber Security",
     school: "University of the West of England",
     location: "Bristol, UK",
-    year: "2022 — 2023",
+    start: "2022",
+    end: "2023",
     image: "/uwe.png",
+    logoScale: 1.38,
   },
   {
     degree: "BSc (Hons) IT — Cyber Security",
     school: "SLIIT",
     location: "Sri Lanka",
-    year: "2016 — 2020",
+    start: "2016",
+    end: "2020",
     image: "/sliit.png",
+    logoScale: 1.25,
   },
 ];
 
@@ -117,9 +116,30 @@ export const TECH_STACK: TechItem[] = [
   { name: "Windows AD", category: "cloud" },
 ];
 
-export const SOCIALS = [
-  { href: "https://github.com/ukmihiran", label: "GitHub", icon: "Github" },
-  { href: "https://www.linkedin.com/in/udesh-wiyasinghe/", label: "LinkedIn", icon: "Linkedin" },
-  { href: "https://cybernetgen.com/", label: "Blog", icon: "BookOpen" },
-  { href: "mailto:contact@udeshbandara.com", label: "Email", icon: "Mail" },
-] as const;
+/**
+ * Edited one-line descriptions shown instead of GitHub's own (same facts, cleaner wording).
+ * Repos not listed keep their GitHub description.
+ */
+export const REPO_DESCRIPTIONS: Record<string, string> = {
+  EnumLiveHost: "Python script that enumerates the live hosts in a list of URLs.",
+  WifiPasswordViewer: "Windows Forms app that shows the Wi-Fi passwords saved on the machine.",
+  PDFUnlocker: "Windows Forms app that unlocks password-protected PDF files.",
+  dga_detection_deep_learning: "Detects and classifies DGA domains with an LSTM deep-learning model.",
+  "SecurityTrails-Subdomain-Scanner": "Script that lists a domain's subdomains from SecurityTrails.",
+};
+
+/** GitHub repos shown first on /projects, in this order. Edit to curate. */
+export const FEATURED_REPOS: string[] = [
+  "BloodHound-Standalone",
+  "EnumLiveHost",
+  "SecurityTrails-Subdomain-Scanner",
+  "dga_detection_deep_learning",
+  "WifiPasswordViewer",
+  "PDFUnlocker",
+];
+
+/** Readable display names for repos whose GitHub slug is not a title. The link still goes to the repo. */
+export const REPO_TITLES: Record<string, string> = {
+  dga_detection_deep_learning: "DGA Detection (Deep Learning)",
+  "SecurityTrails-Subdomain-Scanner": "SecurityTrails Subdomain Scanner",
+};

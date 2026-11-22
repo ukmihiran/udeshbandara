@@ -1,19 +1,90 @@
-import { Octokit } from "@octokit/rest";
-import { Repository } from "./types";
+import { FEATURED_REPOS, REPO_DESCRIPTIONS } from "./data";
+import { FETCH_TIMEOUT_MS, shouldThrowOnFetchFailure } from "./runtime";
+import { SITE } from "./site";
+import type { Repository } from "./types";
 
-const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
-const octokit = new Octokit(token ? { auth: token } : {});
+/** Only the fields we read from GET /users/{user}/repos. */
+export interface GitHubRepoApi {
+  id: number;
+  name: string;
+  html_url: string;
+  description: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  language: string | null;
+  pushed_at: string | null;
+  fork: boolean;
+  archived: boolean;
+}
 
-export async function getFeaturedRepos(): Promise<Repository[]> {
+/** Repos that are never worth featuring: the profile README repo and this site. */
+const ALWAYS_EXCLUDED = new Set(["udeshbandara"]);
+
+function toRepository(r: GitHubRepoApi): Repository {
+  return {
+    id: r.id,
+    name: r.name,
+    url: r.html_url,
+    description: REPO_DESCRIPTIONS[r.name] ?? r.description,
+    stars: r.stargazers_count,
+    forks: r.forks_count,
+    language: r.language,
+    pushedAt: r.pushed_at,
+  };
+}
+
+/** Most recently pushed first; repos GitHub reports with no push date sort last. */
+function byPushedDesc(a: string | null, b: string | null): number {
+  if (a === b) return 0;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  return b.localeCompare(a);
+}
+
+export function selectFeaturedRepos(
+  raw: GitHubRepoApi[],
+  opts: { username: string; pinned: string[]; limit: number },
+): Repository[] {
+  const eligible = raw.filter(
+    (r) => !r.fork && !r.archived && r.name !== opts.username && !ALWAYS_EXCLUDED.has(r.name),
+  );
+  const byName = new Map(eligible.map((r) => [r.name, r]));
+  const pinned = opts.pinned.flatMap((name) => byName.get(name) ?? []);
+  const pinnedNames = new Set(pinned.map((r) => r.name));
+  const rest = eligible
+    .filter((r) => !pinnedNames.has(r.name))
+    .sort((a, b) => b.stargazers_count - a.stargazers_count || byPushedDesc(a.pushed_at, b.pushed_at));
+  return [...pinned, ...rest].slice(0, opts.limit).map(toRepository);
+}
+
+export async function getFeaturedRepos(limit = 6): Promise<{ repos: Repository[]; error: boolean }> {
+  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
   try {
-    const { data } = await octokit.request('GET /users/{username}/repos', {
-      username: 'ukmihiran',
-      sort: 'pushed',
-      per_page: 8, // Fetching a few more to showcase
-    });
-    return data as Repository[];
-  } catch (error) {
-    console.error("Error fetching GitHub repos:", error);
-    return [];
+    const res = await fetch(
+      `https://api.github.com/users/${SITE.githubUser}/repos?per_page=100&sort=pushed`,
+      {
+        headers: {
+          Accept: "application/vnd.github+json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+        next: { revalidate: 3600 },
+      },
+    );
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const data: unknown = await res.json();
+    if (!Array.isArray(data)) throw new Error("GitHub API returned a non-array body");
+    return {
+      repos: selectFeaturedRepos(data as GitHubRepoApi[], {
+        username: SITE.githubUser,
+        pinned: FEATURED_REPOS,
+        limit,
+      }),
+      error: false,
+    };
+  } catch (err) {
+    console.error("[github] could not load repositories:", err instanceof Error ? err.message : err);
+    if (shouldThrowOnFetchFailure()) throw err;
+    return { repos: [], error: true };
   }
 }

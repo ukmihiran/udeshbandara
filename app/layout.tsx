@@ -1,127 +1,79 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import Script from "next/script";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Providers } from "@/components/providers";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { GA_ID } from "@/lib/analytics";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { PageTransition } from "@/components/layout/page-transition";
+import { PAGE_META, pageMetadata, verificationMetadata } from "@/lib/seo";
+import { personJsonLd } from "@/lib/structured-data";
+import { JsonLd } from "@/components/layout/json-ld";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// Type system (DESIGN.md): Geist for display and body, Geist Mono only for dates, years and figures.
+// display "optional": a preloaded face that arrives within ~100ms is used; otherwise the page keeps
+// its fallback for that view instead of swapping later. Fallback metrics differ per OS (no Arial on
+// Android or Linux), so a late swap would re-wrap text and shift the layout (CLS).
+const sans = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["400", "500", "600"], display: "optional" });
+const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], weight: ["400"], display: "optional" });
+
+// Canonical URLs are set per page; the root must not give one to 404 / error pages.
+const { alternates: _homeCanonical, ...homeMeta } = pageMetadata("/");
 
 export const metadata: Metadata = {
-  title: "Udesh Bandara | Offensive Security Consultant",
-  description:
-    "Udesh Bandara — Offensive Security Consultant at Kroll UK. Specializing in Penetration Testing, Red Teaming, and Cloud Security.",
-  keywords: [
-    "cybersecurity",
-    "penetration testing",
-    "red teaming",
-    "offensive security",
-    "Udesh Bandara",
-    "Kroll",
-  ],
+  ...homeMeta,
+  title: { default: PAGE_META["/"].title, template: `%s | ${SITE.name}` },
+  keywords: ["cybersecurity", "penetration testing", "red teaming", "offensive security", "Udesh Bandara", "Kroll"],
   robots: { index: true, follow: true },
-  metadataBase: new URL("https://udeshbandara.com"),
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Udesh Bandara | Offensive Security Consultant",
-    description:
-      "Offensive Security Consultant at Kroll UK. Penetration Testing, Red Teaming & Cloud Security.",
-    url: "https://udeshbandara.com",
-    siteName: "Udesh Bandara",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Udesh Bandara | Offensive Security Consultant",
-    description: "Offensive Security Consultant at Kroll UK.",
-  },
+  metadataBase: new URL(SITE.url),
+  verification: verificationMetadata({ GOOGLE_SITE_VERIFICATION: process.env.GOOGLE_SITE_VERIFICATION }),
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Udesh Bandara",
-  alternateName: "Udesh Wiyasinghe",
-  jobTitle: "Offensive Security Consultant",
-  worksFor: { "@type": "Organization", name: "Kroll" },
-  url: "https://udeshbandara.com",
-  sameAs: [
-    "https://www.linkedin.com/in/udesh-wiyasinghe/",
-    "https://github.com/ukmihiran",
-    "https://cybernetgen.com/",
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0d" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfbfc" },
   ],
+  viewportFit: "cover",
 };
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-D2BNKKLPJV";
-
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth">
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/avatar-3d.png"
-          fetchPriority="high"
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
+    <html lang="en" suppressHydrationWarning>
       <body
-        suppressHydrationWarning
         className={cn(
-          "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
-          geistSans.variable
+          "flex min-h-dvh flex-col overflow-x-clip bg-background font-sans antialiased",
+          sans.variable,
+          mono.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+        <JsonLd data={personJsonLd()} />
+        <a
+          href="#main"
+          className="sr-only z-[60] rounded-md bg-accent px-4 py-2 text-accent-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
-          {children}
-        </ThemeProvider>
+          Skip to content
+        </a>
+        <Providers>
+          <Header />
+          <main
+            id="main"
+            tabIndex={-1}
+            className="flex flex-1 flex-col pt-[calc(3.5rem+1px+env(safe-area-inset-top))] outline-none"
+          >
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <Footer />
+        </Providers>
 
-        <noscript>
-          <div style={{ padding: "2rem", maxWidth: "40rem", margin: "0 auto" }}>
-            <h1>Udesh Bandara — Offensive Security Consultant</h1>
-            <p>
-              Cyber Security Professional at Kroll UK specializing in Penetration
-              Testing, Red Teaming &amp; Cloud Security.
-            </p>
-            <p>
-              Certifications: AWS Solutions Architect, CRTP, CREST CRT, CREST
-              CPSA, CEH, Azure Security, eJPT, CCNA.
-            </p>
-            <p>
-              <a href="https://www.linkedin.com/in/udesh-wiyasinghe/">LinkedIn</a>
-              {" | "}
-              <a href="https://github.com/ukmihiran">GitHub</a>
-              {" | "}
-              <a href="https://cybernetgen.com/">Blog</a>
-            </p>
-          </div>
-        </noscript>
-
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="lazyOnload"
-            />
-            <Script id="ga-init" strategy="lazyOnload">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
-            </Script>
-          </>
-        )}
+        <Analytics />
+        <SpeedInsights />
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
       </body>
     </html>
   );

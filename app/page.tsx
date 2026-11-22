@@ -1,90 +1,131 @@
-"use client";
+import { pageMetadata } from "@/lib/seo";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Hero } from "@/components/hero/hero";
+import { JsonLd } from "@/components/layout/json-ld";
+import { websiteJsonLd } from "@/lib/structured-data";
+import { ContactCta } from "@/components/sections/contact-cta";
+import { LatestPosts } from "@/components/sections/latest-posts";
+import { OrgLogo } from "@/components/sections/org-logo";
+import { Period } from "@/components/sections/period";
+import { ProjectGrid } from "@/components/sections/projects";
+import { SectionHeading } from "@/components/sections/section-heading";
+import { sectionLink } from "@/components/ui/button-styles";
+import { getLatestPosts } from "@/lib/blog";
+import { CERTIFICATIONS, EXPERIENCES } from "@/lib/data";
+import { getFeaturedRepos } from "@/lib/github";
+import { transitionStyle } from "@/lib/view-transition";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import dynamic from "next/dynamic";
-import { Header } from "@/components/ui/header";
-import { Footer } from "@/components/ui/footer";
-import { TabTransition } from "@/components/tab-transition";
-import { HeroSection } from "@/components/sections/hero-section";
-import { NAV_TABS, type TabId } from "@/lib/data";
+export const metadata = pageMetadata("/");
 
-const AboutPanel = dynamic(
-  () => import("@/components/sections/about-panel").then((m) => m.AboutPanel),
-  { ssr: false },
-);
+export const revalidate = 3600;
 
-const ExperiencePanel = dynamic(
-  () => import("@/components/sections/experience-section").then((m) => m.ExperiencePanel),
-  { ssr: false },
-);
+/** Summary panels: static containers (not one giant link); the footer link is the action. */
+const panel = "panel flex h-full flex-col rounded-xl border border-border bg-card p-6";
+const panelLink =
+  "mt-auto inline-flex min-h-11 items-center gap-1 self-start pt-4 text-caption text-muted-foreground transition-colors duration-100 hover:text-foreground";
 
-const CertificationsPanel = dynamic(
-  () => import("@/components/sections/certifications-section").then((m) => m.CertificationsPanel),
-  { ssr: false },
-);
-
-const ProjectsPanel = dynamic(
-  () => import("@/components/sections/projects-panel").then((m) => m.ProjectsPanel),
-  { ssr: false },
-);
-
-const panels: Record<TabId, React.ComponentType> = {
-  home: HeroSection,
-  about: AboutPanel,
-  experience: ExperiencePanel,
-  certifications: CertificationsPanel,
-  projects: ProjectsPanel,
-};
-
-export default function HomePage() {
-  const [activeTab, setActiveTab] = useState<TabId>("home");
-  const mainRef = useRef<HTMLElement>(null);
-  const ActivePanel = panels[activeTab];
-
-  const onTabChange = useCallback((tab: TabId) => {
-    setActiveTab(tab);
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }, []);
-
-  const handleKeyNav = useCallback((e: KeyboardEvent) => {
-    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-
-    const num = parseInt(e.key);
-    if (num >= 1 && num <= NAV_TABS.length) {
-      onTabChange(NAV_TABS[num - 1].id);
-      return;
-    }
-
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-      e.preventDefault();
-      const idx = NAV_TABS.findIndex((t) => t.id === activeTab);
-      onTabChange(NAV_TABS[(idx + 1) % NAV_TABS.length].id);
-    }
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-      e.preventDefault();
-      const idx = NAV_TABS.findIndex((t) => t.id === activeTab);
-      onTabChange(NAV_TABS[(idx - 1 + NAV_TABS.length) % NAV_TABS.length].id);
-    }
-  }, [activeTab, onTabChange]);
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyNav);
-    return () => window.removeEventListener("keydown", handleKeyNav);
-  }, [handleKeyNav]);
+export default async function HomePage() {
+  const [{ repos, error }, posts] = await Promise.all([getFeaturedRepos(3), getLatestPosts(3)]);
 
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <div className="fixed inset-0 z-0 dot-grid opacity-[0.03] pointer-events-none" />
+    <>
+      <JsonLd data={websiteJsonLd()} />
+      <Hero />
 
-      <Header activeTab={activeTab} onTabChange={onTabChange} />
-      <main ref={mainRef} className="relative z-10 flex-1 flex flex-col pt-14 md:pt-20 min-h-[calc(100vh-8rem)]">
-        <TabTransition activeKey={activeTab}>
-          <ActivePanel />
-        </TabTransition>
-      </main>
-      <Footer />
-    </div>
+      <div className="mx-auto w-full max-w-6xl space-y-20 px-4 pb-20 pt-12 sm:px-6 md:space-y-24 md:pt-16">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <section aria-labelledby="career" className={panel}>
+            <h2 id="career" className="text-title font-semibold text-foreground">
+              Career
+            </h2>
+            <p className="text-caption text-foreground-secondary">Consulting and in-house security, most recent first.</p>
+            <ol className="mt-5 space-y-3">
+              {EXPERIENCES.map((exp) => (
+                <li
+                  key={`${exp.company}-${exp.start}`}
+                  className="grid grid-cols-[auto_1fr] items-start gap-x-3 sm:grid-cols-[auto_1fr_auto]"
+                >
+                  <OrgLogo
+                    src={exp.image}
+                    alt={exp.company}
+                    scale={exp.logoScale}
+                    wide
+                    className="row-span-2 h-8 w-12 sm:row-span-1"
+                  />
+                  <div className="min-w-0">
+                    <p
+                      {...(!exp.end ? { "data-now-role": true, style: transitionStyle("role", "current") } : {})}
+                      className="text-body font-medium text-foreground [overflow-wrap:anywhere]"
+                    >
+                      {exp.role}
+                    </p>
+                    <p className="text-caption text-foreground-secondary">{exp.company}</p>
+                  </div>
+                  <Period
+                    start={exp.start}
+                    end={exp.end}
+                    className="col-start-2 text-caption text-muted-foreground sm:col-start-3 sm:pt-0.5 sm:text-right"
+                  />
+                </li>
+              ))}
+            </ol>
+            <Link href="/experience" className={panelLink}>
+              Full experience <ArrowRight aria-hidden className="size-3.5" />
+            </Link>
+          </section>
+
+          <section aria-labelledby="certs" className={panel}>
+            <h2 id="certs" className="text-title font-semibold text-foreground">
+              Certifications
+            </h2>
+            <p className="text-caption text-foreground-secondary">Offensive security and cloud, each earned by exam.</p>
+            <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-3">
+              {CERTIFICATIONS.map((c) => (
+                <li key={c.name} className="flex items-start gap-2.5">
+                  <span
+                    aria-hidden
+                    className={`mt-2 size-1.5 shrink-0 rounded-full ${c.featured ? "bg-accent" : "bg-border-strong"}`}
+                  />
+                  <div className="min-w-0">
+                    <p
+                      data-cert-vt={c.name}
+                      style={transitionStyle("cert", c.name)}
+                      className="text-body font-medium text-foreground"
+                    >
+                      {c.name}
+                    </p>
+                    <p className="text-caption text-muted-foreground">
+                      {c.issuer} · <span className="font-mono tabular-nums">{c.year}</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <Link href="/certifications" className={panelLink}>
+              All certifications <ArrowRight aria-hidden className="size-3.5" />
+            </Link>
+          </section>
+        </div>
+
+        <section aria-labelledby="featured-projects" className="space-y-6">
+          <SectionHeading
+            id="featured-projects"
+            title="Selected projects"
+            description="Open-source offensive tooling from GitHub."
+            action={
+              <Link href="/projects" className={sectionLink}>
+                All projects <ArrowRight aria-hidden className="size-3.5" />
+              </Link>
+            }
+          />
+          <ProjectGrid repos={repos} error={error} limit={3} headingLevel={3} />
+        </section>
+
+        <LatestPosts posts={posts} />
+
+        <ContactCta />
+      </div>
+    </>
   );
 }

@@ -162,12 +162,13 @@ const textStyles = () =>
     });
 
 const ALLOWED_SIZES = [14, 16, 18, 24, 36]; // caption, body, title, section, page
-const isDisplay = (s: { tag: string; size: number }) => s.tag === "H1" && s.size >= 36; // fluid hero name
+/** The fluid display size is allowed only for the hero name on "/"; every other H1 must be on the scale. */
+const isDisplay = (s: { tag: string; size: number }, path: string) => path === "/" && s.tag === "H1" && s.size >= 36;
 
 test("text uses only the five type-scale sizes (plus the fluid hero name)", async ({ page }) => {
   for (const path of PAGES) {
     await page.goto(path);
-    const sizes = (await page.evaluate(textStyles)).filter((s) => !isDisplay(s)).map((s) => s.size);
+    const sizes = (await page.evaluate(textStyles)).filter((s) => !isDisplay(s, path)).map((s) => s.size);
     const offScale = [...new Set(sizes)].filter((px) => !ALLOWED_SIZES.includes(Math.round(px)));
     expect(offScale, path).toEqual([]);
   }

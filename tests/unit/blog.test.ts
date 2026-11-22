@@ -150,9 +150,12 @@ describe("isFeedDocument checks the document root, not a substring (PR review)",
     expect(isFeedDocument(xml)).toBe(true);
   });
 
-  test("accepts Atom and RDF roots", () => {
-    expect(isFeedDocument('<feed xmlns="http://www.w3.org/2005/Atom"></feed>')).toBe(true);
+  test("accepts RDF (RSS 1.0) roots, whose <item> elements the parser reads", () => {
     expect(isFeedDocument("<rdf:RDF xmlns:rdf='x'><item/></rdf:RDF>")).toBe(true);
+  });
+
+  test("rejects Atom: its <entry> elements are not parsed, so accepting it would publish no posts (PR review)", () => {
+    expect(isFeedDocument('<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>x</title></entry></feed>')).toBe(false);
   });
 
   test("rejects an HTML page that mentions <rss> inside a comment", () => {
@@ -279,5 +282,15 @@ describe("raw characters must be legal XML characters (PR review)", () => {
 
   test("accepts tabs, newlines and astral characters", () => {
     expect(isFeedDocument("<rss><channel><title>A\tB\r\nC \u{1F512}</title></channel></rss>")).toBe(true);
+  });
+});
+
+describe("numeric references with leading zeros are legal XML (PR review)", () => {
+  test.each(["&#00000065;", "&#x0000041;", "&#0000000000009;"])("accepts %s", (ref) => {
+    expect(isFeedDocument(`<rss><channel><title>${ref}</title></channel></rss>`)).toBe(true);
+  });
+
+  test("still rejects an illegal code point written with leading zeros", () => {
+    expect(isFeedDocument("<rss><channel><title>&#00000000;</title></channel></rss>")).toBe(false);
   });
 });

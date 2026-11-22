@@ -107,12 +107,14 @@ export function parseRss(xml: string, limit: number): BlogPost[] {
   return posts.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, limit);
 }
 
-const FEED_ROOTS = ["rss", "rdf:RDF", "feed"] as const;
+/** RSS 2.0 and RSS 1.0 (RDF) both use <item>, which parseRss reads. Atom (<entry>) is not parsed, so it is rejected. */
+const FEED_ROOTS = ["rss", "rdf:RDF"] as const;
 
 const isSpace = (ch: string | undefined) => ch === " " || ch === "\t" || ch === "\r" || ch === "\n";
 
 const PREDEFINED_ENTITIES = new Set(["amp", "lt", "gt", "quot", "apos"]);
-const NUMERIC_REF = /^#(?:[0-9]{1,7}|x[0-9A-Fa-f]{1,6})$/;
+/** Any number of digits is legal (leading zeros included); the code point is range-checked by isXmlChar. */
+const NUMERIC_REF = /^#(?:[0-9]+|x[0-9A-Fa-f]+)$/;
 
 /**
  * A raw character XML 1.0 forbids anywhere in a document: C0 controls other than tab/LF/CR,
@@ -141,7 +143,7 @@ function isXmlChar(code: number): boolean {
 function hasValidReferences(text: string): boolean {
   for (let amp = text.indexOf("&"); amp !== -1; amp = text.indexOf("&", amp + 1)) {
     const semi = text.indexOf(";", amp + 1);
-    if (semi === -1 || semi - amp > 10) return false; // the longest valid reference is &#x10FFFF;
+    if (semi === -1) return false;
     const ref = text.slice(amp + 1, semi);
     if (PREDEFINED_ENTITIES.has(ref)) continue;
     if (!NUMERIC_REF.test(ref)) return false;
@@ -203,7 +205,7 @@ function parseTag(raw: string): { name: string; closing: boolean; selfClosing: b
 }
 
 /**
- * True when the document is a well-formed RSS, RDF or Atom feed: exactly one feed root, every
+ * True when the document is a well-formed RSS 2.0 or RSS 1.0 (RDF) feed: exactly one feed root, every
  * element closed in order, valid attribute syntax, and nothing but whitespace, comments and PIs
  * outside the root. Comments, CDATA, PIs and a doctype are skipped, so "<rss" inside an HTML
  * comment, a truncated body, "<rss><item></rss>", `<channel foo=bar>` and a bare "&" all fail.

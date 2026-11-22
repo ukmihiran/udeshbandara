@@ -16,7 +16,9 @@ export default defineConfig({
   webServer: {
     command: `npm run build && npm run start -- -p ${PORT}`,
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    // Always build fresh: a reused server on this port may carry another NEXT_PUBLIC_APP_URL
+    // (e.g. localhost from .env.local), which the canonical-URL tests would then reject.
+    reuseExistingServer: false,
     timeout: 240_000,
     // Pin the canonical origin so a local .env.local (e.g. localhost:3000) cannot change the build under test.
     env: { NEXT_PUBLIC_APP_URL: "https://udeshbandara.com" },

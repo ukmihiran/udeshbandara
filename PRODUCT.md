@@ -28,7 +28,7 @@ The combination, not any single trait: consulting breadth (Big-4 and boutique co
 ## Capabilities and Constraints
 
 - Next.js App Router, statically generated pages with ISR; deployed on Vercel. Routes: `/`, `/about`, `/experience`, `/certifications`, `/projects`.
-- Must stay fast and light: Lighthouse mobile Performance ≥ 95, Accessibility 100, no horizontal scroll 320–1920px, works without JavaScript, respects reduced motion. Static CSP (`script-src 'self' 'unsafe-inline'`): no third-party scripts or fonts from other hosts.
+- Must stay fast and light: Lighthouse mobile Performance ≥ 95, Accessibility 100, no horizontal scroll 320–1920px, works without JavaScript, respects reduced motion. Static CSP (`script-src 'self' 'unsafe-inline'`): no third-party scripts or fonts from other hosts, with one exception: when Google Analytics is enabled (Vercel production, or `NEXT_PUBLIC_GA_ID` set; see `lib/analytics.ts`), the CSP also allows `https://www.googletagmanager.com` scripts and Google Analytics endpoints, and the GA script loads only after the visitor allows analytics in the consent banner.
 - Undecided: a real photograph (current image is a stylised 3D avatar); whether "Open to opportunities" is shown.
 
 ## Brand Commitments
